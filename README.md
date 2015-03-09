@@ -23,7 +23,7 @@
   scala: val a = 0 <- Unit
   java: int a = 0 <- 0
   ```
-  * 沒有 `++`, `--`
+  * 沒有 `++`, `--`；強制用 `+=`, `-=`
   
   ```
   scala> var a = 0
@@ -36,22 +36,24 @@
 ### 先把 Scala 當 Java 寫；不過當然不行
 * 基本語法與 Data Type
   * val v.s. var
+  * can ignore data type when declaration
   * primitive variable 宣告
   * function 宣告
       * default value
       * named argument
-  * if else - 沒有三元運算
-  * for
+  * if else - 沒有三元運算; 可回傳值 
+  * for yield - 可回傳值
   * while
   * match case - switch case
-  * tuple - 似 Bean 非 Bean。更簡潔靈活的DataType
+  * tuple - 似 Bean 非 Bean。更簡潔靈活的 DataType
+  * Option
 * 物件導向 - Eclipse 開發環境
   * OOP 簡介
+      * access level: private, protected, public, package
+      * override
   * class
-  * object
-  * case class
-  * 自定 operator
-  * trait
+  * object - simple singleton
+  * trait - multi-inheritance
   * enum
   * generic
 * Scala Collection
@@ -65,6 +67,11 @@
 * 再談 function
   * High Order Function
   * Currying
+  * Partial Function
+* 再談 OOP
+  * 自定運算子
+  * 左，右運算子
+  * case class
 * 再談 match case - Pattern Match
   * apply and unapply
   * pattern match
