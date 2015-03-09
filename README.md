@@ -10,13 +10,29 @@
 * Scala 簡介
 * 由 Java 跨入 Scala 要注意的事項 - 安裝好 Scala (時間：2015-03-18 09:30 ~ 10:30)
   * 原來沒有分號 `;` 這麼爽
+  * 不再限制一個 source file，只能有一個 public class
   * Primitive v.s. Rich
   * Null v.s. Option
   * Can Ignore Checked Exception 
   * Access Level
   * 沒有 return, break, continue 世界 - 思維需要 Reset
   * 簡潔的 package 宣告
+  * 宣告後，會是 Unit 不會再傳宣告值
+   
+  ```
+  scala: val a = 0 <- Unit
+  java: int a = 0 <- 0
+  ```
+  * 沒有 `++`, `--`
+  
+  ```
+  scala> var a = 0
+  a: Int = 0
 
+  scala> val b = (a += 1)
+  b: Unit = ()
+  ```
+   
 ### 先把 Scala 當 Java 寫；不過當然不行
 * 基本語法與 Data Type
   * val v.s. var
