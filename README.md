@@ -18,7 +18,7 @@
   * 沒有 return, break, continue 世界 - 思維需要 Reset
   * 簡潔的 package 宣告
   * 宣告後，會是 Unit 不會再傳宣告值
-   
+  
   ```
   scala: val a = 0 <- Unit
   java: int a = 0 <- 0
@@ -32,6 +32,8 @@
   scala> val b = (a += 1)
   b: Unit = ()
   ```
+* equals v.s. ==
+* [__Content__](session_1.md)   
    
 ### 先把 Scala 當 Java 寫；不過當然不行
 * 基本語法與 Data Type
