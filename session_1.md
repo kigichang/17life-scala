@@ -146,9 +146,9 @@ class Test2
 Java 有 primitive type (ex: int, long 等)，但 Scala 都轉成物件 (AnyVal)來處理。ex: scala.Int, scala.Long。但在 compiler 時，依視程式的邏輯，再看是否要轉回 java primitive type。
 
 ### 不要再使用 null，改用 Option
-在 Scala ，雖然 `null` 依然存在，但強烈建議不要再使用。如果原在 Java 的邏輯中，需要回傳 null 者，請都改用 `Option` 回傳。 ex:
+在 Scala ，雖然 `null` 依然存在，但強烈建議不要再使用。如果原在 Java 的邏輯中，需要回傳 null 者，請都改用 `Option` 回傳。 
 
-### Checked Exception 不再強制要 try - cache
+### Checked Exception 不再強制要 try - catch
 Java 在 checked exception (ex: IOException, SQLException) 都會強制要用 try - catch。在 Scala 則無。所以在寫程式時，要注意使用的函式，是否會 throw exception。Scala建議的做法是無論是 checked or runtime exception 都使用 `Try` 來包裝。通常使用 Java 的 library 才需要注意，一般 Scala 的 library 都會用 `Try` 來包裝。
 
 ```
