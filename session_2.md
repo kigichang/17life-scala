@@ -25,5 +25,7 @@ var b = 20.0
 **注意：省略型別時，整數值會預設是 `Int`，浮點數值會是 `Double`。**
 
 ## Value Class
+* 繼承自 `AnyVal`
+
 
 [http://www.scala-lang.org/files/archive/spec/2.11/12-the-scala-standard-library.html](http://www.scala-lang.org/files/archive/spec/2.11/12-the-scala-standard-library.html)
