@@ -40,6 +40,8 @@
   * val v.s. var
   * can ignore data type when declaration
   * primitive variable 宣告
+  * Option
+  * tuple - 似 Bean 非 Bean。更簡潔靈活的 DataType
   * function 宣告
       * default value
       * named argument
@@ -47,8 +49,10 @@
   * for yield - 可回傳值
   * while
   * match case - switch case
-  * tuple - 似 Bean 非 Bean。更簡潔靈活的 DataType
-  * Option
+  * try - catch - finally
+  
+* [__Content__](session_2.md)
+
 * 物件導向 - Eclipse 開發環境
   * OOP 簡介
       * access level: private, protected, public, package
@@ -67,6 +71,7 @@
 ### 進入 Scala 世界
 * Activator and SBT - Scala 的類 Maven 工具
 * 再談 function
+  * Lambda - 用 call by name
   * High Order Function
   * Currying
   * Partial Function
@@ -86,6 +91,7 @@
 * 其他
   * Tail Recursion - 優化的遞迴
   * Implicit v.s. Explicit - 讓code更簡潔，但也更討厭的鬼東西
+      * 最常用的 implicit 變數： this
   * Try, Success, Failure - 重新改寫 try - catch - finally
   * Either, Left, Right - 向左走，向右走
   * Multi-Threading: Future, Await
