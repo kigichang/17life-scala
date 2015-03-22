@@ -143,7 +143,7 @@ class Test2
 ```
 
 ### Java Primitive type 對應
-Java 有 primitive type (ex: int, long 等)，但 Scala 都轉成物件 (AnyVal)來處理。ex: scala.Int, scala.Long。但在 compiler 時，依視程式的邏輯，再看是否要轉回 java primitive type。
+Java 有 primitive type (ex: int, long 等)，但 Scala 都轉成物件 (AnyVal)來處理。ex: scala.Int, scala.Long。但在 compiler 時，依視程式的邏輯，再看是否要轉回 java primitive type。(此點待確認)
 
 ### 不要再使用 null，改用 Option
 在 Scala ，雖然 `null` 依然存在，但強烈建議不要再使用。如果原在 Java 的邏輯中，需要回傳 null 者，請都改用 `Option` 回傳。 
