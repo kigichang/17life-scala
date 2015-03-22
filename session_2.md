@@ -518,7 +518,7 @@ b match {
 val a = 10
 
 a match {
-  case x: Int if (x % 2 == 0) =>
+  case x if (x % 2 == 0) =>
     println("event")
   case _ =>
     println("odd")
@@ -531,7 +531,7 @@ a match {
 val a = 99
 
 val isEvent = a match {
-  case a: Int if (a % 2 == 0) => true
+  case x if (a % 2 == 0) => true
   case _ => false
 }
 ```
@@ -560,7 +560,6 @@ a match {
 scala 還保留 `try`，`catch`，`finally`，使用觀念與注意事項與 Java相同。
 
 * `finally` 是最後一定會被執行的區塊，**千萬不要**在此用 `return` 回傳值。**切記：Scala 禁用 `return`。**
-
 * `catch` 的語法，有點像 `match case`，變成 `catch case`。
 * 與 Java 不同的地方，就是 `try - catch` 可以回傳值
 
