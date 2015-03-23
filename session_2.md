@@ -257,7 +257,7 @@ test
 ```
 原：
 class Bean {
-  var age: Int = 0
+  private var age: Int = 0
   
   def getAge(): Int = {
     age
@@ -270,7 +270,7 @@ class Bean {
 
 簡：
 class Bean {
-  var age = 0
+  private var age = 0
   
   def getAge = age
   
