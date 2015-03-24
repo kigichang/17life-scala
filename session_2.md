@@ -4,7 +4,7 @@
 * Scala 的 `Tab` 是**兩個**空隔，與 Java 預設四個不同
 * Scala 已經沒有 `break` 與 `continue`
 * Scala 還保有 `return` 但嚴禁使用
-* Scala 還保有 `throw` Exception，但不建議使用。建議 refactor 成 Option or Either。
+* Scala 還保有 `throw` Exception，但不建議使用。建議 refactor 成 Option or Either；IO相關可例外。
 * Scala 依然可以用 `try catch finally`。
 
 ## 變數宣告方式
