@@ -7,6 +7,7 @@ Scala Collection 功能比 Java 強大很多。在語法上也差異很大。因
 * [Twitter Effective Scala - Collections](http://twitter.github.io/effectivescala/#Collections)
 * [Scala Collection API](http://www.scala-lang.org/docu/files/collections-api/collections.html)
 * [Scala Collection API - Performance Characteristics](http://www.scala-lang.org/docu/files/collections-api/collections_40.html)
+* [Referential Transparency](http://en.wikipedia.org/wiki/Referential_transparency_%28computer_science%29)
 
 ## Array
 
