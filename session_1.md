@@ -34,7 +34,7 @@ Test a = new Test();
 
 ```
 
-### Import Package 宣告
+### Import Package 宣告
 Scala 在 import package 有更彈性的宣告方式：
 
 ```
