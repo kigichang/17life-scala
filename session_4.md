@@ -292,15 +292,56 @@ scala> colors4 takeWhile { _.length > 4 }
 res35: List[String] = List(yellow)
 ```
 
-**由於 Scala 拿掉 `break`，因此在原本 Java 使用 `break;` 的情境，就可以使用 `dropWhile` or `takeWhile`。**
-
-
 收集並加工符合條件的資料 (filter 的加強版) ：
 
 ```
 scala> colors4 collect { case x if x.length > 4 => x + x }
 res48: List[String] = List(yellowyellow, greengreen, greengreen)
 ```
+
+找第一個符合條件的資料
+
+```
+scala> val colors4 = List("yellow", "red", "blue", "green", "red")
+colors4: List[String] = List(yellow, red, blue, green, red)
+
+scala> colors4.find { _ == "red" }
+res0: Option[String] = Some(red)
+
+scala> colors4.find { _ == "black" }
+res1: Option[String] = None
+```
+
+找到第一個符合條件的資料，並加工
+
+```
+colors4.collectFirst { case x if (x.length == 3) => x + x }
+res3: Option[String] = Some(redred)
+```
+
+找到第一個符合條件的位置。
+
+```
+scala> val colors4 = List("yellow", "red", "blue", "green", "red")
+
+scala> colors4.indexWhere( _ == "red")
+res7: Int = 1
+
+scala> colors4.indexWhere( _ == "red", 2)
+res8: Int = 4
+
+scala> colors4.indexWhere( _ == "black", 2)
+res10: Int = -1
+
+scala> color4.lastIndexWhere( _ == "red")
+res11: Int = 4
+
+scala> color4.lastIndexWhere( _ == "red", 3)
+res17: Int = 1
+```
+
+**由於 Scala 拿掉 `break`，因此在原本 Java 使用 `break;` 的情境，就可以使用 `dropWhile`, `takeWhile`, `collect`, `collectFirst`, `indexWhere`, `lastIndexWhere`。**
+
 
 **入門 Scala Collection 建議可以由 List 下手。 List 有的 function，大都的 Collection 也都有。**
 
