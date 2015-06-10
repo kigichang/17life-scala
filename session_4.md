@@ -85,7 +85,7 @@ Scala 的 Collection 有很完整的繼承結構，在效能上，越底層的 C
 
 Q: 為什麼建議使用 **Immutable**?
 
-A: 因為 Muli-Thread。學 Scala 最主要的目的，就是加速開發平行運算的程式，也就是 multi-thread 的程式。Immutable 的資料結構是 **Thread-Safe**，因此在程式撰寫時，建議儘量使用 Immutable class。
+A: 因為 Muli-Thread。學 Scala 最主要的目的，就是加速開發平行運算的程式，也就是 multi-thread 的程式。Immutable Read Only 的特性，使得有 **Thread-Safe** 效果，因此在程式撰寫時，建議儘量使用 Immutable class。
 
 ### Twitter Coding Style
 
