@@ -14,13 +14,19 @@ treats computation as the evaluation of **mathematical functions** and avoids **
 
 Mathematical Functions 簡單來說，就是兩個集合間的關係，且每一個輸入值，只會對應到一個輸出值。
 
+最簡單的數學函數的表示式：
+
+\\[
+f: X \mapsto Y
+\\]
+
 比如說：Square
 
 \\[
 f(x) = x^2
 \\]
 
-比如 f(3) = 9, f(-3) = 9 ，每次計算 f(3) 一定都會是 **9** 不會變成其他值。
+比如 \\(f(3) = 9\\), \\(f(-3) = 9\\) ，每次計算 \\(f(3)\\) 一定都會是 **9** 不會變成其他值。
 
 ### Side Effect
 
@@ -102,7 +108,7 @@ r2: String = Hello, World, World, World
 
 會發現 `r1` 及 `r2` 的值並不一致，這樣子就沒有 **Referential Transparency** 。
 
-範例來自 [Functional Language in Scala](http://www.amazon.com/Functional-Programming-Scala-Paul-Chiusano/dp/1617290653)
+範例截自： [Functional Language in Scala](http://www.amazon.com/Functional-Programming-Scala-Paul-Chiusano/dp/1617290653)
 
 #### 為什麼 Referential Transparency 如此重要
 
@@ -143,15 +149,15 @@ scala> List(1, 2, 3, 4) foreach { x => println(x + x) }
 在數學上，有所謂的複合函數。
 
 \\[
-	f: X \to Y
+	f: X \mapsto Y
 \\]
 
 \\[
-	g: Y \to Z
+	g: Y \mapsto Z
 \\]
 
 \\[
-	g \circ f: X \to Z
+	g \circ f: X \mapsto Z
 \\]
 
 \\[
@@ -212,6 +218,116 @@ res1: Int => Int = <function1>
 ```
 
 #### Currying
+
+假設有個 function 由兩個以上的集合對應到一個集合：
+
+\\[
+f: X \times Y \mapsto Z
+\\]
+
+比如說：
+
+\\[
+f(x, y) = \frac{y}{x}
+\\]
+
+我們可以定義一個 **Curring Function** ：
+
+\\[
+h(x) = y \mapsto f(x, y)
+\\]
+
+\\(h(x)\\) 是一個 Function ，它的輸入值是 x ，回傳值是 Function 。
+
+比如說：
+
+\\[
+h(2) = y \mapsto f(2, y)
+\\]
+
+這時候的 \\( h(2) \\) 是一個 Function : 
+
+\\[ f(2, y) = \frac {y}{2} \\]
+
+此時，我們可以說有一個 Function: \\(g(y) \\)
+
+\\[
+g(y) = h(2) = y \mapsto f(2, y)
+\\]
+
+也就是
+
+\\[
+g(y) = f(2, y) = \frac {y}{2}
+\\]
+
+在 Scala 的實作：
+
+定義  \\( f: X \times Y \mapsto Z \\)
+
+```
+scala> def f(x: Int)(y: Int) = y / x
+f: (x: Int)(y: Int)Int
+
+scala> f(4)(2)
+res7: Int = 0
+
+scala> f(2)(4)
+res8: Int = 2
+```
+
+定義 \\( g(y) = h(2) = y \mapsto f(2, y) \\) i.e. 
+\\[g(y) = f(2, y) = \frac {y}{2} \\]
+
+```
+scala> val h = f(2) _
+h: Int => Int = <function1>
+```
+
+當  \\( y = 4 \\) 時，
+
+\\[
+g(4) = f(2, 4) = \frac {4} {2} = 2
+\\]
+
+```
+scala> h(4)
+res9: Int = 2
+```
+範例截自 [Wiki: Curring](http://en.wikipedia.org/wiki/Currying)
+
+ 另一種使用時機：
+ 
+```
+scala> def modN(n: Int)(x: Int) = ((x % n) == 0)
+modN: (n: Int)(x: Int)Boolean
+
+scala> val nums = List(1, 2, 3, 4, 5, 6, 7, 8)
+nums: List[Int] = List(1, 2, 3, 4, 5, 6, 7, 8)
+
+scala> nums filter { modN(2) }
+res10: List[Int] = List(2, 4, 6, 8)
+
+scala> nums filter { modN(3) }
+res11: List[Int] = List(3, 6)
+```
+
+數學式對應：
+
+\\[
+modN: Int \times Int \mapsto Boolean
+\\]
+\\[
+modN(n, x) = ((x \bmod n ) == 0)
+\\]
+\\[
+mod2(x) = modN(2, x) = ((x \bmod 2) == 0)
+\\]
+\\[
+mod3(x) = modN(3, x) = ((x \bmod 3) == 0)
+\\]
+
+範例截自：[Scala Document: Currying](http://docs.scala-lang.org/tutorials/tour/currying.html)
 
 #### Partial Function
 
