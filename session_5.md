@@ -158,7 +158,13 @@ scala> List(1, 2, 3, 4) foreach { x => println(x + x) }
 	 (g \circ f )(x) = g(f(x))
 \\]
 
-在 Scala 上的實作
+在 Scala 上的實作，有 `compose` 及 `andThen`
+
+`f andThen g` 等同於 \\(  g \circ f \\)
+
+`f compose g` 等同於 \\( f \circ g \\)
+
+eg:
 
 ```
 scala> val f = (x: Int) => x * x
@@ -178,6 +184,34 @@ fofg: Int => Int = <function1>
 
 scala> fofg(10)
 res11: Int = 121
+```
+
+#### 轉成 Function Class
+
+一般會用 `def` 宣告 function；可以使用 **`_`**  轉換成 Function Class。如下：
 
 ```
+scala> def f(x: Int) = x * x
+f: (x: Int)Int
+
+scala> def g(x: Int) = x + 1
+g: (x: Int)Int
+
+scala> f andThen g
+<console>:10: error: missing arguments for method f;
+follow this method with `_' if you want to treat it as a partially applied function
+              f andThen g
+              ^
+<console>:10: error: missing arguments for method g;
+follow this method with `_' if you want to treat it as a partially applied function
+              f andThen g
+                        ^
+                        
+ scala> f _ andThen g _
+res1: Int => Int = <function1>
+```
+
+#### Currying
+
+#### Partial Function
 
