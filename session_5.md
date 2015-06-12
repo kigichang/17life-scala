@@ -1,10 +1,10 @@
 # Scala Functional Language 簡介
 
-Functional Language 其實很早就有了，OOP 概念比較能讓人接受，因此 Functional Language 就被忽略。近來大數據需要做大量平行與分散式的運算，Functional Lanauge 才又被重視。
+Functional Language 其實很早就有了，只是 OOP 概念比較能讓人接受，因此 Functional Language 就被忽略。近來大數據需要做大量平行與分散式的運算，Functional Lanauge 才又被重視。
 
 Functional Language 簡單來說，就是：
 
-treats computation as the evaluation of **mathematical functions** and avoids **changing-state and mutable data (Side Effects)**
+Treats computation as the evaluation of **mathematical functions** and avoids **changing-state and mutable data (Side Effects)**
 
 截自 [Wiki: Functional Lanauge](http://en.wikipedia.org/wiki/Functional_programming)
 
@@ -20,6 +20,7 @@ Mathematical Functions 簡單來說，就是兩個集合間的關係，且每一
 
 比如說：Square
 
+\\[Square: Int \mapsto Int \\]
 \\[f(x) = x^2\\]
 
 比如 \\(f(3) = 9\\), \\(f(-3) = 9\\) ，每次計算 \\(f(3)\\) 一定都會是 **9** 不會變成其他值。
@@ -53,6 +54,8 @@ Mathematical Functions 簡單來說，就是兩個集合間的關係，且每一
 **An expression is said to be referentially transparent if it can be replaced with its value without changing the behavior of a program**
 
 截自 [Wiki: Referential Transparency](http://en.wikipedia.org/wiki/Referential_transparency_%28computer_science%29)
+
+簡單來說，程式碼中的變數，可以用此變數的值或運算式子來取代，而且不會改變輸出的結果。
 
 舉例來說：String 是 immutable，當每次呼叫 `reverse` 時，都會回傳固定的值。
 
@@ -387,7 +390,7 @@ res10: Boolean = true
 
 ### 總結
 
-開始使用 Functional Lanague 時，思維需要做改變，程式設計時，以往用 OO 處理的設計，要轉換到是否可以切割成 Function 來處理，尤其是 Function 要符合數學函數或 Purly Function 的定義。當程式設計的邏輯都改成數學函數時，就會更倚重數學邏輯。
+開始使用 Functional Lanague 時，思維需要做改變，程式設計時，以往用 OO 處理的設計，要轉換到是否可以切割成 Function 來處理，尤其是 Function 要符合數學函數或 Purly Function 的定義，Functional Language 程式的設計思維，會更倚重數學邏輯。
 
 
 進階：
