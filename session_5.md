@@ -294,11 +294,11 @@ res11: List[Int] = List(3, 6)
 
 \\[modN: Int \times Int \mapsto Boolean\\]
 
-\\[modN(n, x) = ((x \bmod n ) == 0)\\]
+\\[modN(n, x) \Rightarrow ((x \bmod n ) == 0)\\]
 
-\\[mod2(x) = modN(2, x) = ((x \bmod 2) == 0)\\]
+\\[mod2(x) = modN(2, x) \Rightarrow ((x \bmod 2) == 0)\\]
 
-\\[mod3(x) = modN(3, x) = ((x \bmod 3) == 0)\\]
+\\[mod3(x) = modN(3, x) \Rightarrow ((x \bmod 3) == 0)\\]
 
 範例截自：[Scala Document: Currying](http://docs.scala-lang.org/tutorials/tour/currying.html)
 
