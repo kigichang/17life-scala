@@ -79,9 +79,11 @@ public final class Person$ extends scala.runtime.AbstractFunction2<java.lang.Str
 }
 ```
 
-由 `scalap` 及 `javap` 來看，在宣告 `case class` 後，會產生兩個 class。
+需注意的重點：
 
-當我們在產生 case class 時，是呼叫 `object` (singeton) 的 `apply` function.
+* 由 `scalap` 及 `javap` 來看，在宣告 `case class` 後，會產生兩個 class。
+* 當我們在產生 case class 時，是呼叫 `object` (singeton) 的 `apply` function.
+* case class contructor 的參數，會自動變成 **read only** 的 member data.
 
 ```
 scala> case class Person(name: String, age: Int)
@@ -91,7 +93,12 @@ scala> val p1 = Person("abc", 10)
 p1: Person = Person(abc,10)
 ```
 
-與 Pattern Match 有直接關係的 function: `apply` and `unapply`
+與 Pattern Match 有直接關係的 function: `apply` and `unapply`. 以 `Person` 為例：
+
+```
+def apply(name: scala.Predef.String, age: scala.Int): Person = { /* compiled code */ }
+  def unapply(x$0: Person): scala.Option[scala.Tuple2[scala.Predef.String, scala.Int]] = { /* compiled code */ }
+```
 
 ## Pattern Match
 
@@ -107,20 +114,18 @@ scala> p1 match {
 
 ### Extractor
 
-一個 _Extractor_ 需要有以下其中一個
+一個 class or object 有以下之一的 function 時，就可以稱作 **Extractor**。
 
 * unapply
 * unapplySeq
 
 這類的 function ，稱為 __extraction__；反之，`apply` 則稱為 __injection__。
 
-* Extractor 只要有實作 `unapply` or `unapplySeq` 即可；但如果 Extractor 沒有實作 `apply`, 則 `unapply` 回傳型別必須是 `Boolean`。
+Extractor 只要有實作 `unapply` or `unapplySeq` 即可；但如果 Extractor 沒有實作 `apply`, 則 `unapply` 回傳型別必須是 `Boolean`。
 
-	`unapplySeq` 是用在 __variable argument__ 也就是類似 `func(lst: String*)`。
+`unapplySeq` 是用在 __variable argument__ 也就是類似 `func(lst: String*)`。
 
-
-* Extractor 可以是 `object` or `class`。`class` 可以存當時的條件，但 `object` 則沒有這樣的效果 (因為 object 是 singleton，無法存每次不同的比對條件)
-
+Extractor 可以是 `object` or `class`。`class` 可以存當時的條件，但 `object` 則沒有這樣的效果 (因為 object 是 singleton，無法存每次不同的比對條件)
 
 ### Pattern, Extractor, and Binding
 
@@ -178,16 +183,13 @@ UpperCase.unapply
 (TEST,test.com)
 ```
 
-
 當在執行 pattern match 至  `case EMail`  時，會去呼叫 `EMail.unapply(s: String)` 看是否符合；當符合時，再呼叫 `UpperCase.unapply(s: String)`。
 
 `Test@test.com` 結果是 `not match`, 因為在 `UpperCase` 是 `false`. `TEST@test.com` 則是 `(TEST, test.com)`
 	
 截自：[Programming in Scala: A Comprehensive Step-by-Step Guide, 2nd Edition](http://www.amazon.com/Programming-Scala-Comprehensive-Step-Step/dp/0981531644)
 
-
 #### Extractor with variable arguement
-
 
 ```
 /* Extraction Only*/
@@ -322,10 +324,6 @@ val digits = """(\d+)-(\d+)-(\d+)""".r
 ```
 
 用 Binding 時，一樣要注意比對的 pattern，如： `digits(a, _*)`, `digits(a, b, c)`
-
-
-### List Pattern Match
-
 
 進階：
 

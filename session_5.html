@@ -518,7 +518,21 @@ b: Int =&gt; Int = &lt;function1&gt;
 scala&gt; b(2)
 res1: Int = 6</code></pre>
 
-<h3 id="toc_13">Currying</h3>
+<h3 id="toc_13">Closure</h3>
+
+<p>A function object that captures free variables, and is said to be “closed” over the variables visible at the time it is created.</p>
+
+<p>舉例：</p>
+
+<pre><code>scala&gt; var more = 10
+more: Int = 10
+
+scala&gt; val addMore = (x: Int) =&gt; x + more
+addMore: Int =&gt; Int = &lt;function1&gt;</code></pre>
+
+<p><code>addMore</code> 是一個 <strong>Closure</strong>. <code>more</code> 這個變數是 <strong>free variable</strong>.  <code>x</code> 是 <strong>bounded variable</strong>.</p>
+
+<h3 id="toc_14">Currying</h3>
 
 <p>假設有個 function 由兩個以上的集合對應到一個集合：</p>
 
@@ -604,7 +618,7 @@ res11: List[Int] = List(3, 6)</code></pre>
 
 <p>範例截自：<a href="http://docs.scala-lang.org/tutorials/tour/currying.html">Scala Document: Currying</a></p>
 
-<h3 id="toc_14">Scala Partial Function</h3>
+<h3 id="toc_15">Scala Partial Function</h3>
 
 <p>一般定義 Function 都會去處理輸入值的所有情況。比如說：</p>
 
@@ -641,7 +655,7 @@ res2: Boolean = true
 scala&gt; one.isDefinedAt(2)
 res3: Boolean = false</code></pre>
 
-<h4 id="toc_15">Composition of Partial Function</h4>
+<h4 id="toc_16">Composition of Partial Function</h4>
 
 <p>可以使用多個 Partial Function 組成一個複合函數。</p>
 
@@ -680,7 +694,7 @@ res10: Boolean = true</code></pre>
 
 <p>範例截自：<a href="https://twitter.github.io/scala_school/pattern-matching-and-functional-composition.html#PartialFunction">Twitter Scala School - Partial Function</a></p>
 
-<h3 id="toc_16">總結</h3>
+<h3 id="toc_17">總結</h3>
 
 <p>開始使用 Functional Lanague 時，思維需要做改變，程式設計時，以往用 OO 處理的設計，要轉換到是否可以切割成 Function 來處理，尤其是 Function 要符合數學函數或 Purly Function 的定義，Functional Language 程式的設計思維，會更倚重數學邏輯。</p>
 

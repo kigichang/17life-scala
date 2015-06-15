@@ -225,6 +225,22 @@ scala> b(2)
 res1: Int = 6
 ```
 
+### Closure
+A function object that captures free variables, and is said to be “closed” over the variables visible at the time it is created.
+
+舉例：
+
+```
+scala> var more = 10
+more: Int = 10
+
+scala> val addMore = (x: Int) => x + more
+addMore: Int => Int = <function1>
+```
+
+`addMore` 是一個 **Closure**. `more` 這個變數是 **free variable**.  `x` 是 **bounded variable**.
+
+
 ### Currying
 
 假設有個 function 由兩個以上的集合對應到一個集合：
