@@ -209,6 +209,22 @@ follow this method with `_' if you want to treat it as a partially applied funct
 res1: Int => Int = <function1>
 ```
 
+### Partially Applied Function
+
+```
+def sum(x: Int, y: Int, z: Int) = x + y + z
+sum: (x: Int, y: Int, z: Int)Int
+
+scala> val a = sum _
+a: (Int, Int, Int) => Int = <function3>
+
+scala> val b = sum(1, _: Int, 3)
+b: Int => Int = <function1>
+
+scala> b(2)
+res1: Int = 6
+```
+
 ### Currying
 
 假設有個 function 由兩個以上的集合對應到一個集合：
