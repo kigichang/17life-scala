@@ -504,7 +504,21 @@ follow this method with `_&#39; if you want to treat it as a partially applied f
  scala&gt; f _ andThen g _
 res1: Int =&gt; Int = &lt;function1&gt;</code></pre>
 
-<h3 id="toc_12">Currying</h3>
+<h3 id="toc_12">Partially Applied Function</h3>
+
+<pre><code>def sum(x: Int, y: Int, z: Int) = x + y + z
+sum: (x: Int, y: Int, z: Int)Int
+
+scala&gt; val a = sum _
+a: (Int, Int, Int) =&gt; Int = &lt;function3&gt;
+
+scala&gt; val b = sum(1, _: Int, 3)
+b: Int =&gt; Int = &lt;function1&gt;
+
+scala&gt; b(2)
+res1: Int = 6</code></pre>
+
+<h3 id="toc_13">Currying</h3>
 
 <p>假設有個 function 由兩個以上的集合對應到一個集合：</p>
 
@@ -590,7 +604,7 @@ res11: List[Int] = List(3, 6)</code></pre>
 
 <p>範例截自：<a href="http://docs.scala-lang.org/tutorials/tour/currying.html">Scala Document: Currying</a></p>
 
-<h3 id="toc_13">Scala Partial Function</h3>
+<h3 id="toc_14">Scala Partial Function</h3>
 
 <p>一般定義 Function 都會去處理輸入值的所有情況。比如說：</p>
 
@@ -627,7 +641,7 @@ res2: Boolean = true
 scala&gt; one.isDefinedAt(2)
 res3: Boolean = false</code></pre>
 
-<h4 id="toc_14">Composition of Partial Function</h4>
+<h4 id="toc_15">Composition of Partial Function</h4>
 
 <p>可以使用多個 Partial Function 組成一個複合函數。</p>
 
@@ -666,7 +680,7 @@ res10: Boolean = true</code></pre>
 
 <p>範例截自：<a href="https://twitter.github.io/scala_school/pattern-matching-and-functional-composition.html#PartialFunction">Twitter Scala School - Partial Function</a></p>
 
-<h3 id="toc_15">總結</h3>
+<h3 id="toc_16">總結</h3>
 
 <p>開始使用 Functional Lanague 時，思維需要做改變，程式設計時，以往用 OO 處理的設計，要轉換到是否可以切割成 Function 來處理，尤其是 Function 要符合數學函數或 Purly Function 的定義，Functional Language 程式的設計思維，會更倚重數學邏輯。</p>
 
