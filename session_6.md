@@ -325,6 +325,59 @@ val digits = """(\d+)-(\d+)-(\d+)""".r
 
 用 Binding 時，一樣要注意比對的 pattern，如： `digits(a, _*)`, `digits(a, b, c)`
 
+## Case Class, Patch Match and Algebraic Data Type
+
+```
+sealed trait Tree
+
+object Empty extends Tree
+case class Leaf(value: Int) extends Tree
+case class Node(left: Tree, right: Tree) extends Tree
+
+object TreeTest {
+
+  def depth(tree: Tree): Int = tree match {
+    case Empty => 0
+    case Leaf(value) => 1
+    case Node(l, r) => 1 + Seq(depth(l), depth(r)).max
+  }
+  
+  def max(tree: Tree): Int = tree match {
+    case Empty => Int.MinValue
+    case Leaf(value) => value
+    case Node(l, r) => Seq(max(r), max(l)).max
+  }
+  
+  def main(args: Array[String]) {
+    
+    val tree = Node(
+          Node(
+            Leaf(1),
+            Node(Leaf(3), Leaf(4))
+          ),
+          Node(
+              Node(Leaf(100), Node(Leaf(6), Leaf(7))),
+              Leaf(2)
+          )
+        )
+        
+        
+     println(depth(tree))
+     
+     println(max(tree))
+  }
+}
+```
+
+注意：使用 `sealed` 時，子類別都要與父類別放在同一個原始碼中，且如果在 pattern match 少比對一種子類別時，會出現**警告**。
+
+
+範例修改自：
+
+* [Twitter Effective Scala: Functional programming - Case classes as algebraic data types](http://twitter.github.io/effectivescala/#Functional programming-Case classes as algebraic data types)
+
+* [Wiki: Algebraic data type](https://en.wikipedia.org/wiki/Algebraic_data_type)
+
 進階：
 
 [Wiki: Algebric Data Type](https://en.wikipedia.org/wiki/Algebraic_data_type)
