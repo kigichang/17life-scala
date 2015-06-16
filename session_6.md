@@ -337,7 +337,7 @@ case class Node(left: Tree, right: Tree) extends Tree
 
 object TreeTest {
 
-  def depth(tree: Tree): Int = tree match {
+ val depth: PartialFunction[Tree, Int] = {
     case Empty => 0
     case Leaf(value) => 1
     case Node(l, r) => 1 + Seq(depth(l), depth(r)).max
@@ -346,7 +346,7 @@ object TreeTest {
   def max(tree: Tree): Int = tree match {
     case Empty => Int.MinValue
     case Leaf(value) => value
-    case Node(l, r) => Seq(max(r), max(l)).max
+     case Node(l, r) => Seq(max(r), max(l)).max
   }
   
   def main(args: Array[String]) {
