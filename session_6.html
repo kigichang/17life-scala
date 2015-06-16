@@ -599,6 +599,57 @@ not match</code></pre>
 
 <p>用 Binding 時，一樣要注意比對的 pattern，如： <code>digits(a, _*)</code>, <code>digits(a, b, c)</code></p>
 
+<h2 id="toc_10">Case Class, Patch Match and Algebraic Data Type</h2>
+
+<pre><code>sealed trait Tree
+
+object Empty extends Tree
+case class Leaf(value: Int) extends Tree
+case class Node(left: Tree, right: Tree) extends Tree
+
+object TreeTest {
+
+  def depth(tree: Tree): Int = tree match {
+    case Empty =&gt; 0
+    case Leaf(value) =&gt; 1
+    case Node(l, r) =&gt; 1 + Seq(depth(l), depth(r)).max
+  }
+  
+  def max(tree: Tree): Int = tree match {
+    case Empty =&gt; Int.MinValue
+    case Leaf(value) =&gt; value
+    case Node(l, r) =&gt; Seq(max(r), max(l)).max
+  }
+  
+  def main(args: Array[String]) {
+    
+    val tree = Node(
+          Node(
+            Leaf(1),
+            Node(Leaf(3), Leaf(4))
+          ),
+          Node(
+              Node(Leaf(100), Node(Leaf(6), Leaf(7))),
+              Leaf(2)
+          )
+        )
+        
+        
+     println(depth(tree))
+     
+     println(max(tree))
+  }
+}</code></pre>
+
+<p>注意：使用 <code>sealed</code> 時，子類別都要與父類別放在同一個原始碼中，且如果在 pattern match 少比對一種子類別時，會出現<strong>警告</strong>。</p>
+
+<p>範例修改自：</p>
+
+<ul>
+<li><p><a href="http://twitter.github.io/effectivescala/#Functional%20programming-Case%20classes%20as%20algebraic%20data%20types">Twitter Effective Scala: Functional programming - Case classes as algebraic data types</a></p></li>
+<li><p><a href="https://en.wikipedia.org/wiki/Algebraic_data_type">Wiki: Algebraic data type</a></p></li>
+</ul>
+
 <p>進階：</p>
 
 <p><a href="https://en.wikipedia.org/wiki/Algebraic_data_type">Wiki: Algebric Data Type</a></p>
