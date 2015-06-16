@@ -97,7 +97,8 @@ p1: Person = Person(abc,10)
 
 ```
 def apply(name: scala.Predef.String, age: scala.Int): Person = { /* compiled code */ }
-  def unapply(x$0: Person): scala.Option[scala.Tuple2[scala.Predef.String, scala.Int]] = { /* compiled code */ }
+
+def unapply(x$0: Person): scala.Option[scala.Tuple2[scala.Predef.String, scala.Int]] = { /* compiled code */ }
 ```
 
 ## Pattern Match

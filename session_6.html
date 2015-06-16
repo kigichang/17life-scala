@@ -394,7 +394,8 @@ p1: Person = Person(abc,10)</code></pre>
 <p>與 Pattern Match 有直接關係的 function: <code>apply</code> and <code>unapply</code>. 以 <code>Person</code> 為例：</p>
 
 <pre><code>def apply(name: scala.Predef.String, age: scala.Int): Person = { /* compiled code */ }
-  def unapply(x$0: Person): scala.Option[scala.Tuple2[scala.Predef.String, scala.Int]] = { /* compiled code */ }</code></pre>
+
+def unapply(x$0: Person): scala.Option[scala.Tuple2[scala.Predef.String, scala.Int]] = { /* compiled code */ }</code></pre>
 
 <h2 id="toc_2">Pattern Match</h2>
 
