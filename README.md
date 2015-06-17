@@ -94,6 +94,7 @@
       * 最常用的 implicit 變數： this
   * Try, Success, Failure - 重新改寫 try - catch - finally
   * Either, Left, Right - 向左走，向右走
+  * Exception catching
   * Multi-Threading: Future, Await
   * lazy
 
