@@ -404,10 +404,10 @@ r2: String = Hello, World</code></pre>
 <p>當將 <code>y</code> 替換成 <code>x.append(&quot;, World&quot;)</code> 時：</p>
 
 <pre><code>scala&gt; val r1 = x.append(&quot;, World&quot;).toString
-r1: String = Hello, World, World
+r1: String = Hello, World
 
 scala&gt; val r2 = x.append(&quot;, World&quot;).toString
-r2: String = Hello, World, World, World</code></pre>
+r2: String = Hello, World, World</code></pre>
 
 <p>此時 <code>r1</code> 及 <code>r2</code> 的值並不一致，這樣子就沒有 <strong>Referential Transparency</strong> 。</p>
 

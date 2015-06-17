@@ -100,10 +100,10 @@ r2: String = Hello, World
 
 ```
 scala> val r1 = x.append(", World").toString
-r1: String = Hello, World, World
+r1: String = Hello, World
 
 scala> val r2 = x.append(", World").toString
-r2: String = Hello, World, World, World
+r2: String = Hello, World, World
 ```
 
 此時 `r1` 及 `r2` 的值並不一致，這樣子就沒有 **Referential Transparency** 。
