@@ -163,7 +163,7 @@ res32: scala.collection.immutable.Map[Int,Array[Int]] = Map(2 -> Array(2, 5, 8),
 
 ### Zip
 
-將兩個 collection 中的元素，一對一的方式組成兩個元素的 **tuple**。
+將兩個 collection 中的元素，一對一的方式組成兩個元素的 **tuple**。行為很類似 **拉鏈**。
 
 ```
 scala> val lst1 = List("a", "b", "c", "d")
