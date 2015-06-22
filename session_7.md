@@ -17,8 +17,8 @@ Map 的特性：
 
 Reduce 特性：
 
-* 指定的**歸納** function，一次會處理 collection 中兩個元素。
-* 處理後的結果，再跟下一個元素，再做一次處理，以此類推，直到所有的元素都被處理過。
+* 指定的**歸納** function，第一次會處理兩個元素值。
+* 每次處理後的結果，再跟下一個元素，再做一次處理，以此類推，直到所有的元素都被處理過。
 * 處理的過程，不見得會依照元素的順序，因此指定的 function 如果沒有結合律的特性，也許結果會不如預期。
 * 回傳最終處理的結果，且資料型別是跟元素相同或者是 subtype。
 
@@ -40,8 +40,17 @@ scala> val total = lenLst reduce { _ + _ }
 total: Int = 32
 ```
 
-Function Languge Map-Reduce 的概念，後來被應用到 Hadoop 的 Map-Reduce。
+或
 
+```
+scala> val lst = List("ABC", "Hello, World!!!", "Apple", "Microsoft")
+lst: List[String] = List(ABC, Hello, World!!!, Apple, Microsoft)
+
+scala> lst map { _.length } reduce { _ + _ }
+res7: Int = 32
+```
+
+Function Languge Map-Reduce 的概念，後來被應用到 Hadoop 的 Map-Reduce。
 
 ## Map, flatMap & for-yield
 
@@ -160,7 +169,6 @@ res25: Int = 145
 
 `scan` 可以指定 **初始值**，第一個元素與初始值處理的結果，再與第二個元素處理，以此類推，最後回傳原本 collection 的資料型別，初始值當作第一個元素。概念跟 `map` 有點像，`map` 是獨立處理每個元素，`scan` 會與上一次處理的結果有關。
 
-
 ```
 scala> val lst = List(1, 2, 3)
 lst: List[Int] = List(1, 2, 3)
@@ -177,7 +185,7 @@ res30: List[Int] = List(10, 11, 13, 16)
 
 ### groupBy
 
-`groupBy` 利用指定的 function 回傳值當作 **key**，自動將符合 key 結果元素值，處理至原本的 collection 型別，最後組合成一個 `Map`。
+`groupBy` 利用指定的 function 回傳值當作 **key**，自動依 key 分群，回傳一個 `Map`，Map 內的 value 資料型別，會與原來的 collection 相同。
 
 ```
 scala> val lst = List(1, 2, 3, 4, 5, 6, 7, 8, 9)
