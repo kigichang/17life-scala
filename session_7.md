@@ -106,6 +106,39 @@ scala> s1 flatMap { a => s2 map { b => a + b } }
 res18: Option[String] = None
 ```
 
+`flatMap` or `for-yield` 很適合處理 `AND` 的情況
+
+舉例：每個 Store 都有一個歸屬的 Store，目前要查詢歸屬的 Store 名稱。
+
+```
+scala> case class Store(id: Int, name: String, belong: Int)
+defined class Store
+
+scala> val map = Map(0 -> Store(0, "3C", 0))
+map: scala.collection.immutable.Map[Int,Store] = Map(0 -> Store(0,3C,0))
+```
+
+if-else 的版本
+
+```
+val s1 = map.get(0)
+
+scala> if (s1.isDefined) {
+     | val s2 = map.get(s1.get.belong)
+     | if (s2.isDefined) Some(s2.get.name)
+     | else None
+     | } else None
+res6: Option[String] = Some(3C)
+```
+
+for-yield 版本
+
+```
+scala> for (s1 <- map.get(0); s2 <- map.get(s1.belong)) yield s2.name
+res0: Option[String] = Some(3C)
+
+```
+
 ## Collection 相關函數
 
 ### fold, foldLeft, foldRight

@@ -403,6 +403,33 @@ res16: Option[String] = None
 scala&gt; s1 flatMap { a =&gt; s2 map { b =&gt; a + b } }
 res18: Option[String] = None</code></pre>
 
+<p><code>flatMap</code> or <code>for-yield</code> 很適合處理 <code>AND</code> 的情況</p>
+
+<p>舉例：每個 Store 都有一個歸屬的 Store，目前要查詢歸屬的 Store 名稱。</p>
+
+<pre><code>scala&gt; case class Store(id: Int, name: String, belong: Int)
+defined class Store
+
+scala&gt; val map = Map(0 -&gt; Store(0, &quot;3C&quot;, 0))
+map: scala.collection.immutable.Map[Int,Store] = Map(0 -&gt; Store(0,3C,0))</code></pre>
+
+<p>if-else 的版本</p>
+
+<pre><code>val s1 = map.get(0)
+
+scala&gt; if (s1.isDefined) {
+     | val s2 = map.get(s1.get.belong)
+     | if (s2.isDefined) Some(s2.get.name)
+     | else None
+     | } else None
+res6: Option[String] = Some(3C)</code></pre>
+
+<p>for-yield 版本</p>
+
+<pre><code>scala&gt; for (s1 &lt;- map.get(0); s2 &lt;- map.get(s1.belong)) yield s2.name
+res0: Option[String] = Some(3C)
+</code></pre>
+
 <h2 id="toc_3">Collection 相關函數</h2>
 
 <h3 id="toc_4">fold, foldLeft, foldRight</h3>
@@ -453,7 +480,7 @@ res32: scala.collection.immutable.Map[Int,Array[Int]] = Map(2 -&gt; Array(2, 5, 
 
 <h3 id="toc_7">Zip</h3>
 
-<p>將兩個 collection 中的元素，一對一的方式組成兩個元素的 <strong>tuple</strong>。</p>
+<p>將兩個 collection 中的元素，一對一的方式組成兩個元素的 <strong>tuple</strong>。行為很類似 <strong>拉鏈</strong>。</p>
 
 <pre><code>scala&gt; val lst1 = List(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;)
 lst1: List[String] = List(a, b, c, d)
