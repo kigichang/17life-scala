@@ -75,10 +75,10 @@
   * High Order Function
   * Currying
   * Partial Function
-* 再談 OOP
-  * 自定運算子
-  * 左，右運算子
-  * case class
+* ~~再談 OOP~~
+  * ~~自定運算子~~
+  * ~~左，右運算子~~
+  * ~~case class~~
 * 再談 match case - Pattern Match
   * apply and unapply
   * pattern match
