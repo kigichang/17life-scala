@@ -5,7 +5,7 @@
 宣告：
 
 ```
-case class Persion(name: String, age: Int)
+case class Person(name: String, age: Int)
 ```
 
 Compiler 後，會有 `Person.class` 及 `Person$.class`
