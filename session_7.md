@@ -160,3 +160,22 @@ scala> arr groupBy { _ % 3 }
 res32: scala.collection.immutable.Map[Int,Array[Int]] = Map(2 -> Array(2, 5, 8), 1 -> Array(1, 4, 7), 0 -> Array(3, 6, 9))
 
 ```
+
+### Zip
+
+將兩個 collection 中的元素，一對一的方式組成兩個元素的 **tuple**。
+
+```
+scala> val lst1 = List("a", "b", "c", "d")
+lst1: List[String] = List(a, b, c, d)
+
+scala> val lst2 = List(1, 2, 3)
+lst2: List[Int] = List(1, 2, 3)
+
+scala> lst1 zip lst2
+res0: List[(String, Int)] = List((a,1), (b,2), (c,3))
+
+scala> lst1.zipWithIndex
+res2: List[(String, Int)] = List((a,0), (b,1), (c,2), (d,3))
+
+```

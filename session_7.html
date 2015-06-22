@@ -451,6 +451,23 @@ scala&gt; arr groupBy { _ % 3 }
 res32: scala.collection.immutable.Map[Int,Array[Int]] = Map(2 -&gt; Array(2, 5, 8), 1 -&gt; Array(1, 4, 7), 0 -&gt; Array(3, 6, 9))
 </code></pre>
 
+<h3 id="toc_7">Zip</h3>
+
+<p>將兩個 collection 中的元素，一對一的方式組成兩個元素的 <strong>tuple</strong>。</p>
+
+<pre><code>scala&gt; val lst1 = List(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;)
+lst1: List[String] = List(a, b, c, d)
+
+scala&gt; val lst2 = List(1, 2, 3)
+lst2: List[Int] = List(1, 2, 3)
+
+scala&gt; lst1 zip lst2
+res0: List[(String, Int)] = List((a,1), (b,2), (c,3))
+
+scala&gt; lst1.zipWithIndex
+res2: List[(String, Int)] = List((a,0), (b,1), (c,2), (d,3))
+</code></pre>
+
 <script type="text/x-mathjax-config">
 if (typeof MathJaxListener !== 'undefined') {
   MathJax.Hub.Register.StartupHook('End', function () {
