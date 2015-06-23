@@ -320,7 +320,7 @@ sup {
 
 <p>延伸： <strong>flatMap</strong></p>
 
-<p><strong>Reduce</strong> 是指將 collection 的元素做<strong>歸納</strong>處理後，回傳一個跟元素資料型別相同或者是<strong>subtype</strong> 的值。</p>
+<p><strong>Reduce</strong> 是指將 collection 的元素做<strong>歸納</strong>處理後，回傳一個跟元素資料型別相同或者是<strong>supertype</strong> 的值。</p>
 
 <p>Reduce 特性：</p>
 
@@ -328,7 +328,7 @@ sup {
 <li>指定的<strong>歸納</strong> function，第一次會處理兩個元素值。</li>
 <li>每次處理後的結果，再跟下一個元素，再做一次處理，以此類推，直到所有的元素都被處理過。</li>
 <li>處理的過程，不見得會依照預期的順序，因此指定的 function 如果沒有結合律的特性，也許結果會不如預期。</li>
-<li>回傳最終處理的結果，且資料型別是跟元素相同或者是 subtype。</li>
+<li>回傳最終處理的結果，且資料型別是跟元素相同或者是 supertype。</li>
 </ul>
 
 <p>註：結合律是 (x + y) + z = x + (y + z)。像四則運算的 \(+\) 與 \(\times\) 有結合律，但 \(-\) 與 \(\div\) 沒有。</p>
