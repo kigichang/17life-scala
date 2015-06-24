@@ -503,6 +503,123 @@ scala&gt; lst1.zipWithIndex
 res2: List[(String, Int)] = List((a,0), (b,1), (c,2), (d,3))
 </code></pre>
 
+<h1 id="toc_8">附錄</h1>
+
+<h1 id="toc_9">Scala Variance &amp; Bounds</h1>
+
+<h2 id="toc_10">Varince</h2>
+
+<p>Variance 主要是在討論</p>
+
+<p>If \(T_1\) is subclass of \(T\), is Container[\(T_1\)] is subclass of Container[\(T\)]</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">Variance</th>
+<th style="text-align: left">Meaning</th>
+<th style="text-align: left">Scala notation</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">covariant</td>
+<td style="text-align: left">C[\(T_1\)] is subclass of C[\(T\)]</td>
+<td style="text-align: left">[+T]</td>
+</tr>
+<tr>
+<td style="text-align: left">contravariant</td>
+<td style="text-align: left">C[\(T\)] is subclass of C[\(T_1\)]</td>
+<td style="text-align: left">[-T]</td>
+</tr>
+<tr>
+<td style="text-align: left">invariant</td>
+<td style="text-align: left">C[\(T_1\)] and C[\(T\)] are not related</td>
+<td style="text-align: left">[T]</td>
+</tr>
+</tbody>
+</table>
+
+<p>舉例：<strong>Covariant</strong></p>
+
+<pre><code>scala&gt; class Covariant[+A]
+defined class Covariant
+
+scala&gt; val cv: Covariant[AnyRef] = new Covariant[String]
+cv: Covariant[AnyRef] = Covariant@1fc2b765
+
+scala&gt; val cv: Covariant[String] = new Covariant[AnyRef]
+&lt;console&gt;:8: error: type mismatch;
+ found   : Covariant[AnyRef]
+ required: Covariant[String]
+       val cv: Covariant[String] = new Covariant[AnyRef]</code></pre>
+
+<p>舉例：<strong>Contravariant</strong></p>
+
+<pre><code>scala&gt; class Contravariant[-A]
+defined class Contravariant
+
+scala&gt; val cv: Contravariant[String] = new Contravariant[AnyRef]
+cv: Contravariant[String] = Contravariant@7bc1a03d
+
+scala&gt; val cv: Contravariant[AnyRef] = new Contravariant[String]
+&lt;console&gt;:8: error: type mismatch;
+ found   : Contravariant[String]
+ required: Contravariant[AnyRef]
+       val cv: Contravariant[AnyRef] = new Contravariant[String]</code></pre>
+
+<p>範例來自：<a href="https://twitter.github.io/scala_school/type-basics.html">Twitter&#39;s Scala School - Type &amp; polymorphism basics</a></p>
+
+<p>記憶方法：</p>
+
+<p>\[
+\forall T_1 \in +T, \text{then }T_1 \text{ is subclass of } T
+\]</p>
+
+<p>\[
+\forall T_1 \in -T, \text{then }T_1 \text{ is superclass of } T
+\]</p>
+
+<p>\[
+\begin{equation}
+-T \\
+\uparrow\\
+T \\
+\uparrow \\
++T
+\end{equation}
+\]</p>
+
+<p>ContraVariant 案例：<code>Function1[-T, +R]</code></p>
+
+<p>eg:</p>
+
+<pre><code>scala&gt; class Test[+A] { def test(a: A): String = a.toString }
+&lt;console&gt;:7: error: covariant type A occurs in contravariant position in type A of value a
+       class Test[+A] { def test(a: A): String = a.toString }</code></pre>
+
+<p>fix: </p>
+
+<pre><code>scala&gt; class Test[+A] { def test[B &gt;: A](b: B): String = b.toString }
+defined class Test</code></pre>
+
+<h2 id="toc_11">Bounds</h2>
+
+<h3 id="toc_12">Lower Type Bound</h3>
+
+<p><code>A &gt;: B</code> =&gt; <code>A</code> is superclass of <code>B</code>. <code>B</code> is the lower bound.</p>
+
+<h3 id="toc_13">Upper Type Bound</h3>
+
+<p><code>A &lt;: B</code> =&gt; A is subclass of <code>B</code>. <code>B</code> is the upper bound.</p>
+
+<p>參考：</p>
+
+<ul>
+<li><a href="https://twitter.github.io/scala_school/type-basics.html">Twitter&#39;s Scala School - Type &amp; polymorphism basics</a></li>
+</ul>
+
 <script type="text/x-mathjax-config">
 if (typeof MathJaxListener !== 'undefined') {
   MathJax.Hub.Register.StartupHook('End', function () {
