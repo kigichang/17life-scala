@@ -229,7 +229,7 @@ res2: List[(String, Int)] = List((a,0), (b,1), (c,2), (d,3))
 
 Variance 主要是在討論
 
-If \\(T_1\\) is subclass of \\(T\\), is Container[\\(T_1\\)] is subclass of Container[\\(T\\)]
+If \\(T_1\\) is subclass of \\(T\\), is Container[\\(T_1\\)] is subclass of Container[\\(T\\)] ?
 
 
 |   Variance    | Meaning         | Scala notation |
