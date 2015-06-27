@@ -138,7 +138,61 @@ res10: Int = -1
 * 註1: Try 使用 **NonFatal** 來處理 Exception。
 * 註2: Option 及 Try 都是 ADT (Algebraic Data Type)
 
-## Catching
+## Catch
+
+Catch 是用來處理 `catch` 及 `finally`。搭配 `Option` 及 `Either` 來處理 Exception。
+
+```
+scala> import scala.util.control.Exception._
+import scala.util.control.Exception._
+
+scala> def parseInt(value: String) = nonFatalCatch[Int] opt { value.toInt }
+parseInt: (value: String)Option[Int]
+
+scala> def parseInt(value: String) = nonFatalCatch[Int] either { value.toInt }
+parseInt: (value: String)scala.util.Either[Throwable,Int]
+
+scala> def parseInt(value: String) = nonFatalCatch[Int] andFinally { println("finally") } opt { value.toInt }
+parseInt: (value: String)Option[Int]
+
+scala> def parseInt(value: String) = nonFatalCatch[Int] andFinally { println("finally") } opt { println("begin"); value.toInt }
+parseInt: (value: String)Option[Int]
+
+scala> parseInt("abc")
+begin
+finally
+res2: Option[Int] = None
+
+scala> parseInt("123")
+begin
+finally
+res3: Option[Int] = Some(123)
+
+scala> def parseInt(value: String) = catching(classOf[Exception]) opt { value.toInt }
+parseInt: (value: String)Option[Int]
+
+scala> parseInt("456")
+res5: Option[Int] = Some(456)
+```
 
 ## Either
 
+`Either` 可以讓 Fuction 達到回傳不同型別資料效果。`Either` 有兩個 subclass: `Right` 及 `Left`。可以使用 `match`-`case` 來確認是回傳 `Right` or `Left`；進而了解是成功或失敗。
+
+```
+scala> def parseInt(value: String) = try { Right(value.toInt) } catch { case ex: Exception => Left(value) } 
+
+parseInt: (value: String)Product with Serializable with scala.util.Either[String,Int]
+
+scala> parseInt("123") match {
+     | case Right(v) => println(s"success ${v}")
+     | case Left(s) => println(s"failure ${s}")
+     | }
+success 123
+
+scala> parseInt("abc") match {
+     | case Right(v) => println(s"success ${v}")
+     | case Left(s) => println(s"failure ${s}")
+     | }
+failure abc
+```
