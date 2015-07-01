@@ -393,8 +393,8 @@ res13: Option[String] = Some(s1s1)</code></pre>
 
 <p>多個：</p>
 
-<pre><code>scala&gt; val s1 = Some(&quot;s1&quot;)
-s1: Some[String] = Some(s1)
+<pre><code>scala&gt; val s1 = Option(&quot;s1&quot;)
+s1: Option[String] = Some(s1)
 
 scala&gt; val s2 = None
 s2: None.type = None
@@ -511,7 +511,7 @@ res2: List[(String, Int)] = List((a,0), (b,1), (c,2), (d,3))
 
 <p>Variance 主要是在討論</p>
 
-<p>If \(T_1\) is subclass of \(T\), is Container[\(T_1\)] is subclass of Container[\(T\)]</p>
+<p>If \(T_1\) is subclass of \(T\), is Container[\(T_1\)] is subclass of Container[\(T\)] ?</p>
 
 <table>
 <thead>
