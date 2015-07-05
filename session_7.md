@@ -96,8 +96,8 @@ res13: Option[String] = Some(s1s1)
 多個：
 
 ```
-scala> val s1 = Some("s1")
-s1: Some[String] = Some(s1)
+scala> val s1 = Option("s1")
+s1: Option[String] = Some(s1)
 
 scala> val s2 = None
 s2: None.type = None
