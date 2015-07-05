@@ -520,7 +520,3 @@ object FutureTest {
   }
 }
 ```
-
-## Promise
-
-`Promise` 也可以用來產生一個 `Future`
