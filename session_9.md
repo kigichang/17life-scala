@@ -58,7 +58,7 @@ object FutureTest {
 
 #### onSuccess
 
-顧名思意就是當 `Future` 包裝的工作執行**成功**時，會執行的工作。
+顧名思義就是當 `Future` 包裝的工作執行**成功**時，會執行的工作。
 
 eg:
 
