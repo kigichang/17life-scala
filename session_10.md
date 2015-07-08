@@ -32,6 +32,7 @@ finally {
 
 ## Implicit
 
+### Implicit Variable
 Implicit 的技術在 Scala 使用很多，以 collection 為例，從 Java Collection 轉換成 Scala Collection 的版本，都是用 implicit 的方式來完成。
 
 在 OOP 最常見的 implicit 是 `this` 這個關鍵字。在 OOP 的 Class 內，並沒有宣告 `this` 這個變數，卻可以使用。
@@ -67,6 +68,19 @@ After Compiling:
 
 ```
 class CRect {	private: 		int m_color;	public: 		void setcolor(int color, (CRect*)this) {			this->m_color = color;		}}
+```
+
+### Implicit Function
+
+在針對 Java Collection 轉成 Scala 相對應的 Collection，都使用 implicit function 在做轉換。
+
+eg: Scala wrapAsScala
+
+```
+implicit def asScalaBuffer[A](l: ju.List[A]): mutable.Buffer[A] = l match {
+  case MutableBufferWrapper(wrapped) => wrapped
+  case _ =>new JListWrapper(l)
+}
 ```
 
 ## Tail Recursion
