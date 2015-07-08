@@ -336,6 +336,8 @@ finally {
 
 <h2 id="toc_2">Implicit</h2>
 
+<h3 id="toc_3">Implicit Parameter</h3>
+
 <p>Implicit 的技術在 Scala 使用很多，以 collection 為例，從 Java Collection 轉換成 Scala Collection 的版本，都是用 implicit 的方式來完成。</p>
 
 <p>在 OOP 最常見的 implicit 是 <code>this</code> 這個關鍵字。在 OOP 的 Class 內，並沒有宣告 <code>this</code> 這個變數，卻可以使用。</p>
@@ -381,7 +383,18 @@ res0: Int = 1010</code></pre>
         }
 }</code></pre>
 
-<h2 id="toc_3">Tail Recursion</h2>
+<h3 id="toc_4">Implicit Conversions</h3>
+
+<p>在針對 Java Collection 轉成 Scala 相對應的 Collection，都使用 implicit function 在做轉換。</p>
+
+<p>eg: Scala wrapAsScala</p>
+
+<pre><code>implicit def asScalaBuffer[A](l: ju.List[A]): mutable.Buffer[A] = l match {
+  case MutableBufferWrapper(wrapped) =&gt; wrapped
+  case _ =&gt;new JListWrapper(l)
+}</code></pre>
+
+<h2 id="toc_5">Tail Recursion</h2>
 
 <p>Scala Compiler 會針對 Tail Recursion 做最佳化。所謂的 Tail Recursion 是指，把做 recursion 放在<strong>最後一個指令</strong>。</p>
 
