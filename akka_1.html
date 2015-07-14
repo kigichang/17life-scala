@@ -542,9 +542,10 @@ object JokeSample {
 
     penguins(9) = system.actorOf(DongDong.props)
 
-    /* 主程式等一下，要不然上面都是 non-blocking call，會直接結束程式 */
+    /* 記者問每隻企鵝，牠的興趣是 */
     penguins foreach { _.tell(Interest, reporter) }
-
+    
+     /* 主程式等一下，要不然上面都是 non-blocking call，會直接結束程式 */
     Thread.sleep(10 * 1000)
 
     system.shutdown()
