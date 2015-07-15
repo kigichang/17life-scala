@@ -331,7 +331,7 @@ sup {
 
 <h3 id="toc_4">Fault-tolerance and Let It Crash</h3>
 
-<p>在多工運算下，容錯是件很重要的事情，Akk 採用 <strong>Let It Crash</strong> 的思維，會自動重啟已經 crash 的 Actor，當然重啟的 policy 也可以自定，沒有的話，Akka 在發現有 Exception 發生時，會自動重啟 Actor。Actor 本身的狀態或資料，跟 Actor 的工作是被分開的，也就是說，某個 Actor 在執行工作時，不幸 Crash 時，在還沒有被 <code>Restart</code>，已經修改的資料，是被保留下來的，此時，你可以選擇 <code>Restart</code> 將資料重新 reset 或者用 <code>Resume</code> 來繼續往下的工作。</p>
+<p>在多工運算下，容錯是件很重要的事情，Akka 採用 <strong>Let It Crash</strong> 的思維，會自動重啟已經 crash 的 Actor，當然重啟的 policy 也可以自定，沒有的話，Akka 在發現有 Exception 發生時，會自動重啟 Actor。Actor 本身的狀態或資料，跟 Actor 的工作是被分開的，也就是說，某個 Actor 在執行工作時，不幸 Crash 時，在還沒有被 <code>Restart</code>，已經修改的資料，是被保留下來的，此時，你可以選擇 <code>Restart</code> 將資料重新 reset 或者用 <code>Resume</code> 來繼續往下的工作。</p>
 
 <h3 id="toc_5">Location Transparency</h3>
 
@@ -344,7 +344,7 @@ sup {
 <p>用 Activator 產生一個空白的專案：</p>
 
 <ul>
-<li>執行 <code>activator new project_name minimal-scala</code></li>
+<li>執行 <code>activator new project_name minimal-akka-scala-seed</code></li>
 <li><del>在 <code>build.sbt</code> 加入 akka library. <code>libraryDependencies += &quot;com.typesafe.akka&quot; %% &quot;akka-actor&quot; % &quot;2.3.4&quot;</code></del></li>
 <li>在 <code>project/plugins.sbt</code> 加入 eclipse plugin-in. <code>addSbtPlugin(&quot;com.typesafe.sbteclipse&quot; % &quot;sbteclipse-plugin&quot; % &quot;4.0.0&quot;)</code>. <del><code>addSbtPlugin(&quot;com.typesafe.sbteclipse&quot; % &quot;sbteclipse-plugin&quot; % &quot;2.3.0&quot;)</code></del></li>
 <li>在 project 目錄下，執行 <code>activator eclipse</code> 來產生 Eclipse 的專案檔。</li>

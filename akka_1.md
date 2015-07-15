@@ -26,7 +26,7 @@ Actor 是 Akka 最基本，也是最重要的元素。 Akka 使用 Actor 來完�
 
 ### Fault-tolerance and Let It Crash
 
-在多工運算下，容錯是件很重要的事情，Akk 採用 __Let It Crash__ 的思維，會自動重啟已經 crash 的 Actor，當然重啟的 policy 也可以自定，沒有的話，Akka 在發現有 Exception 發生時，會自動重啟 Actor。Actor 本身的狀態或資料，跟 Actor 的工作是被分開的，也就是說，某個 Actor 在執行工作時，不幸 Crash 時，在還沒有被 `Restart`，已經修改的資料，是被保留下來的，此時，你可以選擇 `Restart` 將資料重新 reset 或者用 `Resume` 來繼續往下的工作。
+在多工運算下，容錯是件很重要的事情，Akka 採用 __Let It Crash__ 的思維，會自動重啟已經 crash 的 Actor，當然重啟的 policy 也可以自定，沒有的話，Akka 在發現有 Exception 發生時，會自動重啟 Actor。Actor 本身的狀態或資料，跟 Actor 的工作是被分開的，也就是說，某個 Actor 在執行工作時，不幸 Crash 時，在還沒有被 `Restart`，已經修改的資料，是被保留下來的，此時，你可以選擇 `Restart` 將資料重新 reset 或者用 `Resume` 來繼續往下的工作。
 
 
 ### Location Transparency
@@ -39,7 +39,7 @@ Akka 的 Actor 除了可以在本機上執行，也可以指定在遠端的某�
 
 用 Activator 產生一個空白的專案：
 
-* 執行 `activator new project_name minimal-scala`
+* 執行 `activator new project_name minimal-akka-scala-seed`
 * ~~在 `build.sbt` 加入 akka library. `libraryDependencies += "com.typesafe.akka" %% "akka-actor" % "2.3.4"`~~
 * 在 `project/plugins.sbt` 加入 eclipse plugin-in. `addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "4.0.0")`. ~~`addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "2.3.0")`~~
 * 在 project 目錄下，執行 `activator eclipse` 來產生 Eclipse 的專案檔。
