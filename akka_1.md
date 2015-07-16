@@ -34,6 +34,27 @@ Actor 是 Akka 最基本，也是最重要的元素。 Akka 使用 Actor 來完�
 Akka 的 Actor 除了可以在本機上執行，也可以指定在遠端的某個機器執行，中間的網路溝通，akka 會自動幫忙處理，但也很重要的一點，你傳送的 message 必須是可以被 serialize。 Akka 是使用 [netty](http://netty.io/) 來處理 network。
 
 
+### Message Ordering
+
+The guarantee is illustrated in the following:
+
+Actor `A1` sends messages `M1`, `M2`, `M3` to `A2`
+
+Actor `A3` sends messages `M4`, `M5`, `M6` to `A2`
+
+This means that:
+
+* If `M1` is delivered it must be delivered before `M2` and `M3`
+* If `M2` is delivered it must be delivered before `M3`
+* If `M4` is delivered it must be delivered before `M5` and `M6`
+* If `M5` is delivered it must be delivered before `M6`
+
+`A2` can see messages from `A1` interleaved with messages from `A3`
+
+Since there is no guaranteed delivery, any of the messages may be dropped, i.e. not arrive at `A2`
+
+
+
 ## 實作
 在實作前，建議去下載 Typesafe 的 Activator 工具，它會自動產生基本 Scala 開發環境設定，省去寫 SBT 的工作。安裝 Activator 很簡單，只要[下載](https://typesafe.com/platform/getstarted)，解開就行了。
 
