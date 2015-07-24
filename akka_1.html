@@ -337,7 +337,28 @@ sup {
 
 <p>Akka 的 Actor 除了可以在本機上執行，也可以指定在遠端的某個機器執行，中間的網路溝通，akka 會自動幫忙處理，但也很重要的一點，你傳送的 message 必須是可以被 serialize。 Akka 是使用 <a href="http://netty.io/">netty</a> 來處理 network。</p>
 
-<h2 id="toc_6">實作</h2>
+<h3 id="toc_6">Message Ordering</h3>
+
+<p>The guarantee is illustrated in the following:</p>
+
+<p>Actor <code>A1</code> sends messages <code>M1</code>, <code>M2</code>, <code>M3</code> to <code>A2</code></p>
+
+<p>Actor <code>A3</code> sends messages <code>M4</code>, <code>M5</code>, <code>M6</code> to <code>A2</code></p>
+
+<p>This means that:</p>
+
+<ul>
+<li>If <code>M1</code> is delivered it must be delivered before <code>M2</code> and <code>M3</code></li>
+<li>If <code>M2</code> is delivered it must be delivered before <code>M3</code></li>
+<li>If <code>M4</code> is delivered it must be delivered before <code>M5</code> and <code>M6</code></li>
+<li>If <code>M5</code> is delivered it must be delivered before <code>M6</code></li>
+</ul>
+
+<p><code>A2</code> can see messages from <code>A1</code> interleaved with messages from <code>A3</code></p>
+
+<p>Since there is no guaranteed delivery, any of the messages may be dropped, i.e. not arrive at <code>A2</code></p>
+
+<h2 id="toc_7">實作</h2>
 
 <p>在實作前，建議去下載 Typesafe 的 Activator 工具，它會自動產生基本 Scala 開發環境設定，省去寫 SBT 的工作。安裝 Activator 很簡單，只要<a href="https://typesafe.com/platform/getstarted">下載</a>，解開就行了。</p>
 
@@ -350,7 +371,7 @@ sup {
 <li>在 project 目錄下，執行 <code>activator eclipse</code> 來產生 Eclipse 的專案檔。</li>
 </ul>
 
-<h3 id="toc_7">Akka Hello World</h3>
+<h3 id="toc_8">Akka Hello World</h3>
 
 <p>按慣例，先來個 hello world。以下的範例會產生一個 Actor ，來接收要對誰說 <code>hello, world</code>, 並回覆給原來的傳送者(sender)。</p>
 
@@ -419,11 +440,11 @@ object HelloWorld {
 }
 </code></pre>
 
-<h3 id="toc_8">小進階多個 Actor 互傳： 吃飯、睡覺、打東東</h3>
+<h3 id="toc_9">小進階多個 Actor 互傳： 吃飯、睡覺、打東東</h3>
 
 <p>實際的情況，都是多個 Actor 彼此間在傳訊息。以下我們就用 <strong>吃飯、睡覺、打東東</strong> 的笑話來 demo。</p>
 
-<h4 id="toc_9">問題：</h4>
+<h4 id="toc_10">問題：</h4>
 
 <pre><code>package com.example
 
@@ -432,17 +453,17 @@ object Interest extends Question
 object Why extends Question
 </code></pre>
 
-<h4 id="toc_10">回答：</h4>
+<h4 id="toc_11">回答：</h4>
 
 <pre><code>package com.example
 
 sealed trait Answer
-case class Three(name: String, a: String, b: String, c: String)
-case class Two(name: String, a: String, b: String)
-case class Because(name: String, msg: String)
+case class Three(name: String, a: String, b: String, c: String) extends Answer
+case class Two(name: String, a: String, b: String) extends Answer
+case class Because(name: String, msg: String) extends Answer
 </code></pre>
 
-<h4 id="toc_11">角色：</h4>
+<h4 id="toc_12">角色：</h4>
 
 <pre><code>package com.example
 
@@ -520,7 +541,7 @@ object Reporter {
 }
 </code></pre>
 
-<h4 id="toc_12">主程式：</h4>
+<h4 id="toc_13">主程式：</h4>
 
 <pre><code>package com.example
 
