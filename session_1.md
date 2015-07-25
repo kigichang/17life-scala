@@ -1,25 +1,43 @@
 # 由 Java 跨入 Scala 要注意的事項
 
 ## Java 開發者需注意事項
+
 ### 分號 `;`
-原本使用 `;` 隔開 statement；除非同一行有兩個以上的 statement，才需要用 `;` 隔開，一般只有一個 statement 則可**省略**。
+Java 一定要使用 `;` 隔開 statement；在 Scala 中，除非同一行有兩個以上的 statement，才需要用 `;` 隔開，否則可**省略**。
+
+**In Java**
 
 ```
-/* Scala */
+int a = 10;
+int b = 20;
+
+a = 20; b = 30;
+
+```
+
+**In Scala**
+
+```
 var a = 10
 var b = 20
 
 a = 20; b = 30
 
-/* Java */
-int a = 10;
-int b = 20;
-
-a = 20; b = 30;
 ```
 
 ### 宣告時，型別可以省略
-雖然不用寫型別，但 Scala 依然是 __Strong-Type__，變數的型別一旦決定後，就不能更改，這一點和 Java 是一樣的。
+在宣告變數了，可以省略型別；雖然不用寫型別，但 Scala 依然是 **Strong-Type**，變數的型別一旦決定後，就不能更改，這一點和 Java 是一樣的。
+
+**In Java**
+
+```
+public class Test { }
+
+Test a = new Test();
+
+```
+
+**In Scala**
 
 ```
 /* Scala */
@@ -27,15 +45,12 @@ class Test
 
 val a = new Test()
 
-/* Java */
-public class Test { }
-
-Test a = new Test();
-
 ```
 
 ### Import Package 宣告
 Scala 在 import package 有更彈性的宣告方式：
+
+**萬用字元**
 
 ```
 /* 等同 Java: import java.io.* */
@@ -44,12 +59,22 @@ import java.io._
 /* 等同 Java Static import */
 import org.apache.commons.lang3.StringUtils._ 
 
+```
+
+**相同 Package 下的 Class 整理成一行**
+
+```
 /* 等同 Java
  * import java.nio.file.Files
  * import java.nio.file.Paths
  */
 import java.nio.file.{ Files, Paths }
 
+```
+
+**常用或太長的 Class Name 取別名**
+
+```
 /* Alias Name */
 import org.apache.commons.lang3.{ StringUtils => su }
 
@@ -58,6 +83,7 @@ su.split(str, ",")
 ```
 
 ### Ruturn Value of Assignment
+
 在 Scala 指定值後，會回傳 __Unit__，並不會像 Java 回傳指定的值。
 
 ```
