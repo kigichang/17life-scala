@@ -31,10 +31,14 @@ Actor 是 Akka 最基本，也是最重要的元素。 Akka 使用 Actor 來完�
 
 ### Location Transparency
 
-Akka 的 Actor 除了可以在本機上執行，也可以指定在遠端的某個機器執行，中間的網路溝通，akka 會自動幫忙處理，但也很重要的一點，你傳送的 message 必須是可以被 serialize。 Akka 是使用 [netty](http://netty.io/) 來處理 network。
+Akka 的 Actor 除了可以在本機上執行，也可以指定在遠端的某個機器執行，中間的網路溝通，akka 會自動幫忙處理，但也很重要的一點，你傳送的 message 必須是可以被 serialize。 Akka 是使用 [Netty](http://netty.io/) 來處理 network。
 
 
 ### Message Ordering
+
+Akka 可以保証來自同一個 Actor 的訊息順序，但不保証每一次的訊息一定會種到。
+
+以下是 Akka 官方有關訊息順序的說明：
 
 The guarantee is illustrated in the following:
 
@@ -52,7 +56,6 @@ This means that:
 `A2` can see messages from `A1` interleaved with messages from `A3`
 
 Since there is no guaranteed delivery, any of the messages may be dropped, i.e. not arrive at `A2`
-
 
 
 ## 實作
@@ -139,6 +142,8 @@ object HelloWorld {
 ### 小進階多個 Actor 互傳： 吃飯、睡覺、打東東
 
 實際的情況，都是多個 Actor 彼此間在傳訊息。以下我們就用 __吃飯、睡覺、打東東__ 的笑話來 demo。
+
+[Source Code](https://github.com/kigichang/akka-sample)
 
 ####問題：####
 

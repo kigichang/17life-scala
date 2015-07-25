@@ -1,6 +1,6 @@
 # Introduction of Akka Remote
 
-Akka 允許遠端執行 Actor, 而且內建小型的 message server，在開發時，完全不用去理會底層網路的建置。要使用 Akka Remote 功能，要特別注意每台機器要彼此看得到。也就是說在網段的安排上，每台機器要彼此可以互連，因為 Akka Remote 會在每台機器，啟一個小 server，而且會彼此互連。
+Akka 允許遠端執行 Actor, 而且內建小型的 message server，在開發時，完全不用去理會底層網路的建置。使用 Akka Remote 功能，要特別注意每台機器要彼此看得到；也就是說在網段的安排上，每台機器要彼此可以互連。
 
 Akka 遠端執行，分成兩種模式如下：
 
@@ -13,7 +13,7 @@ Lookup 是在遠端 Server，先啟動 Actor，再讓 Client 連線使用。這�
 
 ### Deployment
 
-由 Master，指定遠端的 Node 要執行那些Actor。在佈署環境時，還是需要將 Actor 放到 Node。Node 啟動時，並不會去預載要執行的 Actor，而是等待 Master 端來指定。
+由 Master，指定遠端的 Node 要執行那些 Actor。在佈署環境時，還是需要將 Actor 放到 Node。Node 啟動時，並不會去預載要執行的 Actor，而是等待 Master 端來指定。
 
 
 ## Actor 基本運作
@@ -98,7 +98,7 @@ case class Three(name: String, a: String, b: String, c: String) extends Answer
 case class Two(name: String, a: String, b: String) extends Answer
 case class Because(name: String, msg: String) extends Answer
 
-case class PenguinReady(path: String)
+case class PenguinReady(actor: ActorRef)
 
 ```
 
@@ -255,7 +255,7 @@ class PenguinKing(count: Int, reporter: ActorRef) extends Actor {
   def receive: Actor.Receive = {
     case ActorIdentity(path, Some(actor)) =>
       println(s"$path found")
-      reporter ! PenguinReady(path.toString)
+      reporter ! PenguinReady(actor)
       
     case ActorIdentity(path, None) =>
       println(s"$path not found")
@@ -272,8 +272,7 @@ object PenguinKing {
 class DepolyReporter extends Reporter {
 
   def myReceive: Actor.Receive = {
-    case PenguinReady(path) =>
-      val actor = context.actorSelection(path)
+    case PenguinReady(actor) =>
       actor ! Interest
   }
 

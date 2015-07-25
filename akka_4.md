@@ -34,6 +34,7 @@ Akka 預設的 strategy 處理方式
 
 
 ## 實作
+
 **SupervisorDemo** in [Sample Code](https://github.com/kigichang/akka-sample)
 
 延用 __吃飯睡覺打東東__ 的企鵝笑話，__東東__，在被打第 __4__ 次時，會說 __不要打擾我__，在第 __6__ 次時，會 __爆炸__，在超過第 __6__ 次後，牠就__成仙__了。本程式，主要是由 `PenguinKing` 來產生 `Penguin`，也因此 `PenguinKing` 是 `Penguin` 的 supervisor。各位可以在 `PenguinKing` 的程式碼中，修改

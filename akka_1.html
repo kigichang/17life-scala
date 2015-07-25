@@ -335,9 +335,13 @@ sup {
 
 <h3 id="toc_5">Location Transparency</h3>
 
-<p>Akka 的 Actor 除了可以在本機上執行，也可以指定在遠端的某個機器執行，中間的網路溝通，akka 會自動幫忙處理，但也很重要的一點，你傳送的 message 必須是可以被 serialize。 Akka 是使用 <a href="http://netty.io/">netty</a> 來處理 network。</p>
+<p>Akka 的 Actor 除了可以在本機上執行，也可以指定在遠端的某個機器執行，中間的網路溝通，akka 會自動幫忙處理，但也很重要的一點，你傳送的 message 必須是可以被 serialize。 Akka 是使用 <a href="http://netty.io/">Netty</a> 來處理 network。</p>
 
 <h3 id="toc_6">Message Ordering</h3>
+
+<p>Akka 可以保証來自同一個 Actor 的訊息順序，但不保証每一次的訊息一定會種到。</p>
+
+<p>以下是 Akka 官方有關訊息順序的說明：</p>
 
 <p>The guarantee is illustrated in the following:</p>
 
@@ -443,6 +447,8 @@ object HelloWorld {
 <h3 id="toc_9">小進階多個 Actor 互傳： 吃飯、睡覺、打東東</h3>
 
 <p>實際的情況，都是多個 Actor 彼此間在傳訊息。以下我們就用 <strong>吃飯、睡覺、打東東</strong> 的笑話來 demo。</p>
+
+<p><a href="https://github.com/kigichang/akka-sample">Source Code</a></p>
 
 <h4 id="toc_10">問題：</h4>
 
