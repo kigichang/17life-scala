@@ -86,18 +86,25 @@ su.split(str, ",")
 
 在 Scala 指定值後，會回傳 __Unit__，並不會像 Java 回傳指定的值。
 
+**In Java**
+
 ```
-/* Scala */
-
-var a = 10
-val b = a = 30 /* b = Unit */
-
-/* Java */
-
 int a = 10;
-int b = a = 30; /* b = 30 */
+int b = a = 30;
 
 ```
+
+**b 的值是 30。**
+
+**In Scala**
+
+```
+var a = 10
+val b = a = 30
+
+```
+
+**b 的值是 Unit。**
 
 ### OO Access Level
 * Java
@@ -140,8 +147,9 @@ Modifier | Scala | Java
 no modifier | public | package-private
 protected | 自己, subclass | 自己, subclass, 同 package
 
-### 沒有 break 及 continue
-Scala 為了遵守 Functional Lanaguage 精神，拿掉了 break 及 continue 功能，但有替代方案。為了讓程式統一使用 Functional Language 思維，不建議使用。
+### 沒有 break 及 continue 關鍵字
+
+Scala 拿掉了 break 及 continue 功能，雖然有替代方案，不建議使用。
 
 ### 保有 return 功能，但不建議使用
 Scala 為了遵守 Functional Lanaguage 精神，不建議在程式隨時可以 return 來中斷執行。雖然 `return` 還可以使用，但不建議使用。
@@ -169,13 +177,13 @@ class Test2
 ```
 
 ### Java Primitive type 對應
-Java 有 primitive type (ex: int, long 等)，但 Scala 都轉成物件 (AnyVal)來處理。ex: scala.Int, scala.Long。但在 compiler 時，依視程式的邏輯，再看是否要轉回 java primitive type。(此點待確認)
+Java 有 primitive type (ex: int, long 等)，但 Scala 都轉成物件 (AnyVal)來處理。ex: scala.Int, scala.Long。但在 compiler 時，依視程式的邏輯，再看是否要轉回 java primitive type。
 
 ### 不要再使用 null，改用 Option
 在 Scala ，雖然 `null` 依然存在，但強烈建議不要再使用。如果原在 Java 的邏輯中，需要回傳 null 者，請都改用 `Option` 回傳。 
 
 ### Checked Exception 不再強制要 try - catch
-Java 在 checked exception (ex: IOException, SQLException) 都會強制要用 try - catch。在 Scala 則無。所以在寫程式時，要注意使用的函式，是否會 throw exception。~~Scala建議的做法是無論是 checked or runtime exception 都使用 `Try` 來包裝。通常使用 Java 的 library 才需要注意，一般 Scala 的 library 都會用 `Try` 來包裝。~~
+Java 在 checked exception (ex: IOException, SQLException) 都會強制要用 try - catch。在 Scala 則無。所以在寫程式時，要注意使用的函式，是否會 throw exception。Scala 有提供 Exception handle 的方式，其中一種如下(`Try`)：
 
 ```
 /* Java */

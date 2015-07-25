@@ -2,10 +2,10 @@
 
 ## 前言
 * Scala 的 `Tab` 是**兩個**空隔，與 Java 預設四個不同
-* Scala 已經沒有 `break` 與 `continue`
-* Scala 還保有 `return` 但嚴禁使用
+* Scala 已經沒有 `break` 與 `continue` 關鍵字可用
+* Scala 還保有 `return` 但不建議使用
 * Scala 還保有 `throw` Exception，但不建議使用。建議 refactor 成 Option or Either；IO相關可例外。
-* Scala 依然可以用 `try catch finally`。
+* Scala 依然可以用 `try`-`catch`-`finally`。
 
 ## 變數宣告方式
 
@@ -76,19 +76,25 @@ Scala 定義的 `Value Class` 有：
 ## String
 Scala 的 String **等於** Java 的 String。唯一要注意的是 `.equals`。在 Java 比對字串的內容時，要使用 `.equals` 不能使用 `==`。但在 Scala 則可以。
 
+**In Java**
+
 ```
-/* Java */
 String str = "hello world!";
 "hello".equals(str);
 
-/* Scala */
-val str = "Hello world!"
-"hello" == str
 ```
 
-Scala 的字串有兩個方便的功能，讓寫作程式更方便
+**In Scala**
 
-* 字串與變數結合，字串的開頭為`s`, 可使用 `$` 來將變數加入字串中，或者用 `${}`將 statement 加入。讓程式寫作更方便，可讀性也變高。
+```
+val str = "Hello world!"
+"hello" == str
+
+```
+
+###Scala 的字串有兩個方便的功能，讓寫作程式更方便
+
+* String Interpolation：字串與變數結合，字串的開頭為`s`, 可使用 `$` 來將變數加入字串中，或者用 `${}`將 statement 加入。讓程式寫作更方便，可讀性也變高。
 
 ```
 val a = 10
@@ -97,7 +103,7 @@ val b = 20
 println(s"$a + $b = ${a + b}")
 ```
 
-* 在 Scala 中，可以使用 `"""`，不處理脫序字元，且可多行。這項功能在宣告正規表示式很好用。
+* Raw String Delimiter：在 Scala 中，可以使用 `"""`，不處理脫序字元，且可多行。這項功能在宣告正規表示式很好用。
 
 ```
 /* Java 列印 \r\n */

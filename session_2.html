@@ -310,10 +310,10 @@ sup {
 
 <ul>
 <li>Scala 的 <code>Tab</code> 是<strong>兩個</strong>空隔，與 Java 預設四個不同</li>
-<li>Scala 已經沒有 <code>break</code> 與 <code>continue</code></li>
-<li>Scala 還保有 <code>return</code> 但嚴禁使用</li>
+<li>Scala 已經沒有 <code>break</code> 與 <code>continue</code> 關鍵字可用</li>
+<li>Scala 還保有 <code>return</code> 但不建議使用</li>
 <li>Scala 還保有 <code>throw</code> Exception，但不建議使用。建議 refactor 成 Option or Either；IO相關可例外。</li>
-<li>Scala 依然可以用 <code>try catch finally</code>。</li>
+<li>Scala 依然可以用 <code>try</code>-<code>catch</code>-<code>finally</code>。</li>
 </ul>
 
 <h2 id="toc_2">變數宣告方式</h2>
@@ -384,18 +384,22 @@ var b: Test = _ /* b 會是 null */</code></pre>
 
 <p>Scala 的 String <strong>等於</strong> Java 的 String。唯一要注意的是 <code>.equals</code>。在 Java 比對字串的內容時，要使用 <code>.equals</code> 不能使用 <code>==</code>。但在 Scala 則可以。</p>
 
-<pre><code>/* Java */
-String str = &quot;hello world!&quot;;
+<p><strong>In Java</strong></p>
+
+<pre><code>String str = &quot;hello world!&quot;;
 &quot;hello&quot;.equals(str);
+</code></pre>
 
-/* Scala */
-val str = &quot;Hello world!&quot;
-&quot;hello&quot; == str</code></pre>
+<p><strong>In Scala</strong></p>
 
-<p>Scala 的字串有兩個方便的功能，讓寫作程式更方便</p>
+<pre><code>val str = &quot;Hello world!&quot;
+&quot;hello&quot; == str
+</code></pre>
+
+<h3 id="toc_5">Scala 的字串有兩個方便的功能，讓寫作程式更方便</h3>
 
 <ul>
-<li>字串與變數結合，字串的開頭為<code>s</code>, 可使用 <code>$</code> 來將變數加入字串中，或者用 <code>${}</code>將 statement 加入。讓程式寫作更方便，可讀性也變高。</li>
+<li>String Interpolation：字串與變數結合，字串的開頭為<code>s</code>, 可使用 <code>$</code> 來將變數加入字串中，或者用 <code>${}</code>將 statement 加入。讓程式寫作更方便，可讀性也變高。</li>
 </ul>
 
 <pre><code>val a = 10
@@ -404,7 +408,7 @@ val b = 20
 println(s&quot;$a + $b = ${a + b}&quot;)</code></pre>
 
 <ul>
-<li>在 Scala 中，可以使用 <code>&quot;&quot;&quot;</code>，不處理脫序字元，且可多行。這項功能在宣告正規表示式很好用。</li>
+<li>Raw String Delimiter：在 Scala 中，可以使用 <code>&quot;&quot;&quot;</code>，不處理脫序字元，且可多行。這項功能在宣告正規表示式很好用。</li>
 </ul>
 
 <pre><code>/* Java 列印 \r\n */
@@ -424,7 +428,7 @@ println(a)
 /* Scala Regex */
 val a = &quot;&quot;&quot;\d+&quot;&quot;&quot;.r</code></pre>
 
-<h2 id="toc_5">Option</h2>
+<h2 id="toc_6">Option</h2>
 
 <p><code>Option</code> 是用來取代 <code>null</code>。<code>Option</code> 有兩個 subclass：</p>
 
@@ -453,7 +457,7 @@ if (a.isDefined) println(a.get) else println(&quot;None&quot;)
 
 <p>在使用 Functional Languge 方式時寫程式時，不會這樣子做。</p>
 
-<h2 id="toc_6">Tuple</h2>
+<h2 id="toc_7">Tuple</h2>
 
 <p>Tuple 可以將兩種以上，不同型別的資料組合起來使用；可以把它當作更精簡的 Bean 來看。</p>
 
@@ -473,7 +477,7 @@ println(a._2)</code></pre>
 
 <p><strong>Tuple 最多只可以用到 22 個參數。</strong></p>
 
-<h2 id="toc_7">Function</h2>
+<h2 id="toc_8">Function</h2>
 
 <p>完整的 function 宣告如下：</p>
 
@@ -588,7 +592,7 @@ val b = new Bean
 b.setAge(10)
 b.getAge</code></pre>
 
-<h3 id="toc_8">Function 進階</h3>
+<h3 id="toc_9">Function 進階</h3>
 
 <ul>
 <li>傳入的參數，預設都是 <code>val</code>，也就是不能再修改值。</li>
@@ -675,7 +679,7 @@ test(args: _*)
 val lst = List(&quot;a&quot;, &quot;1&quot;, &quot;b&quot;, &quot;2&quot;)
 test(lst: _*)</code></pre>
 
-<h2 id="toc_9">IF - ELSE IF - ELSE</h2>
+<h2 id="toc_10">IF - ELSE IF - ELSE</h2>
 
 <p>在 Scala 拿掉了 Java 的三元運算子 <code>?:</code> (ex: w = x ? y : z)；需改用 <code>if else</code></p>
 
@@ -700,7 +704,7 @@ int a = xx ? 10 : (yy ? 20 : 30);
 /* Scala */
 val a = if (xx) 10 else if (yy) 20 else 30</code></pre>
 
-<h2 id="toc_10">While Loop</h2>
+<h2 id="toc_11">While Loop</h2>
 
 <p><code>while</code> 的使用方式，跟 java 一樣</p>
 
@@ -721,7 +725,7 @@ do {
   println(&quot;Read: &quot;+ line)
 } while (line != &quot;&quot;)</code></pre>
 
-<h2 id="toc_11">For Loop</h2>
+<h2 id="toc_12">For Loop</h2>
 
 <p>Scala 的 <code>for</code> 語法，跟 Java 的 <code>for</code> 用在 <code>Iterable</code> 很像。</p>
 
@@ -772,7 +776,7 @@ val b = for (i &lt;- 1 to 9) yield {
 
 <p><strong>當轉換到 Functional Language 的思維時，其實 <code>for</code> 就會很少使用。都會直接用 monads 的模型在實作。</strong></p>
 
-<h2 id="toc_12">MATHCH CASE</h2>
+<h2 id="toc_13">MATHCH CASE</h2>
 
 <p><code>match case</code> 是 Scala 最重要的功能之一，使用的概念與 Java 的<code>switch case</code> 類似，但有更強大的功能。</p>
 
@@ -848,7 +852,7 @@ a match {
 
 <p><strong>推薦各位學 Scala 還有一項優點，就是熟 Scala 後，想再去學 Apple Swift 會非常快。Swift 的語法與設計概念，有很多與 Scala 雷同，而且比 Scala 更好用。</strong></p>
 
-<h2 id="toc_13">TRY - CATCH - FINALLY</h2>
+<h2 id="toc_14">TRY - CATCH - FINALLY</h2>
 
 <p>scala 還保留 <code>try</code>，<code>catch</code>，<code>finally</code>，使用觀念與注意事項與 Java相同。</p>
 
