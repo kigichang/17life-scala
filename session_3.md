@@ -388,9 +388,7 @@ object Rational {
 
 ### apply Function
 
-Scala 有類似 PHP Magic Function 的功能，當在 `class` 宣告這類型的函式後，使用時，可以省略函式的名稱。
-
-Scala 最常被用到的是 `apply`
+當在 class 宣告 `apply` 的函式後，使用時，可以省略函式的名稱。
 
 eg:
 
@@ -597,7 +595,7 @@ Choose from these featured templates or enter a template name:
 * 在專案目錄下的 `project` 目錄，加入 `plugins.sbt` 檔案，內容如下：
 
 ```
-addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "3.0.0")
+addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "4.0.0")
 
 addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.13.0")
 ```
