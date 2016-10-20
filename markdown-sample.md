@@ -98,8 +98,8 @@
 [17Life 官網][17Life_offsite]  
 ![17Life Logo][17Life_logo]  
 
-[17Life_offsite]: http://www.17life.com "17Life，團購、宅配24小時出貨、優惠券、即買即用"
-[17Life_logo]: http://www.17life.com/Themes/PCweb/images/ppon-M2_LOGO.png "17Life Logo"
+[17Life_offsite]: http://www.17life.com
+[17Life_logo]: http://www.17life.com/Themes/PCweb/images/ppon-M2_LOGO.png
 
 * 錨點 (MacDown)：與 HTML 相同。比如：在**語法 1** 加了 `# <a name="header"></a>語法 1: 標題`, 則 `[回語法 1](#header)` 則可直接跳到這個錨點。[回語法 1](#header)
 
