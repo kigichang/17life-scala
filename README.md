@@ -3,8 +3,8 @@
 * [Scala 官網](http://www.scala-lang.org/)
 * [Twitter Scala School](http://twitter.github.io/scala_school/)
 * [Effective Scala - Twitter 使用 Scala 心得與建議](http://twitter.github.io/effectivescala/)
-* [參考書 - 作者寫的，使用版本比較舊，但可以學到設計的原理](http://www.amazon.com/Programming-Scala-Comprehensive-Step-Step/dp/0981531644)
-* [Coursera 課程](https://www.coursera.org/course/progfun)
+* [Programming in Scala: A Comprehensive Step-by-Step Guide, Third Edition](https://www.amazon.com/Programming-Scala-Comprehensive-Step-Step-ebook/dp/B01EX49FOU/) (Scala 作者的書，最新版本，涵蓋 Scala 2.12)
+* [Coursera 課程](https://www.coursera.org/course/progfun) (Scala 作者開的課程)
 
 ### 前言
 * Scala 簡介
