@@ -34,7 +34,7 @@ var b = 20.0
 
 `var` 則如同 java 一般的宣告。
 
-scala 鼓勵儘量使用 `val`。 
+scala 鼓勵儘量使用 `val`。
 
 使用 `var` 宣告時，可以使用 `_` (萬用字元) 當預設值，此時 scala 會依型別，給予預設值。`val` 則不可用 `_`。
 
@@ -183,17 +183,17 @@ def 函數名稱(變數名稱: 型別, 變數名稱: 型別, ...): 回傳型別 
   函數內容
 }
 
-/* 等同 Java: 
-boolean test(int a, int b) { 
-    return a == b; 
+/* 等同 Java:
+boolean test(int a, int b) {
+    return a == b;
 } */
 def test(a: Int, b: Int): Boolean = {
   a == b
 }
 
-/* 等同 Java: 
-void test(int a) { 
-    System.out.println(a); 
+/* 等同 Java:
+void test(int a) {
+    System.out.println(a);
 } */
 def print(a: Int): Unit = {
   println(a)
@@ -215,7 +215,7 @@ def test(a: Int): Unit = {
 def test(a: Int) {
 
 }
-``` 
+```
 
 * 省略寫回傳值，依函式的最後一行來決定
 
@@ -264,11 +264,11 @@ test
 原：
 class Bean {
   private var age: Int = 0
-  
+
   def getAge(): Int = {
     age
   }
-  
+
   def setAge(a: Int): Unit = {
     age = a
   }
@@ -277,11 +277,11 @@ class Bean {
 簡：
 class Bean {
   private var age = 0
-  
+
   def getAge = age
-  
+
   def setAge(a: Int) = age = a
-  
+
 }
 
 使用：
@@ -408,7 +408,7 @@ else
 
 或者
 int a = xx ? 10 : (yy ? 20 : 30);
- 
+
 
 /* Scala */
 val a = if (xx) 10 else if (yy) 20 else 30
@@ -419,7 +419,7 @@ val a = if (xx) 10 else if (yy) 20 else 30
 
 ```
 def gcdLoop(x: Long, y: Long): Long = {  var a = x  var b = y  while (a != 0) {    val temp = a
-    a = b%a    b = temp  }  b 
+    a = b%a    b = temp  }  b
 }
 
 var line = ""do {  line = readLine()  println("Read: "+ line)} while (line != "")
@@ -450,7 +450,7 @@ for (i <- 1 to 9) {
 /* 列印 1 ~ 100 的偶數 */
 for (i <- 1 to 100 if i % 2 == 0)
   println(i)
-  
+
 /* 多個判斷 */
 for (i <- 1 to 100
      if i % 2 == 0
@@ -473,7 +473,7 @@ for (i <- 1 to 9;
 val a = for (i <- 1 to 9) yield i
 
 val b = for (i <- 1 to 9) yield {
-  if (i % 2 == 0) i 
+  if (i % 2 == 0) i
   else 0
 }
 /* 可以把 else 0 拿掉試看看 */
@@ -507,10 +507,10 @@ val b = "abc"
 b match {
   case "def" =>
     println("DEF")
-  
+
   case "abc" =>
     println("ABC")
-    
+
   case _ =>
     println(b)
 }
@@ -551,9 +551,9 @@ Scala 如果比對不到時，會出現 Runtime Error。
 val a = 5
 
 a match {
-  case a < 5 => 
+  case a < 5 =>
     println("a < 5")
-    
+
   case _ => /* 不做任何處理 */
 }
 ```
@@ -578,10 +578,10 @@ try {
 catch {
   case ex: IOException =>
     ...
-  
+
   case ex: SQLException =>
     ...
-    
+
   case ex: Exception =>
     ...
 }
@@ -590,7 +590,7 @@ finally {
 }
 ```
 
-ex: 
+ex:
 
 ```
 /* 注意 try catch 是可以回傳值的 */
