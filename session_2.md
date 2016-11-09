@@ -585,7 +585,7 @@ finally {
 
 ex:
 
-```
+```scala
 /* 注意 try catch 是可以回傳值的 */
 def parseInt(a: String) = {
   try {
@@ -602,7 +602,7 @@ def parseInt(a: String) = {
 
 **再次提醒，不論 Java 或 Scala 都千萬不要在 `finally` 用 `return`。**
 
-```
+```scala
 def f: Int = try { return 1 } finally { return 2 }
 def g: Int = try { 1 } finally { 2 }
 
