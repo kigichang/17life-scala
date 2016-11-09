@@ -26,9 +26,9 @@ Data type can be omitted in declaration with default value. If the default value
 * Integer, the type is `Int`
 * Floating-Point, the type is `Double`
 
-**Java**
+**C++**
 
-```java
+```c++
 int a = 10;
 double b = 1.0;
 ```
@@ -53,7 +53,7 @@ Scala package management is the same as Java, like c++ `namespace`. Package wild
 ### Packages in Physical Folders
 Create folders `src/main/scala/com/example/` for package `com.example`.
 
-### Declaration Package
+### Package Declaration
 Use keyword `pacakage` to declare package. Package declaration must be the **First** line in a source file, and put source file in corresponding folder.
 
 eg: Hello.scala
@@ -68,7 +68,8 @@ object Hello {
 }
 ```
 
-Hello.scala must be in `src/main/scala/com/example`
+Declare `Hello` is member of package `com.example`.  
+Hello.scala must be in `src/main/scala/com/example`.
 
 ### Import Packages
 * use keyword `import` (the same as Java) eg:
@@ -106,12 +107,12 @@ Hello.scala must be in `src/main/scala/com/example`
   su.split(str, ",")
   ```
 
-### Return Value of Assignment
+## Return Value of Assignment
 Unlike Java/C++ returning assigned value, Scala assignment return **Unit**.
 
-**In Java**
+**In C++**
 
-```java
+```c++
 int a = 10;
 int b = a = 30;
 ```
@@ -125,7 +126,7 @@ val b = a = 30
 ```
 the value of b is **Unit**.
 
-### OO Access Level
+## OO Access Level
 * Java
 	* Default (no explicit modifier) is **package-private**。
 	* **protected** member can be accessed within its own package.
@@ -168,11 +169,13 @@ Modifier | Scala | Java
 no modifier | public | package-private
 protected | self, subclass | self, subclass, same package
 
-### No break, continue
+## No break, continue
 
 **NO** `break` and `continue` in Scala control flow.
 
-### Return in Scala
+## No Increment(`++`) and Decrement(`--`)
+Use compound assignment operators such as `+=` and `-=` instead of `++` and `--`.
+## Return in Scala
 
 The return value is decided by last statement in function block. eg:
 
@@ -220,58 +223,80 @@ greet(Map("name" -> "John"))
 greet(Map("name" -> "Jane", "location" -> "Cupertino"))
 ```
 
+## Multiple Public Class in Same Source File
+In Java, there is **ONLY ONE** public class in source file, and source file name must be same as public class.
 
-### 單一檔案，不限制只能有一個 public class
-Java 的程式碼檔案(.java)，只能有一個 public class，且檔名須與 public class 同名；Scala 則無此限制。
+It is unlimited in Scala. eg: in `Test.scala`, it can have two or more public class.
 
-```
-/* Test.scala */
-
+```scala
 class Test1
 class Test2
-
 ```
 
-### Java Primitive type 對應
-Java 有 primitive type (ex: int, long 等)，但 Scala 都轉成物件 (AnyVal)來處理。ex: scala.Int, scala.Long。但在 compiler 時，依視程式的邏輯，再看是否要轉回 java primitive type。
+## Java Primitive Type and Scala AnyVal
+All value type in Scala inherit from `AnyVal`. Scala convert all primitive type of Java such as `int` and `double`.  
+According to program logistic, `AnyVal` may be converted to Java primitive type in compilation.
 
-### 不要再使用 null，改用 Option
-在 Scala ，雖然 `null` 依然存在，但強烈建議不要再使用。如果原在 Java 的邏輯中，需要回傳 null 者，請都改用 `Option` 回傳。
+## Use Option Instead of Null
+Null is an special type in Java, and remains in Scala.  
+Strongly recommended to use `Option` instead of null.
 
-### Checked Exception 不再強制要 try - catch
-Java 在 checked exception (ex: IOException, SQLException) 都會強制要用 try - catch。在 Scala 則無。所以在寫程式時，要注意使用的函式，是否會 throw exception。Scala 有提供 Exception handle 的方式，其中一種如下(`Try`)：
+eg:
 
-```
-/* Java */
-public Integer parseInt(String str) {
-  try {
-    return Integer.parseInt(str);
-  }
-  catch(Exception ex) {
-    return null;
-  }
+**In Java**
+
+```java
+public static Integer parseInt(String str) {
+    try {
+        return Integer.parseInt(str);
+    }
+    catch(Exception ex) {
+        return null;
+    }
 }
+```
 
-/* Scala */
-def parseInt(str: String) = Try {
-  str.toInt
+**In Scala**
+
+```scala
+def parseInt(str: String) = try {
+  Option(str.toInt)
+} catch {
+  case ex: Throwable => None
 }
-
 ```
 
-### `equals` 可以回到改用 `==`
-原本 Java 的 `==` 是用在比對 reference 值，要比對內容值要用 `equals`。在 Scala 可以直接用 `==`，要比對 reference 值，改用 `eq`。
 
+## Catch Checked Exception is NOT necessary
+It is necessary to catch checked exception in Java, but not in Scala.  
+Be careful with function throwing exception in Java library.  
+Scala provide `Try` to handle exception. eg:
+
+**In Scala**
+
+```scala
+def parseInt(str: String) = Try { str.toInt } toOption
 ```
-/* Java */
+
+## Object Comparison
+
+  Language | Compare Reference | Compare Object Value
+ --------: | :-----: | :----:
+ Java | == | equals
+ Scala| eq | ==
+
+eg:
+
+**In Java**
+
+```java
 String str = "hello world!";
 "hello".equals(str);
-
-/* Scala */
-val str = "Hello world!"
-"hello" == str
-
 ```
 
-### 沒有 `++`, `--`
-Scala 拿掉 `++`, `--`。請改用 `+=`, `-=`。
+**In Scala**
+
+```scala
+val str = "Hello world!"
+"hello" == str
+```

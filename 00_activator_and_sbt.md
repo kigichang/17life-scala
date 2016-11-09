@@ -3,6 +3,18 @@
 * Activator: [mini activator 1.3.12](https://downloads.typesafe.com/typesafe-activator/1.3.12/typesafe-activator-1.3.12-minimal.zip)
 * scala: use [2.11.8](http://www.scala-lang.org/download/2.11.8.html)
 
+# Scala REPL (Read Eval Print Loop)
+Scala 有提供 REPL 環境，對於要測試簡單的程式作法或想法，非常方便，不用為了測試小程式就要開一個空白的專案。也可以利用這項功能，撰寫類似 script 的程式，處理日常的小工作。
+
+* 進入 REPL 環境：執行 `Scala_Intall_Path\bin\scala` 即可進入 REPL 環境
+* 離開 REPL 環境：輸入 `:quit` 即可離開。
+* 提示：按 `tab` 鍵
+* 清除畫面：按 `cmd` + `k`
+
+REPL 的環境對於初學者來說，是一個很好的學習的工具，可以很快速了解一個程式語言。
+
+註：Java 9 也會有 REPL 的功能。
+
 # Activator
 
 Activator 在開發 Scala 會用到的專案管理工具。類似 Java 的 Ant, Maven, Gradle, Ivy 等工具。主要的功能有：
@@ -122,16 +134,24 @@ libraryDependencies ++= Seq(
   "org.scalatestplus.play" %% "scalatestplus-play" % "1.5.1" % Test
 )
 ```
+### Library Dependency
+
+`libraryDependencies += groupID % artifactID % revision % configuration`
+
+or
+
+`libraryDependencies += groupID %% artifactID % revision % configuration`
 
 ### Dependency Scope
 
-* compile
-* required
-* test
-
-
+* Provided: 編譯時期也用到。打包程式時，不用包進來，而是執行的環境要提供。
+* Compile: 預設。在編譯時期就會使用。打包程式時，要隨著出去。
+* Runtime: 編譯時期不會使用到，但執行時會使用到。
+* Test: 測試時期會用。
 
 ### Scala Cross Version
+Scala 開發的套件，都會指定是用那個 Scala 版本編譯，因此在使用 Scala 的函式庫時，會在 `groupdID` 後用 `%%`，eg: `libraryDependencies += groupID %% artifactID % revision % configuration`，此時會看 `build.sbt` 的 Scala 版本設定 (`scalaVersion := "2.11.7"`)，來決定要使用那個 Scala 版本的函式庫。
+
 
 ## 開發工具
 * [Jet Brains IntelliJ Idea](https://www.jetbrains.com/idea/) \*

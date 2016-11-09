@@ -4,28 +4,27 @@
 * Scala 的 `Tab` 是**兩個**空隔，與 Java 預設四個不同
 * Scala 已經沒有 `break` 與 `continue` 關鍵字可用
 * Scala 還保有 `return` 但不建議使用
-* Scala 還保有 `throw` Exception，但不建議使用。建議 refactor 成 Option or Either；IO相關可例外。
+* Scala 還保有 `throw` Exception，但不建議使用。建議 refactor 成 Option or Either
 * Scala 依然可以用 `try`-`catch`-`finally`。
 
 ## 變數宣告方式
 
 變數的宣告方式如下：
 
-```
+```scala
 var 變數名稱: 資料型別 = 值
 val 變數名稱: 資料型別 = 值
 ```
 ex:
 
-```
+```scala
 val a: Int = 10
 var b: Double = 20.0
-
 ```
 
 其中，資料型別可以省略，如下：
 
-```
+```scala
 val a = 10
 var b = 20.0
 ```
@@ -38,7 +37,7 @@ scala 鼓勵儘量使用 `val`。
 
 使用 `var` 宣告時，可以使用 `_` (萬用字元) 當預設值，此時 scala 會依型別，給予預設值。`val` 則不可用 `_`。
 
-```
+```scala
 var a: Int = _ /* a 會是 0 */
 
 class Test
@@ -59,7 +58,7 @@ Java primitive type are
 
 以上這些在 Scala 是被轉成所謂的 `Value Class` 全都繼承自 `AnyVal`。
 
-Scala 定義的 `Value Class` 有：
+Scala 定義的 `Value Type` 有：
 
 * Unit -> ()
 * Byte -> byte
@@ -78,51 +77,46 @@ Scala 的 String **等於** Java 的 String。唯一要注意的是 `.equals`。
 
 **In Java**
 
-```
+```java
 String str = "hello world!";
 "hello".equals(str);
-
 ```
 
 **In Scala**
 
-```
+```scala
 val str = "Hello world!"
 "hello" == str
-
 ```
 
-###Scala 的字串有兩個方便的功能，讓寫作程式更方便
+### Scala String
 
 * String Interpolation：字串與變數結合，字串的開頭為`s`, 可使用 `$` 來將變數加入字串中，或者用 `${}`將 statement 加入。讓程式寫作更方便，可讀性也變高。
 
-```
-val a = 10
-val b = 20
+  ```scala
+  val a = 10
+  val b = 20
 
-println(s"$a + $b = ${a + b}")
-```
+  println(s"$a + $b = ${a + b}")
+  ```
 
 * Raw String Delimiter：在 Scala 中，可以使用 `"""`，不處理脫序字元，且可多行。這項功能在宣告正規表示式很好用。
 
-```
-/* Java 列印 \r\n */
-System.out.println("\\r\\n");
+  ```scala
+  /* Scala */
+  println("""\r\n""")
 
-/* Scala */
-println("""\r\n""")
+  /* 多行字串 */
+  val a = """abc
+  def
+    ccc
+  eee
+  """
+  println(a)
 
-/* 多行字串 */
-val a = """abc
-def
-  ccc
-eee
-"""
-println(a)
-
-/* Scala Regex */
-val a = """\d+""".r
-```
+  /* Scala Regex */
+  val a = """\d+""".r
+  ```
 
 ## Option
 `Option` 是用來取代 `null`。`Option` 有兩個 subclass：
@@ -134,7 +128,7 @@ val a = """\d+""".r
 
 從`Option` 取值前，先用 `isDefined` 來判斷是否是 `Some`，是的話，再用 `get` 來取值。
 
-```
+```scala
 def parseInt(str: String): Option[Int] = {
   try {
     Option(str.toInt)
@@ -147,26 +141,25 @@ def parseInt(str: String): Option[Int] = {
 val a = parseInt("abc")
 
 if (a.isDefined) println(a.get) else println("None")
-
 ```
-在使用 Functional Languge 方式時寫程式時，不會這樣子做。
 
 ## Tuple
-Tuple 可以將兩種以上，不同型別的資料組合起來使用；可以把它當作更精簡的 Bean 來看。
+Tuple 可以將兩種以上，不同型別的資料組合起來使用。  
+以前在 Java or C++ 一個 function 要回傳兩個以上的值時，需要封裝成 class or struct, 此時可以直接回傳 tuple.
 
 宣告：
 
-```
+```scala
 val a: (Int, String) = (10, "ABC")
 ```
 或省略型別
 
-```
+```scala
 val a = (10, "ABC")
 ```
 取值使用時，從 **_1** 開始，指定第一個值。以此類推。
 
-```
+```scala
 val a = (10, "ABC")
 
 println(a._2)
@@ -178,7 +171,7 @@ println(a._2)
 
 完整的 function 宣告如下：
 
-```
+```scala
 def 函數名稱(變數名稱: 型別, 變數名稱: 型別, ...): 回傳型別 = {
   函數內容
 }
@@ -205,7 +198,7 @@ def print(a: Int): Unit = {
 
 * 沒有回傳值時
 
-```
+```scala
 原：
 def test(a: Int): Unit = {
 
@@ -219,7 +212,7 @@ def test(a: Int) {
 
 * 省略寫回傳值，依函式的最後一行來決定
 
-```
+```scala
 原:
 def test(a: Int): Int = {
   val b = a + 10
@@ -235,7 +228,7 @@ def test(a: Int) = {
 
 * 沒有傳入參數時，可以省略 `()`，呼叫時，也可以省略。
 
-```
+```scala
 原：
 def test(): Int = {
   val a  = 10
@@ -260,7 +253,7 @@ test
 
 * 如果函式只有一行 statement，`{` 和 `}` 可省略
 
-```
+```scala
 原：
 class Bean {
   private var age: Int = 0
@@ -293,7 +286,7 @@ b.getAge
 ### Function 進階
 * 傳入的參數，預設都是 `val`，也就是不能再修改值。
 
-```
+```scala
 def test(a: Int) = {
   a = 10 /* error: reassignment to val */
 }
@@ -301,7 +294,7 @@ def test(a: Int) = {
 
 * Named Arguments：在呼叫函式時，可以加入函式宣告的參數名稱，尤其是當函式的參數很多時，來增加可讀性；有指定參數的名稱時，就不一定要依照函式參數的順序傳入。
 
-```
+```scala
 def test(a: Int, b: Int) = a + b
 
 /* a,b 的順序就可互換 */
@@ -310,7 +303,7 @@ test(b = 10, a = 30)
 
 * Default Parameter Value：宣告函式時，可以給定參數預設值，當呼叫時，沒有傳入值時，就會使用此預設值。這項功能，常見於動態語言, ex: PHP。在設計程式，或者做 refactor 時，可利用這項特性，來增強相容性。
 
-```
+```scala
 def test(a: Int, b: Int = 0) = a + b
 
 test(10) /* b 會用 0 傳入 */
