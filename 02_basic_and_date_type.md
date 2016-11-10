@@ -89,7 +89,7 @@ val str = "Hello world!"
 "hello" == str
 ```
 
-### Scala String
+### String Interpolation and Delimiter
 
 * String Interpolation：字串與變數結合，字串的開頭為`s`, 可使用 `$` 來將變數加入字串中，或者用 `${}`將 statement 加入。讓程式寫作更方便，可讀性也變高。
 
@@ -175,23 +175,32 @@ println(a._2)
 def 函數名稱(變數名稱: 型別, 變數名稱: 型別, ...): 回傳型別 = {
   函數內容
 }
+```
 
-/* 等同 Java:
+**In C++**
+
+```c++
+int eq(int a, int b) {
+	return a == b;
+}
+```
+
+**In Java**
+
+```java
 boolean test(int a, int b) {
     return a == b;
-} */
+}
+```
+
+**In Scala**
+
+```scala
 def test(a: Int, b: Int): Boolean = {
   a == b
 }
-
-/* 等同 Java:
-void test(int a) {
-    System.out.println(a);
-} */
-def print(a: Int): Unit = {
-  println(a)
-}
 ```
+
 **函式的回傳值，是看函式的最後一個 statement 的回傳值決定**
 
 簡潔的寫法：
@@ -212,14 +221,18 @@ def test(a: Int) {
 
 * 省略寫回傳值，依函式的最後一行來決定
 
-```scala
 原:
+
+```scala
 def test(a: Int): Int = {
   val b = a + 10
   b
 }
+```
 
 簡：
+
+```scala
 def test(a: Int) = {
   val b = a + 10
   b
@@ -229,32 +242,14 @@ def test(a: Int) = {
 * 沒有傳入參數時，可以省略 `()`，呼叫時，也可以省略。
 
 ```scala
-原：
-def test(): Int = {
-  val a  = 10
-  a
-}
-
-簡：
-def test: Int = {
-  val a = 10
-  a
-}
-
-再簡：
-def test = {
-  val a = 10
-  a
-}
-
-呼叫時：
 test
 ```
 
 * 如果函式只有一行 statement，`{` 和 `}` 可省略
 
-```scala
 原：
+
+```scala
 class Bean {
   private var age: Int = 0
 
@@ -266,8 +261,11 @@ class Bean {
     age = a
   }
 }
+```
 
 簡：
+
+```scala
 class Bean {
   private var age = 0
 
@@ -276,8 +274,11 @@ class Bean {
   def setAge(a: Int) = age = a
 
 }
+```
 
-使用：
+使用:
+
+```scala
 val b = new Bean
 b.setAge(10)
 b.getAge
@@ -313,34 +314,36 @@ test(10, 20)
 
 refactor 案例：
 
-```
+```scala
 原始：
 def test(a: Int): Int = a + 10
 ```
 
 後來希望可以控制 10 這個值，函式改寫成：
 
-```
+```scala
 def test(a: Int, b:Int) = a + b
 ```
 
 但已經存在的程式碼，太多地方使用，不想去更動它，所以可以寫成：
 
-```
+```scala
 def test(a: Int, b: Int = 10) = a + b
 ```
 
 Java 也行。但要多一個函式的宣告：
 
-```
 原：
 
+```java
 int test(int a) {
     return a + 10;
 }
+```
 
 改：
 
+```scala
 int test(int a, int b) {
     return a + b;
 }
@@ -352,8 +355,9 @@ int test(int a) {
 
 **有預設值的參數，不一定是要放在最後，但建議放在最後。目前我遇到有設計這項功能的程式語言，都會限定要放在最後。**
 
-```
-/* 沒有放在最後的話，就要給定參數名稱 */
+**沒有放在最後的話，就要給定參數名稱**
+
+```scala
 def test(a: Int, b: Int = 0, c: Int) = a + b + c
 
 test(10, 20) /* error: not enough arguments for method test */
@@ -363,7 +367,7 @@ test(a = 10, c = 20)
 
 * Repeapted arguments: 可以宣告不定個數的參數的函式，並且可以使用 Array 或 List 傳入。
 
-```
+```scala
 def test(args: String*) {
   args.foreach { println }
 }
@@ -388,8 +392,9 @@ val w = if (x) y else z
 
 也從這個例子中，Scala 在 `if - else` 的設計，是可以回傳值，在程式寫作時，可以多利用，ex:
 
-```
-/* Java */
+**In Java**
+
+```java
 int a = 0;
 
 if (xx)
@@ -398,19 +403,24 @@ else if (yy)
   a = 20;
 else
   a = 30;
+```
 
-或者
+or
+
+```java
 int a = xx ? 10 : (yy ? 20 : 30);
+```
 
+**In Scala**
 
-/* Scala */
+```scala
 val a = if (xx) 10 else if (yy) 20 else 30
 ```
 
 ## While Loop
 `while` 的使用方式，跟 java 一樣
 
-```
+```scala
 def gcdLoop(x: Long, y: Long): Long = {  var a = x  var b = y  while (a != 0) {    val temp = a
     a = b%a    b = temp  }  b
 }
@@ -421,7 +431,7 @@ var line = ""do {  line = readLine()  println("Read: "+ line)} while (line !
 ## For Loop
 Scala 的 `for` 語法，跟 Java 的 `for` 用在 `Iterable` 很像。
 
-```
+```scala
 /* 列印 1 ~ 9 */
 for (i <- 1 to 9)
   println(i)
@@ -439,7 +449,7 @@ for (i <- 1 to 9) {
 
 可以在 `for` 加 `if` 判斷，多個 `if` 時，是用 `and` 來判斷
 
-```
+```scala
 /* 列印 1 ~ 100 的偶數 */
 for (i <- 1 to 100 if i % 2 == 0)
   println(i)
@@ -453,7 +463,7 @@ for (i <- 1 to 100
 
 也可以將 nested for 縮成一個 for。使用時，要用 `;` 來區分 nested for
 
-```
+```scala
 /* 九九乘法 */
 for (i <- 1 to 9;
      j <- 1 to 9
@@ -462,7 +472,7 @@ for (i <- 1 to 9;
 
 使用 `for yield` 組出 collection
 
-```
+```scala
 val a = for (i <- 1 to 9) yield i
 
 val b = for (i <- 1 to 9) yield {
@@ -479,11 +489,11 @@ Scala 的 `for` 雖然語法上跟 Java 很像，但底層的實作卻是大不�
 ## MATHCH CASE
 `match case` 是 Scala 最重要的功能之一，使用的概念與 Java 的`switch case` 類似，但有更強大的功能。
 
-由於 Scala 拿掉了 `break`，所以在每個 `case` 執行完後，會直接離開 `match` block。這個與 Java `switch case` 有很大的差別；在 Java 的 `case` 如果沒有下 `break`，會往下一個 `case` 繼續執行。
+由於 Scala 拿掉了 `break`，所以在每個 `case` 執行完後，會直接離開 `match` block。這個與 Java/c++ `switch case` 有很大的差別；在 Java 的 `case` 如果沒有下 `break`，會往下一個 `case` 繼續執行。
 
 Scala 的 default case 的寫法是： `case _`，使用萬用字元 `_` 當 default case。
 
-```
+```scala
 val a = 10
 
 a match {
@@ -513,7 +523,7 @@ b match {
 
 * case 加入型別及 `if` 的判斷
 
-```
+```scala
 val a = 10
 
 a match {
@@ -526,7 +536,7 @@ a match {
 
 * `match case` 可以回傳值
 
-```
+```scala
 val a = 99
 
 val isEvent = a match {
@@ -540,7 +550,7 @@ val isEvent = a match {
 
 Scala 如果比對不到時，會出現 Runtime Error。
 
-```
+```scala
 val a = 5
 
 a match {
@@ -553,10 +563,8 @@ a match {
 
 **不同的程式語言對於 match(switch) case 設計不盡相同，像 C++, Java 需要下 break 才會離開 switch block。Scala 與 Apple Swift 則不用。**
 
-**推薦各位學 Scala 還有一項優點，就是熟 Scala 後，想再去學 Apple Swift 會非常快。Swift 的語法與設計概念，有很多與 Scala 雷同，而且比 Scala 更好用。**
-
 ## TRY - CATCH - FINALLY
-scala 還保留 `try`，`catch`，`finally`，使用觀念與注意事項與 Java相同。
+scala 還保留 `try`，`catch`，`finally`，使用觀念與注意事項與 Java 相同。
 
 * `finally` 是最後一定會被執行的區塊，**千萬不要**在此用 `return` 回傳值。**切記：Scala 禁用 `return`。**
 * `catch` 的語法，有點像 `match case`，變成 `catch case`。
@@ -564,7 +572,7 @@ scala 還保留 `try`，`catch`，`finally`，使用觀念與注意事項與 Jav
 
 語法示意：
 
-```
+```scala
 try {
   .....
 }

@@ -1,4 +1,4 @@
-# 由 Java/C++ 跨入 Scala 要注意的事項
+# 由 Java 跨入 Scala 要注意的事項
 
 ## Semicolon
 Semicolon `;` is not needed at end of line. Semicolon is still needed between two statement in the same line.

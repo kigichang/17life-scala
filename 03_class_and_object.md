@@ -10,138 +10,110 @@
 
 ### 宣告方式
 
-```
+```scala
 class 名稱 [extends Class or Trait 名稱] [with Trait 名稱] {
-  
+
 }
 ```
 eg:
 
-```
-scala> class Test
-defined class Test
+```scala
+class Test
 
-scala> class Test2 extends Test 
-defined class Test2
-
+class Test2 extends Test
 ```
 
-```
+```scala
 class 名稱([存取等級] [val or var] 變數名稱: 型別) [extends Class or Trait 名稱] [with Trait 名稱] [with Trait 名稱] {
   def this() = this(...)
 }
-
 ```
 
 eg:
 
-```
-scala> class Test(a: Int, b: Double) {
-     |   println(s"${a}, ${b}")
-     | }
-defined class Test
+```scala
+class Test(a: Int, b: Double) {
+	println(s"${a}, ${b}")
+}
 
-scala> class Test2(a: Int) extends Test(a, 10.0) {        
-     | def this() = this(20)
-     | }
-defined class Test2
-
+class Test2(a: Int) extends Test(a, 10.0) {        
+	def this() = this(20)
+}
 ```
+
 __Java Bean Like__
 
-```
-scala> class Test(var name: String, var age: Int, var address: String)
+```scala
+class Test(var name: String, var age: Int, var address: String)
+val a = new Test("abc", 10, "aaaaaa")
+a.name
+a.age
+a.address
 
-scala> val a = new Test("abc", 10, "aaaaaa")
-a: Test = Test@74d1dd7e
-
-scala> a.name
-res0: String = abc
-
-scala> a.age
-res1: Int = 10
-
-scala> a.address
-res2: String = aaaaaa
-
-scala> a.name = "abcdef"
-a.name: String = abcdef
-
-scala> a.age = 20
-a.age: Int = 20
-
-scala> a.address = "bbbbbb"
-a.address: String = bbbbbb
-
+a.name = "abcdef"
+a.age = 20
+a.address = "bbbbbb"
 ```
 
 ### Primary and Auxiliary Contructors
 
-在 Scala 及 Swift 中，Constructor 有主、副之分。
+在 Scala 及 Swift 中，Constructor 有主、副之分。eg:
 
-eg:
-
-```
-scala> class Test(a: Int, b: Double) {
-     |   println(s"${a}, ${b}")
-     |   
-     |   def this() = this(10, 20.0)
-     | }
-defined class Test
-
+```scala
+class Test(a: Int, b: Double) {
+	println(s"${a}, ${b}")
+	def this() = this(10, 20.0)
+}
 ```
 
-__Primary Constructor__ 是 
+__Primary Constructor__ 是
 
-```
-class Test(a: Int, b: Double) { 
+```scala
+class Test(a: Int, b: Double) {
 	println(s"${a}, ${b}")
 }
-
 ```
 
 __Auxiliary Constructor__ 是
 
-```
+```scala
 	def this() = this(10, 20.0)
 ```
 
 轉換成 Java 語法來看：
 
-```
+```scala
 class Test {
 	public Test(int a, double b) {
 		System.out.println("" + a + ", " + b)
 	}
-	
+
 	public Test() {
 		this(10, 20.0);
 	}
 }
-
 ```
 
 * `public Test(int a, double b)` 是 __Primary Constructor__
 * `public Test()` 是 __Auxiliary Constructor__
 
 ### Override
-當子類別要改寫父類別的函式時，在宣告函式時，一定要用 `override`，否則會報錯。 
+當子類別要改寫父類別的函式時，在宣告函式時，一定要用 `override`，否則會報錯。
 
 eg:
 
-```
-scala> class Test {
-     | def echo = "Echo"
-     | }
+```scala
+class Test {
+  def echo = "Echo"
+}
 defined class Test
-
 ```
 __沒用 `override` 會報錯__
 
-```
-scala> class Test2 extends Test {
-     | def echo = "Echo2"
-     | }
+```scala
+class Test2 extends Test {
+  def echo = "Echo2"
+}
 <console>:9: error: overriding method echo in class Test of type => String;
  method echo needs `override' modifier
        def echo = "Echo2"
@@ -149,26 +121,20 @@ scala> class Test2 extends Test {
 
 __正解__
 
-```
-scala> class Test2 extends Test {
-     | override def echo = "Echo2"
-     | }
+```scala
+class Test2 extends Test {
+  override def echo = "Echo2"
+}
 ```
 
 ### 注意事項
 
 宣告 class 時，如果 primary constructor 的變數，沒有加 `val` or `var` 則不會自動變成 member data。
 
-```
-scala> class Test(a: Int)
-defined class Test
-
-scala> val t = new Test(10)
-t: Test = Test@7c8c0c57
-
-scala> t.a
-<console>:10: error: value a is not a member of Test
-              t.a
+```scala
+class Test(a: Int)
+val t = new Test(10)
+t.a		// Error
 ```
 
 ## Object
@@ -183,22 +149,21 @@ Scala 允許 `object` 的名稱與 `class` 相同，且可以放在同一份 sou
 
 eg:
 
-```
-scala> object Test {
-     | def myTest = println("abc")
-     | }
-defined object Test
+```scala
+object Test {
+	def myTest = println("abc")
+}
 
-scala> Test.myTest
-abc
-
+Test.myTest
 ```
 
 在 Java 要寫一個應用程式 (Application)，需要在一個 `public class` 內，宣告一個 `public static void main (String[] args)` 函式。
 
 eg:
 
-```
+**In Java**
+
+```java
 public class Test {
 	public static void main(String[] args) {
 	}
@@ -209,7 +174,9 @@ public class Test {
 
 eg:
 
-```
+**In Scala**
+
+```scala
 object Test {
   def main(args: Array[String]) {
   }
@@ -222,7 +189,7 @@ Scala 的 `trait` 可以類比成 Java 的 `interface`。一個 `class` 可以�
 
 eg:
 
-```
+```scala
 scala> trait MyTrait
 defined trait MyTrait
 
@@ -243,7 +210,7 @@ Scala 的 `trait` 則打破這個限制，允許在 `trait` 內有變數、函�
 
 eg: Trait 內含變數與實作函式
 
-```
+```scala
 scala> trait MyTrait {
      |   val a = 10
      |   def test: Int
@@ -268,7 +235,7 @@ res2: Int = 30
 
 eg: 多個 Trait；有多重繼承效果
 
-```
+```scala
 scala> trait MyTrait1 {
      |   val a = 10
      |   def test1: Int
@@ -309,7 +276,7 @@ res2: Int = 13
 
 object 也可以繼承(實作) trait
 
-```
+```scala
 scala> trait MyTrait
 defined trait MyTrait
 
@@ -327,12 +294,12 @@ Scala 允許自定 Access Level，因此在程式設計上會更有彈性，安�
 
 eg: 變數只允許自己本身的 instance 使用。比 private 更嚴格。
 
-```
+```scala
 scala> class TestPrivateThis {
      |   private[this] val a = 10
-     | 
+     |
      |   def func(): Int = a + 10
-     | 
+     |
      |   def func(that: TestPrivateThis): Int = a + that.a
      | }
 <console>:12: error: value a is not a member of TestPrivateThis
@@ -345,42 +312,42 @@ scala> class TestPrivateThis {
 
 eg:
 
-```
+```scala
 class Rational(n: Int, d: Int) {
 
   require(d != 0)
-  
+
   def this(n: Int) = this(n, 1)
-  
+
   def gcd(a: Int, b: Int): Int = if (a == 0) b else gcd(b % a, a)
-  
+
   val g = gcd(n, d)
-  
+
   val numer = n / g
-  
+
   val denom = d / g
-  
-  
+
+
   override def toString = if (denom != 1) s"${numer} / ${denom}" else s"${numer}"
-  
+
   def +(that: Rational) = new Rational(numer * that.denom + denom * that.numer, denom * that.denom)
-  
+
   def -(that: Rational) = new Rational(numer * that.denom - denom * that.numer, denom * that.denom)
-  
+
   def *(that: Rational) = new Rational(numer * that.numer, denom * that.denom)
-  
+
   def /(that: Rational) = new Rational(numer * that.denom, denom * that.numer)
-  
+
 }
 
 
 object Rational {
-  
+
   def main(args: Array[String]) {
-   
+
     val r1 = new Rational(3, 7)
     val r2 = new Rational(5, 21)
-    
+
     println(r1 * r2)
   }
 }
@@ -392,7 +359,7 @@ object Rational {
 
 eg:
 
-```
+```scala
 scala> class Test {
      | def apply(a: Int, b: Int): Int = a + b
      | }
@@ -403,7 +370,6 @@ t: Test = Test@300a2ae
 
 scala> val a = t(10, 20)
 a: Int = 30
-
 ```
 
 在上例中 `val a = t(10, 20)` 就是呼叫 `apply` 函式。`apply` 函式，在 scala collection 相關 class (HashMap, Array 等) 很常用到。
@@ -415,14 +381,14 @@ Scala 在宣告 `class` 時，可以使用 `case` 這個修飾詞，使用後，
 
 eg:
 
-```
+```scala
 scala> case class Test(name: String, age: Int)
 defined class Test
 
 scala> val t = Test("abc", 20)
 t: Test = Test(abc,20)
 
-scala> t.name 
+scala> t.name
 res0: String = abc
 
 scala> t.age
@@ -440,15 +406,15 @@ scala> t.name = "abcdef"
 
 ### 基本用法
 
-#### Java 版本
+**In Java**
 
-```
+```java
 public enum DirectionJava {
 	TOP, DOWN, LEFT, RIGHT;
 }
 ```
 
-在 Java 使用 `enum` 宣告即可。 
+在 Java 使用 `enum` 宣告即可。
 
 Java class 使用 `enum` 後會變成 final class，因此 enum 不能再繼承其他的 class (Java 是單一繼承)，也不能再被其他 class 繼承。
 
@@ -456,9 +422,9 @@ Java class 使用 `enum` 後會變成 final class，因此 enum 不能再繼承�
 
 總結以上，各位不覺得 `enum` 就跟 signleton 很像嗎？！
 
-#### Scala 版本
+**In Scala**
 
-```
+```scala
 object DirectionScala extends Enumeration {
   val Top, Down, Left, Right = Value
 }
@@ -466,15 +432,15 @@ object DirectionScala extends Enumeration {
 
 Scala 的 Enumation 歷史比 Java 早，因此實作語法上，與 Java 不太相同，但觀念差不多。
 
-Scala 的 Enumeration 跟 Java 的很類似，但 Scala 的內定值型別是 Enumeration.Value。 
+Scala 的 Enumeration 跟 Java 的很類似，但 Scala 的內定值型別是 Enumeration.Value。
 
 Enumeration.Value 本身是個 abstract class。在 Enumeration 內有一個實作的 class: `protected class Val`，如果需要自定 Enumeration 時，就會需要繼承這個 class。
 
 ### 進階
 
-#### Java 版
+**In Java**
 
-```
+```java
 public enum Planet {
     MERCURY (3.303e+23, 2.4397e6),
     VENUS   (4.869e+24, 6.0518e6),
@@ -487,12 +453,12 @@ public enum Planet {
 
     private final double mass;   // in kilograms
     private final double radius; // in meters
-    
+
     Planet(double mass, double radius) {
         this.mass = mass;
         this.radius = radius;
     }
-    
+
     private double mass() { return mass; }
     private double radius() { return radius; }
 
@@ -502,11 +468,11 @@ public enum Planet {
     double surfaceGravity() {
         return G * mass / (radius * radius);
     }
-    
+
     double surfaceWeight(double otherMass) {
         return otherMass * surfaceGravity();
     }
-    
+
     public static void main(String[] args) {
         if (args.length != 1) {
             System.err.println("Usage: java Planet <earth_weight>");
@@ -521,9 +487,9 @@ public enum Planet {
 }
 ```
 
-#### Scala 版
+**In Scala**
 
-```
+```scala
 object Planets extends Enumeration {
 
   val G: Double = 6.67300E-11
@@ -553,84 +519,4 @@ object Planets extends Enumeration {
   }
 
 }
-
 ```
-
-## 附錄
-
-### activator
-
-#### 產生專案
-
-完整的指令： `activator new [project-name] [template-name]`
-
-一般的步驟：
-
-* 執行：`activator new 專案名稱`
-* 選擇專案的 template
-
-
-```
-Fetching the latest list of templates...
-
-Browse the list of templates: http://typesafe.com/activator/templates
-Choose from these featured templates or enter a template name:
-  1) minimal-akka-java-seed
-  2) minimal-akka-scala-seed
-  3) minimal-java
-  4) minimal-scala
-  5) play-java
-  6) play-scala
-(hit tab to see a list of all templates)
-
-```
-
-1), 2) 是 akka 專案
-
-3), 4) 是一般應用程式專案
-
-5), 6) 是寫 Play Framework (web) 專案
-
-
-* 在專案目錄下的 `project` 目錄，加入 `plugins.sbt` 檔案，內容如下：
-
-```
-addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "4.0.0")
-
-addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.13.0")
-```
-
-__注意：兩行中間，一定要空一行__
-
-* 執行：`activator eclipse` 產生 eclipse 可以匯入的專案格式
-* 使用 eclipse 匯入 (General -> Existing Projects into Workspace)
-
-#### 命令列模式
-
-在專案的目錄下，執行 `activator`，會進入 Activator 的命令列模式。與 Maven 相同，有 `reload`, `update`,`clean`, `compile`, `package`, `test` 等指定；如果有加入 sbteclipse-plugin，也可在這使用 `eclipse`。
-
-* reload: 重新載入 SBT 設定
-* update: 更新相關的 dependency library
-* clean: 將先前產生的 *.class, *.jar 清除
-* compile: 編譯專案
-* package: 打包專案
-* test: 執行 Unit Test
-
-
-#### 修改 Dependency
-
-與 Maven 相同， Activator 可以管理專案的 dependency。修改專案目錄下的 `build.sbt`。
-
-eg:
-
-```
-libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.34"
-
-libraryDependencies += "org.apache.commons" % "commons-lang3" % "3.3.2"
-
-libraryDependencies += "org.apache.commons" % "commons-email" % "1.3.3"
-```
-__注意：每行中間，一定要空一行__
-
-修改完 dependency，請再執行 `activator eclipse` 重新產生 eclipse 的專案，在 eclipse IDE 再重新 reload 一次，即可生效。
-
