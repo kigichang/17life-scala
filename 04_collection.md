@@ -24,26 +24,18 @@ Scala `Array` 是一組 mutable indexed 集合。
 
 宣告:
 
-```
-scala> val arr1 = Array(1, 2, 3)
-arr1: Array[Int] = Array(1, 2, 3)
+```scala
+val arr1 = Array(1, 2, 3)
+val arr2 = Array("a", "b", "c")
+val arr3 = Array.fill(3) { math.random }
 
-scala> val arr2 = Array("a", "b", "c")
-arr2: Array[String] = Array(a, b, c)
-
-scala> val arr3 = Array.fill(3) { math.random }
-arr3: Array[Double] = Array(0.6325626123459638, 0.7135533929240558, 0.6461315533714135)
-
-scala> class Test
-defined class Test
-
-scala> val arrTest = Array.fill[Test](3) { null }
-arrTest: Array[Test] = Array(null, null, null)
+class Test
+val arrTest = Array.fill[Test](3) { null }
 ```
 
 取值：
 
-```
+```scala
 arr1(1)
 ``` 
 
@@ -93,11 +85,10 @@ A: 因為 Muli-Thread。學 Scala 最主要的目的，就是加速開發平行�
 
 eg:
 
-```
+```scala
 import scala.collection.mutable
 
 val set = mutable.Set()
-
 ```
 
 ## 常用的 Collection Sample
@@ -106,93 +97,82 @@ val set = mutable.Set()
 
 宣告：
 
-```
-scala> val colors = List("red", "blue", "green")
-colors: List[String] = List(red, blue, green)
+```scala
+val colors = List("red", "blue", "green")
 ```
 
 取頭：
 
-```
-scala> colors.head
-res0: String = red
+```scala
+colors.head
 ```
 
 去頭：
 
-```
+```scala
 scala> colors.tail
-res1: List[String] = List(blue, green)
 ```
 
 取其中一個值：
 
-```
-scala> colors(1)
-res2: String = blue
+```scala
+colors(1)
 ```
 
 取最後一個：
 
-```
+```scala
 scala> colors.last
-res5: String = green
 ```
 
 去掉最後一個：
 
-```
-scala> colors.init
-res4: List[String] = List(red, blue)
+```scala
+colors.init
 ```
 
 長度：
 
-```
-scala> colors.length
-res8: Int = 3
+```scala
+colors.length
 ```
 
 串成字串：
 
-```
-scala> colors.mkString(",")
-res9: String = red,blue,green
+```scala
+colors.mkString(",")
 
-scala> colors.mkString("[", "],[", "]")
-res10: String = [red],[blue],[green]
+colors.mkString("[", "],[", "]")
 ```
 
 加資料在前面 (prepend)：
 
-```
-scala> val colors2 = "yellow" +: colors
-colors2: List[String] = List(yellow, red, blue, green)
+```scala
+val colors2 = "yellow" +: colors
 
-scala> "yellow" :: colors
+"yellow" :: colors
 res44: List[String] = List(yellow, red, blue, green)
 ```
 
 加資料在後面 (append)：
 
-```
-scala> val color3 = colors2 :+ "white"
-color3: List[String] = List(yellow, red, blue, green, white)
+```scala
+val color3 = colors2 :+ "white"
+List[String] = List(yellow, red, blue, green, white)
 ```
 
 接另一個 List 在前面 (prepend)：
 
-```
-scala> val colors4 = colors2 ++: colors
+```scala
+val colors4 = colors2 ++: colors
 colors4: List[String] = List(yellow, red, blue, green, red, blue, green)
 
-scala> colors2 ::: colors
-res45: List[String] = List(yellow, red, blue, green, red, blue, green)
+colors2 ::: colors
 ```
 
 接另一個 List 在後面 (append)：
 
-```
+```scala
 val colors5 = colors2 ++ colors
 colors5: List[String] = List(yellow, red, blue, green, red, blue, green)
 ```
@@ -209,30 +189,27 @@ colors5: List[String] = List(yellow, red, blue, green, red, blue, green)
 
 拿掉前兩個：
 
-```
-scala> colors4.drop(2)
-res13: List[String] = List(blue, green, red, blue, green)
+```scala
+colors4.drop(2)
 ```
 
 拿掉最後兩個：
 
-```
-scala> colors4.dropRight(2)
-res14: List[String] = List(yellow, red, blue, green, red)
+```scala
+colors4.dropRight(2)
 ```
 
 取前兩個：
 
-```
+```scala
 scala> colors4.take(2)
 res0: List[String] = List(yellow, red)
 ```
 
 取最後兩個：
 
-```
-scala> colors4.takeRight(2)
-res1: List[String] = List(blue, green)
+```scala
+colors4.takeRight(2)
 ```
 
 foreach: 

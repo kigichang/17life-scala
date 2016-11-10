@@ -18,6 +18,7 @@ from: [wikipedia](https://en.wikipedia.org/wiki/Scala_(programming_language)#His
 
 ### Attribute
 Scala is  
+
 * a JVM (Java Virtual Machine) language, Scala program runs on JVM.
 * a Strong type (strict type, Static type) language
 * a Pure object-oriented language, every value is an object.
@@ -49,7 +50,7 @@ from: [About the Java Technology](https://docs.oracle.com/javase/tutorial/getSta
 
 ### Program Entry Point
 
-**In C++** needs:
+**In C++**
 
 ```c++
 int main() {
@@ -58,7 +59,7 @@ int main() {
 }
 ```
 
-**In Java** needs:
+**In Java**
 
 ```java
 public class Test {
@@ -70,7 +71,7 @@ public class Test {
 }
 ```
 
-**In Scala** needs:
+**In Scala**
 
 ```scala
 object Test {

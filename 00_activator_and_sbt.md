@@ -29,7 +29,7 @@ Activator 在開發 Scala 會用到的專案管理工具。類似 Java 的 Ant, 
 
 指令：
 
-`activator new PROJECT_NAME` ex: `activator new test_scala`
+`activator new PROJECT_NAME` eg: `activator new test_scala`
 
 ```
 activator new test_scala
