@@ -151,7 +151,6 @@ colors.mkString("[", "],[", "]")
 val colors2 = "yellow" +: colors
 
 "yellow" :: colors
-res44: List[String] = List(yellow, red, blue, green)
 ```
 
 加資料在後面 (append)：
@@ -203,7 +202,6 @@ colors4.dropRight(2)
 
 ```scala
 scala> colors4.take(2)
-res0: List[String] = List(yellow, red)
 ```
 
 取最後兩個：
@@ -214,111 +212,81 @@ colors4.takeRight(2)
 
 foreach: 
 
-```
-scala> colors4 foreach { println }
-yellow
-red
-blue
-green
-red
-blue
-green
+```scala
+colors4 foreach { println }
 ```
 
 判斷是否沒有資料：
 
-```
-scala> colors4.isEmpty
-res17: Boolean = false
-
-scala> List().isEmpty
-res46: Boolean = true
+```scala
+colors4.isEmpty
+List().isEmpty
 ```
 
 只留符合條件的資料：
 
-```
-scala> colors4 filter { _.length > 4 }
-res19: List[String] = List(yellow, green, green)
+```scala
+colors4 filter { _.length > 4 }
 ```
 
 計算符合條件的資料數量：
 
-```
-scala> colors4 count { _.length > 4 }
-res20: Int = 3
+```scala
+colors4 count { _.length > 4 }
 ```
 
 去除前面符合條件的資料，當遇到不符合條件就停止 (while - break)：
 
-```
-scala> colors4
-res47: List[String] = List(yellow, red, blue, green, red, blue, green)
-
-scala> colors4 dropWhile { _.length > 4 }
-res21: List[String] = List(red, blue, green, red, blue, green)
+```scala
+colors4
+colors4 dropWhile { _.length > 4 }
 ```
 
 取前面符合條件資料，當遇到不符合條件就停止 (while - break)：
 
-```
-scala> colors4
-res47: List[String] = List(yellow, red, blue, green, red, blue, green)
-
-scala> colors4 takeWhile { _.length > 4 }
-res35: List[String] = List(yellow)
+```scala
+colors4
+colors4 takeWhile { _.length > 4 }
 ```
 
 收集並加工符合條件的資料 (filter 的加強版) ：
 
-```
-scala> colors4 collect { case x if x.length > 4 => x + x }
-res48: List[String] = List(yellowyellow, greengreen, greengreen)
+```scala
+colors4 collect { case x if x.length > 4 => x + x }
 ```
 
 找第一個符合條件的資料
 
-```
-scala> val colors4 = List("yellow", "red", "blue", "green", "red")
-colors4: List[String] = List(yellow, red, blue, green, red)
+```scala
+val colors4 = List("yellow", "red", "blue", "green", "red")
+colors4.find { _ == "red" }
 
-scala> colors4.find { _ == "red" }
-res0: Option[String] = Some(red)
-
-scala> colors4.find { _ == "black" }
-res1: Option[String] = None
+colors4.find { _ == "black" }
 ```
 
 找到第一個符合條件的資料，並加工
 
-```
+```scala
 colors4.collectFirst { case x if (x.length == 3) => x + x }
-res3: Option[String] = Some(redred)
 ```
 
 找到第一個符合條件的位置。
 
-```
-scala> val colors4 = List("yellow", "red", "blue", "green", "red")
+```scala
+colors4 = List("yellow", "red", "blue", "green", "red")
 
-scala> colors4.indexWhere( _ == "red")
-res7: Int = 1
+colors4.indexWhere( _ == "red")
 
-scala> colors4.indexWhere( _ == "red", 2)
-res8: Int = 4
+colors4.indexWhere( _ == "red", 2)
 
-scala> colors4.indexWhere( _ == "black", 2)
-res10: Int = -1
+colors4.indexWhere( _ == "black", 2)
 
-scala> color4.lastIndexWhere( _ == "red")
-res11: Int = 4
+color4.lastIndexWhere( _ == "red")
 
-scala> color4.lastIndexWhere( _ == "red", 3)
-res17: Int = 1
+color4.lastIndexWhere( _ == "red", 3)
 ```
 
 **由於 Scala 拿掉 `break`，因此在原本 Java 使用 `break;` 的情境，就可以使用 `dropWhile`, `takeWhile`, `collect`, `collectFirst`, `indexWhere`, `lastIndexWhere`。**
-
 
 **入門 Scala Collection 建議可以由 List 下手。 List 有的 function，大都的 Collection 也都有。**
 
@@ -326,36 +294,30 @@ res17: Int = 1
 
 宣告：
 
-```
-scala> val list = mutable.ListBuffer.empty[String]
-list: scala.collection.mutable.ListBuffer[String] = ListBuffer()
+```scala
+val list = mutable.ListBuffer.empty[String]
 
-scala> val list = mutable.ListBuffer("a", "b", "c")
-list: scala.collection.mutable.ListBuffer[String] = ListBuffer(a, b, c)
+val list = mutable.ListBuffer("a", "b", "c")
 ```
 
 Append:
 
-```
-scala> list += "d"
-res0: list.type = ListBuffer(a, b, c, d)
+```scala
+list += "d"
 ```
 
 Prepend:
 
-```
-scala> "e" +=: list
-res1: list.type = ListBuffer(e, a, b, c, d)
+```scala
+"e" +=: list
 ```
 
 ### Range
 
-```
-scala> 1 to 10
-res4: scala.collection.immutable.Range.Inclusive = Range(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+```scala
+1 to 10
 
-scala> 1 until 10
-res5: scala.collection.immutable.Range = Range(1, 2, 3, 4, 5, 6, 7, 8, 9)
+1 until 10
 ```
 
 ### Set
@@ -364,49 +326,42 @@ Immutable 及 mutable 都有 Set，以下以 `mutable.Set` 當例子。
 
 宣告
 
-```
-scala> import scala.collection.mutable
+```scala
+import scala.collection.mutable
 
-scala> val set = mutable.Set('a', 'b', 'c')
-set: scala.collection.mutable.Set[Char] = Set(c, a, b)
+val set = mutable.Set('a', 'b', 'c')
 ```
 
 資料數：
 
-```
-scala> set.size
-res6: Int = 3
+```scala
+set.size
 ```
 
 加值進 Set：
 
-```
-scala> set += 'd'
-res0: set.type = Set(c, d, a, b)
+```scala
+set += 'd'
 ```
 
 與另一個 Set 合併：
 
-```
-scala> set ++= mutable.Set('a', 'b', 'e', 'f')
-res1: set.type = Set(f, c, d, e, a, b)
+```scala
+set ++= mutable.Set('a', 'b', 'e', 'f')
 ```
 
 移除一個值：
 
-```
-scala> set -= 'a'
-res5: set.type = Set(f, c, d, e, b)
+```scala
+set -= 'a'
 ```
 
 判斷是否有值：
 
-```
-scala> set('a')
-res7: Boolean = false
+```scala
+set('a')
 
-scala> set('b')
-res8: Boolean = true
+set('b')
 ```
 
 ### Map
@@ -415,71 +370,54 @@ Immutable 及 mutable 都有 Map，以下以 `mutable.HashMap` 當例子。
 
 宣告：
 
-```
-scala> import scala.collection.mutable
+```scala
+import scala.collection.mutable
 
-scala> val map = mutable.HashMap.empty[String, Int]
-map: scala.collection.mutable.HashMap[String,Int] = Map()
+val map = mutable.HashMap.empty[String, Int]
 
-scala> val map = mutable.HashMap("i" -> 1, "ii" -> 2)
-map: scala.collection.mutable.HashMap[String,Int] = Map(ii -> 2, i -> 1)
+val map = mutable.HashMap("i" -> 1, "ii" -> 2)
 ```
 
 資料數：
 
-```
-scala> map.size
-res0: Int = 2
+```scala
+map.size
 ```
 
 Keys:
 
-```
-scala> map.keys
-res1: Iterable[String] = Set(ii, i)
+```scala
+map.keys
 ```
 
 Key Set:
 
-```
-scala> map.keySet
-res2: scala.collection.Set[String] = Set(ii, i)
+```scala
+map.keySet
 ```
 
 Values:
 
-```
-scala> map.values
-res3: Iterable[Int] = HashMap(2, 1)
+```scala
+map.values
 ```
 
 Put：
 
-```
-scala> map += ("iii" -> 3)
-res0: map.type = Map(ii -> 2, i -> 1, iii -> 3)
+```scala
+map += ("iii" -> 3)
 ```
 
 Remove：
 
-```
+```scala
 scala> map -= ("i")
-res5: map.type = Map(ii -> 2, iii -> 3)
-
 ```
 
 直接取值：
 
-```
-scala> map("iii")
-res1: Int = 3
-
-scala> map("iiii")
-java.util.NoSuchElementException: key not found: iiii
-  at scala.collection.MapLike$class.default(MapLike.scala:228)
-  at scala.collection.AbstractMap.default(Map.scala:59)
-  at scala.collection.mutable.HashMap.apply(HashMap.scala:65)
-  ... 33 elided
+```scala
+map("iii")	// Error
 ```
 
 **直接取值的方式，key 不存在時，會出現 Exception。**
@@ -488,12 +426,10 @@ java.util.NoSuchElementException: key not found: iiii
 
 間接方式：
 
-```
-scala> map.get("iiii")
-res3: Option[Int] = None
+```scala
+map.get("iiii")
 
-scala> map.get("iii")
-res4: Option[Int] = Some(3)
+map.get("iii")
 ```
 
 **用 `get` 的方式，取回 `Option` 的型別，再做下一步處理，一定沒問題。**
@@ -502,17 +438,16 @@ res4: Option[Int] = Some(3)
 
 Scala 與 Java Collection 互轉的原則：
 
-```
-Iterator               <=>     java.util.Iterator
-Iterator               <=>     java.util.Enumeration
-Iterable               <=>     java.lang.Iterable
-Iterable               <=>     java.util.Collection
-mutable.Buffer         <=>     java.util.List
-mutable.Set            <=>     java.util.Set
-mutable.Map            <=>     java.util.Map
-mutable.ConcurrentMap  <=>     java.util.concurrent.ConcurrentMap
-
-```
+Scala                 | Java
+--------------------: | :---------------------------------
+Iterator              | java.util.Iterator
+Iterator              | java.util.Enumeration
+Iterable              | java.lang.Iterable
+Iterable              | java.util.Collection
+mutable.Buffer        | java.util.List
+mutable.Set           | java.util.Set
+mutable.Map           | java.util.Map
+mutable.ConcurrentMap | java.util.concurrent.ConcurrentMap
 
 使用 Scala 大都會用到 Java 既有的 Library，所以會遇到取得的資料型別是 Java 的 Collection。如果要使用 Scala 提供的功能時，會需要將 Java 的 Collection 轉成 Scala 的 Collection。
 
@@ -523,5 +458,3 @@ mutable.ConcurrentMap  <=>     java.util.concurrent.ConcurrentMap
 * 這類型的轉換，在 Scala 是利用 `implicit` 機制完成，原理是產生新的 Scala Collection Class 去 wrap 原來的 Java Class，因此在使用時要小心，以免吃光記憶體。
 * 在 Eclipse 上，會提醒 `implicit` 的轉換。
 * 依 Java 習慣，不建議直接用 `import scala.collection.JavaConversions._`，可以利用 Eclipse 的 **Source** -> **Organize Imports** 來整理 import，會自動整理成明確 import 那些東西。
-
-

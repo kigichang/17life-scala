@@ -59,51 +59,35 @@ Mathematical Functions 簡單來說，就是兩個集合間的關係，且每一
 
 舉例來說：String 是 immutable，當每次呼叫 `reverse` 時，都會回傳固定的值。
 
-```
-scala> val x = "Hello, World"
-x: String = Hello, World
-
-scala> val r1 = x.reverse
-r1: String = dlroW ,olleH
-
-scala> val r2 = x.reverse
-r2: String = dlroW ,olleH
+```scala
+val x = "Hello, World"
+val r1 = x.reverse
+val r2 = x.reverse
 ```
 
 此時，可以將上述的 `x` 直接替換成 `Hello, World`，程式的結果都不會被改變。此特性，就是 **Referential Transparency**。如下：
 
-```
-scala> val r1 = "Hello, World".reverse
-r1: String = dlroW ,olleH
-
-scala> val r2 = "Hello, World".reverse
-r2: String = dlroW ,olleH
+```scala
+val r1 = "Hello, World".reverse
+val r2 = "Hello, World".reverse
 ```
 
 另舉反例：StringBuilder 是 mutable，`append` 會修改 StringBuffer 內的值 (change object state)。
 
-```
-scala> val x = new StringBuilder("Hello")
-x: StringBuilder = Hello
+```scala
+val x = new StringBuilder("Hello")
+val y = x.append(", World")
 
-scala> val y = x.append(", World")
-y: StringBuilder = Hello, World
-
-scala> val r1 = y.toString
-r1: String = Hello, World
-
-scala> val r2 = y.toString
-r2: String = Hello, World
+val r1 = y.toString
+val r2 = y.toString
 ```
 
 當將 `y` 替換成 `x.append(", World")` 時：
 
-```
-scala> val r1 = x.append(", World").toString
-r1: String = Hello, World
+```scala
+val r1 = x.append(", World").toString
 
-scala> val r2 = x.append(", World").toString
-r2: String = Hello, World, World
+val r2 = x.append(", World").toString
 ```
 
 此時 `r1` 及 `r2` 的值並不一致，這樣子就沒有 **Referential Transparency** 。
@@ -124,24 +108,19 @@ r2: String = Hello, World, World
 
 在 Scala 中，有定義 `Function` 這個 class。如下：
 
-```
-scala> val max = (x: Int, y:Int) => if (x > y) x else y
+```scala
+val max = (x: Int, y:Int) => if (x > y) x else y
 max: (Int, Int) => Int = <function2>
 
-scala> max(3, 4)
-res5: Int = 4
+max(3, 4)
 ```
 
 #### High Order Function
 
 Hight Order Function 是指 Function 其中一個參數的資料型別是 Function。比如 `List` 的 `foreach`。
 
-```
-scala> List(1, 2, 3, 4) foreach { x => println(x + x) }
-2
-4
-6
-8
+```scala
+List(1, 2, 3, 4) foreach { x => println(x + x) }
 ```
 
 ### Function Composition
@@ -164,64 +143,46 @@ scala> List(1, 2, 3, 4) foreach { x => println(x + x) }
 
 eg:
 
-```
-scala> val f = (x: Int) => x * x
-f: Int => Int = <function1>
+```scala
+val f = (x: Int) => x * x
+val g = (x: Int) => x + 1
 
-scala> val g = (x: Int) => x + 1
-g: Int => Int = <function1>
+val goff = f andThen g
+goff(10)
 
-scala> val goff = f andThen g
-goff: Int => Int = <function1>
+val fofg = f compose g
 
-scala> goff(10)
-res10: Int = 101
-
-scala> val fofg = f compose g
-fofg: Int => Int = <function1>
-
-scala> fofg(10)
-res11: Int = 121
+fofg(10)
 ```
 
 #### 轉成 Function Class
 
 一般會用 `def` 宣告 function；可以使用 **`_`**  轉換成 Function Class。如下：
 
-```
-scala> def f(x: Int) = x * x
+```scala
+def f(x: Int) = x * x
 f: (x: Int)Int
 
-scala> def g(x: Int) = x + 1
+def g(x: Int) = x + 1
 g: (x: Int)Int
 
-scala> f andThen g
-<console>:10: error: missing arguments for method f;
-follow this method with `_' if you want to treat it as a partially applied function
-              f andThen g
-              ^
-<console>:10: error: missing arguments for method g;
-follow this method with `_' if you want to treat it as a partially applied function
-              f andThen g
-                        ^
+f andThen g	// ERROR
                         
- scala> f _ andThen g _
-res1: Int => Int = <function1>
+f _ andThen g _
 ```
 
 ### Partially Applied Function
 
-```
+```scala
 def sum(x: Int, y: Int, z: Int) = x + y + z
-sum: (x: Int, y: Int, z: Int)Int
 
-scala> val a = sum _
+val a = sum _
 a: (Int, Int, Int) => Int = <function3>
 
-scala> val b = sum(1, _: Int, 3)
+val b = sum(1, _: Int, 3)
 b: Int => Int = <function1>
 
-scala> b(2)
+b(2)
 res1: Int = 6
 ```
 
@@ -230,12 +191,16 @@ res1: Int = 6
 
 舉例：
 
-```
-scala> var more = 10
-more: Int = 10
+```scala
+var more = 10
 
-scala> val addMore = (x: Int) => x + more
-addMore: Int => Int = <function1>
+val addMore = (x: Int) => x + more
+
+addMore(10)	// 20
+
+val more = 30
+
+addMore(10) // 10
 ```
 
 `addMore` 是一個 **Closure**. `more` 這個變數是 **free variable**.  `x` 是 **bounded variable**.
@@ -277,49 +242,38 @@ addMore: Int => Int = <function1>
 
 定義  \\( f: X \times Y \mapsto Z \\)
 
-```
-scala> def f(x: Int)(y: Int) = y / x
-f: (x: Int)(y: Int)Int
+```scala
+def f(x: Int)(y: Int) = y / x
 
-scala> f(4)(2)
-res7: Int = 0
-
-scala> f(2)(4)
-res8: Int = 2
+f(4)(2)
+f(2)(4)
 ```
 
 定義 \\( g(y) = h(2) = y \mapsto f(2, y) \\) i.e. 
 \\[g(y) = f(2, y) = \frac {y}{2} \\]
 
-```
-scala> val h = f(2) _
-h: Int => Int = <function1>
+```scala
+val h = f(2) _
 ```
 
 當  \\( y = 4 \\) 時，
 
 \\[g(4) = f(2, 4) = \frac {4} {2} = 2\\]
 
-```
-scala> h(4)
-res9: Int = 2
+```scala
+h(4)
 ```
 範例截自 [Wiki: Curring](http://en.wikipedia.org/wiki/Currying)
 
  另一種使用時機：
  
-```
-scala> def modN(n: Int)(x: Int) = ((x % n) == 0)
-modN: (n: Int)(x: Int)Boolean
+```scala
+def modN(n: Int)(x: Int) = ((x % n) == 0)
 
-scala> val nums = List(1, 2, 3, 4, 5, 6, 7, 8)
-nums: List[Int] = List(1, 2, 3, 4, 5, 6, 7, 8)
+val nums = List(1, 2, 3, 4, 5, 6, 7, 8)
 
-scala> nums filter { modN(2) }
-res10: List[Int] = List(2, 4, 6, 8)
-
-scala> nums filter { modN(3) }
-res11: List[Int] = List(3, 6)
+nums filter { modN(2) }
+nums filter { modN(3) }
 ```
 
 數學式對應：
@@ -338,7 +292,7 @@ res11: List[Int] = List(3, 6)
 
 一般定義 Function 都會去處理輸入值的所有情況。比如說：
 
-```
+```scala
 def plusOne(x: Int) = x + 1
 ```
 
@@ -348,74 +302,53 @@ def plusOne(x: Int) = x + 1
 
 定義：
 
-```
-scala> val one: PartialFunction[Int, String] = { case 1 => "one" }
-one: PartialFunction[Int,String] = <function1>
+```scala
+val one: PartialFunction[Int, String] = { case 1 => "one" }
 ```
 
 使用：如果輸入沒有要處理的值時，會出現 **Exception**。比如 **1** 有定義，但 **2** 沒有，所以輸入 **1** 沒問題，輸入 **2** 就會有 **Exception**。
 
-```
-scala> one(1)
-res0: String = one
+```scala
+one(1)
 
-scala> one(2)
-scala.MatchError: 2 (of class java.lang.Integer)
-  at scala.PartialFunction$$anon$1.apply(PartialFunction.scala:253)
-  at scala.PartialFunction$$anon$1.apply(PartialFunction.scala:251)
-  at $anonfun$1.applyOrElse(<console>:7)
-  at $anonfun$1.applyOrElse(<console>:7)
-  at scala.runtime.AbstractPartialFunction.apply(AbstractPartialFunction.scala:36)
-  ... 33 elided
+one(2)	// ERROR
 ```
 
 查詢輸入值，是否已在處理的範圍內：
 
-```
-scala> one.isDefinedAt(1)
-res2: Boolean = true
+```scala
+one.isDefinedAt(1)
 
-scala> one.isDefinedAt(2)
-res3: Boolean = false
+one.isDefinedAt(2)
 ```
 
 #### Composition of Partial Function
 
 可以使用多個 Partial Function 組成一個複合函數。
 
-```
-scala> val two: PartialFunction[Int, String] = { case 2 => "two" }
-two: PartialFunction[Int,String] = <function1>
+```scala
+val two: PartialFunction[Int, String] = { case 2 => "two" }
 
-scala> val three: PartialFunction[Int, String] = { case 3 => "three" }
-three: PartialFunction[Int,String] = <function1>
+val three: PartialFunction[Int, String] = { case 3 => "three" }
 
-scala> val wildcard: PartialFunction[Int, String] = { case _ => "something else" }
-wildcard: PartialFunction[Int,String] = <function1>
+val wildcard: PartialFunction[Int, String] = { case _ => "something else" }
 
-scala> val partial = one orElse two orElse three orElse wildcard
-partial: PartialFunction[Int,String] = <function1>
 
-scala> partial(5)
-res4: String = something else
+val partial = one orElse two orElse three orElse wildcard
 
-scala> partial(3)
-res5: String = three
+partial(5)
 
-scala> partial(2)
-res6: String = two
+partial(3)
 
-scala> partial(1)
-res7: String = one
+partial(2)
 
-scala> partial(0)
-res8: String = something else
+partial(1)
 
-scala> partial.isDefinedAt(10)
-res9: Boolean = true
+partial(0)
 
-scala> partial.isDefinedAt(1000)
-res10: Boolean = true
+partial.isDefinedAt(10)
+
+partial.isDefinedAt(1000)
 ```
 
 範例截自：[Twitter Scala School - Partial Function](https://twitter.github.io/scala_school/pattern-matching-and-functional-composition.html#PartialFunction)

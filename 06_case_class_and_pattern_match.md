@@ -4,7 +4,7 @@
 
 宣告：
 
-```
+```scala
 case class Person(name: String, age: Int)
 ```
 
@@ -85,17 +85,16 @@ public final class Person$ extends scala.runtime.AbstractFunction2<java.lang.Str
 * 當我們在產生 case class 時，是呼叫 `object` (singeton) 的 `apply` function.
 * case class contructor 的參數，會自動變成 **read only** 的 member data.
 
-```
-scala> case class Person(name: String, age: Int)
-defined class Person
+```scala
+case class Person(name: String, age: Int)
 
-scala> val p1 = Person("abc", 10)
+val p1 = Person("abc", 10)
 p1: Person = Person(abc,10)
 ```
 
 與 Pattern Match 有直接關係的 function: `apply` and `unapply`. 以 `Person` 為例：
 
-```
+```scala
 def apply(name: scala.Predef.String, age: scala.Int): Person = { /* compiled code */ }
 
 def unapply(x$0: Person): scala.Option[scala.Tuple2[scala.Predef.String, scala.Int]] = { /* compiled code */ }
@@ -105,12 +104,11 @@ def unapply(x$0: Person): scala.Option[scala.Tuple2[scala.Predef.String, scala.I
 
 上例 `Person` 的 Pattern Match 範例：
 
-```
-scala> p1 match {
-     | case Person(n, a) => println(n, a)
-     | case _ => println("not match")
-     | }
-(abc,10)
+```scala
+p1 match {
+  case Person(n, a) => println(n, a)
+  case _ => println("not match")
+}
 ```
 
 ### Extractor
@@ -132,7 +130,7 @@ Extractor 可以是 `object` or `class`。`class` 可以存當時的條件，但
 
 #### Extractor only with extraction and binding
 
-```
+```scala
 package com.example
 
 object EMail {
@@ -192,7 +190,7 @@ UpperCase.unapply
 
 #### Extractor with variable arguement
 
-```
+```scala
 /* Extraction Only*/
 class Between(val min: Int, val max: Int) {
 
@@ -230,7 +228,7 @@ not match
 	
 #### Extractor with binding
 
-```
+```scala
 class Between(val min: Int, val max: Int) {
 
   def unapplySeq(value: Int): Option[List[Int]] =
@@ -265,7 +263,7 @@ Extractor 用在 binding 時，要注意要附上比對的 pattern (ex: `between
 
 Scala 的 Regex 有實作 `unapplySeq`, Regex 搭配 Pattern 非常好用。
 
-```
+```scala
 object RegexTest {
 
   def main(args: Array[String]) {
@@ -299,7 +297,7 @@ not match
 
 因為 `digits` 有用到 `group`，所以 pattern 會是 `digits(a, b)`。如果把 `val digits = """(\d+)-(\d+)""".r` 改成 `val digits = """\d+-\d+""".r` 不使用 group 時，因為比對的 pattern 改變 (`digits(a, b)` -> `digits()`)，所以上面的三個比對都會是 `not match`。需要將程式改成如下，才會正確
 
-```
+```scala
 val digits = """\d+-\d+""".r
   
 "123-456" match {
@@ -314,7 +312,7 @@ val digits = """\d+-\d+""".r
 
 ### Regex and Binding
 
-```
+```scala
 val digits = """(\d+)-(\d+)-(\d+)""".r
 
 ("123-abc-789", "123-456-789") match {
@@ -328,7 +326,7 @@ val digits = """(\d+)-(\d+)-(\d+)""".r
 
 ## Case Class, Patch Match and Algebraic Data Type
 
-```
+```scala
 sealed trait Tree
 
 object Empty extends Tree
