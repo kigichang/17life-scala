@@ -82,7 +82,7 @@ __Auxiliary Constructor__ 是
 
 轉換成 Java 語法來看：
 
-```scala
+```java
 class Test {
 	public Test(int a, double b) {
 		System.out.println("" + a + ", " + b)
@@ -190,18 +190,13 @@ Scala 的 `trait` 可以類比成 Java 的 `interface`。一個 `class` 可以�
 eg:
 
 ```scala
-scala> trait MyTrait
-defined trait MyTrait
+trait MyTrait
 
-scala> class Test
-defined class Test
+class Test
 
-scala> class Test2 extends Test with MyTrait
-defined class Test2
+class Test2 extends Test with MyTrait
 
-scala> class Test3 extends MyTrait
-defined class Test3
-
+class Test3 extends MyTrait
 ```
 
 在 Java 8 以前，`interface` 沒有 default function 的功能，也因此無法在 `interface` 內實作函式。
@@ -211,77 +206,61 @@ Scala 的 `trait` 則打破這個限制，允許在 `trait` 內有變數、函�
 eg: Trait 內含變數與實作函式
 
 ```scala
-scala> trait MyTrait {
-     |   val a = 10
-     |   def test: Int
-     |   def sum(x: Int, y: Int) = x + y + a
-     | }
-defined trait MyTrait
+trait MyTrait {
+  val a = 10
+  def test: Int
+  def sum(x: Int, y: Int) = x + y + a
+}
 
-scala> class Test extends MyTrait {
-     |   def test = a + 1000
-     | }
-defined class Test
+class Test extends MyTrait {
+  def test = a + 1000
+}
 
-scala> val t = new Test
-t: Test = Test@597b40a8
+val t = new Test
 
-scala> t.test
-res0: Int = 1010
+t.test
 
-scala> t.sum(t.a, 10)
-res2: Int = 30
+
+t.sum(t.a, 10)
 ```
 
 eg: 多個 Trait；有多重繼承效果
 
 ```scala
-scala> trait MyTrait1 {
-     |   val a = 10
-     |   def test1: Int
-     | }
-defined trait MyTrait1
+trait MyTrait1 {
+  val a = 10
+  def test1: Int
+}
 
-scala> trait MyTrait2 {
-     |   val b = 20
-     |   def test2: Int
-     | }
-defined trait MyTrait2
+trait MyTrait2 {
+  val b = 20
+  def test2: Int
+}
 
-scala> trait MyTrait3 {
-     |   val c = 30
-     |   def test3: Int
-     | }
-defined trait MyTrait3
+trait MyTrait3 {
+  val c = 30
+  def test3: Int
+}
 
-scala> class Test extends MyTrait1 with MyTrait2 with MyTrait3 {
-     |   def test1 = b + 1
-     |   def test2 = c + 2
-     |   def test3 = a + 3
-     | }
-defined class Test
+class Test extends MyTrait1 with MyTrait2 with MyTrait3 {
+  def test1 = b + 1
+  def test2 = c + 2
+  def test3 = a + 3
+}
 
-scala> val t = new Test
-t: Test = Test@37f7bfb6
+val t = new Test
 
-scala> t.test1
-res0: Int = 21
-
-scala> t.test2
-res1: Int = 32
-
-scala> t.test3
-res2: Int = 13
+t.test1
+t.test2
+t.test3
 ```
 
 object 也可以繼承(實作) trait
 
 ```scala
-scala> trait MyTrait
-defined trait MyTrait
+trait MyTrait
 
-scala> object Test extends MyTrait
-defined object Test
+object Test extends MyTrait
 ```
 
 ## Scala 增強的功能
@@ -295,15 +274,11 @@ Scala 允許自定 Access Level，因此在程式設計上會更有彈性，安�
 eg: 變數只允許自己本身的 instance 使用。比 private 更嚴格。
 
 ```scala
-scala> class TestPrivateThis {
-     |   private[this] val a = 10
-     |
-     |   def func(): Int = a + 10
-     |
-     |   def func(that: TestPrivateThis): Int = a + that.a
-     | }
-<console>:12: error: value a is not a member of TestPrivateThis
-         def func(that: TestPrivateThis): Int = a + that.a
+class TestPrivateThis {
+  private[this] val a = 10
+  def func(): Int = a + 10
+  def func(that: TestPrivateThis): Int = a + that.a	// Error
+}
 ```
 
 ### Operator Overloading
@@ -340,7 +315,6 @@ class Rational(n: Int, d: Int) {
 
 }
 
-
 object Rational {
 
   def main(args: Array[String]) {
@@ -360,16 +334,13 @@ object Rational {
 eg:
 
 ```scala
-scala> class Test {
-     | def apply(a: Int, b: Int): Int = a + b
-     | }
-defined class Test
+class Test {
+	def apply(a: Int, b: Int): Int = a + b
+}
 
-scala> val t = new Test
-t: Test = Test@300a2ae
+val t = new Test
 
-scala> val a = t(10, 20)
-a: Int = 30
+val a = t(10, 20)
 ```
 
 在上例中 `val a = t(10, 20)` 就是呼叫 `apply` 函式。`apply` 函式，在 scala collection 相關 class (HashMap, Array 等) 很常用到。
@@ -382,25 +353,17 @@ Scala 在宣告 `class` 時，可以使用 `case` 這個修飾詞，使用後，
 eg:
 
 ```scala
-scala> case class Test(name: String, age: Int)
-defined class Test
+case class Test(name: String, age: Int)
 
-scala> val t = Test("abc", 20)
-t: Test = Test(abc,20)
+var t = Test("abc", 20)
 
-scala> t.name
-res0: String = abc
+t.name
+t.age
 
-scala> t.age
-res1: Int = 20
-
-scala> t.name = "abcdef"
-<console>:10: error: reassignment to val
-       t.name = "abcdef"
+t.name = "abcdef"
 ```
 
 `case class` 與 `apply`, `object`, pattern match (`match` - `case`) 有密不可分的關係，在第二階段會再詳述。
-
 
 ## Enumeration
 
