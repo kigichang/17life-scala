@@ -198,9 +198,9 @@ val addMore = (x: Int) => x + more
 
 addMore(10)	// 20
 
-val more = 30
+more = 30
 
-addMore(10) // 10
+addMore(10) // 40
 ```
 
 `addMore` 是一個 **Closure**. `more` 這個變數是 **free variable**.  `x` 是 **bounded variable**.
