@@ -171,6 +171,82 @@ lst1 zip lst2
 lst1.zipWithIndex
 ```
 
+## Sample: Min Heap Tree
+
+```scala
+object MyTree {
+
+  sealed trait Tree
+
+  object Empty extends Tree
+
+  case class Node(value: Int, left:  Tree, right: Tree) extends Tree
+
+
+  def depth(tree: Tree): Int = tree match {
+    case Empty => 0
+    case Node(value, left, right) => 1 + Seq(depth(left), depth(right)).max
+  }
+
+
+  def addNode(value: Int, tree: Tree): Tree = tree match {
+    case Empty => Node(value, Empty, Empty)
+    case Node(nodeValue, left, right) => {
+      val leftDepth = depth(left)
+      val rightDepth = depth(right)
+
+      if (value <= nodeValue) {
+        if (leftDepth <= rightDepth) Node(value, addNode(nodeValue, left), right)
+        else Node(value, left, addNode(nodeValue, right))
+      }
+      else {
+        if (leftDepth <= rightDepth) Node(nodeValue, addNode(value, left), right)
+        else Node (nodeValue, left, addNode(value, right))
+      }
+    }
+  }
+
+
+  def travel(tree: Tree): Unit = {
+    tree match {
+      case Empty => println("*")
+      case Node(value, left, right) =>
+        println(value)
+        print("left:")
+        travel(left)
+        print("right:")
+        travel(right)
+    }
+  }
+
+  def minHeapTree(values: Int*): Tree = {
+    val a: Tree = Empty
+    values.foldLeft(a) { (b, x) => addNode(x, b) }
+  }
+
+}
+
+
+object Hello {
+  def main(args: Array[String]): Unit = {
+
+    import MyTree._
+    //val tree = MyTree.minHeapTree(3, 9, 8, 2, 6, 4, 5, 1, 7, 10)
+    val tree = MyTree.minHeapTree(3, 9, 8, 2, 6, 4, 5, 1, 7, 10)
+    println(MyTree.depth(tree))
+    MyTree.travel(tree)
+
+    val a: Tree = Empty
+
+    List(3, 9, 8, 2, 6, 4, 5, 1, 7, 10).scanLeft(a) { (t, x) => addNode(x, t) } foreach { t =>
+      println("---------------------")
+      travel(t)
+    }
+
+  }
+}
+```
+
 # 附錄
 
 # Scala Variance & Bounds
