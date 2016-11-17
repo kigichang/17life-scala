@@ -6,7 +6,7 @@
 
 一般寫法：
 
-```
+```scala
 try {
   ...
 } catch {
@@ -19,7 +19,7 @@ try {
 
 千萬不要這麼寫：
 
-```
+```scala
 try {
   ...
 } catch {
@@ -32,7 +32,7 @@ try {
 
 或
 
-```
+```scala
 try {
   ...
 } catch {
@@ -45,7 +45,7 @@ try {
 
 偷懶的寫法：使用 `NonFatal`
 
-```
+```scala
 import scala.util.control.NonFatal
 
 try {
@@ -76,63 +76,50 @@ A: `Throwable` 有兩個 subclass: `Exception` 及 `Error`，一般在 Java 我�
 
 舉例：
 
-```
-scala> import scala.util.Try
+```scala
 import scala.util.Try
-scala> def parseInt(value: String) = Try { value.toInt }
-parseInt: (value: String)scala.util.Try[Int]
+
+def parseInt(value: String) = Try { value.toInt }
 ```
 
 Try 常用的幾個 Function:
 
 * map
 
-```
-scala> val t1 = parseInt("1000") map { _ * 2 }
-t1: scala.util.Try[Int] = Success(2000)
+```scala
+val t1 = parseInt("1000") map { _ * 2 }
 
-scala> for (t1 <- parseInt("1000")) yield t1
-res0: scala.util.Try[Int] = Success(1000)
+for (t1 <- parseInt("1000")) yield t1
 
 
-scala> val t2 = parseInt("abc") map { _ * 2 }
-t2: scala.util.Try[Int] = Failure(java.lang.NumberFormatException: For input string: "abc")
+val t2 = parseInt("abc") map { _ * 2 }
 
-scala> for (t2 <- parseInt("abc")) yield t2
-res1: scala.util.Try[Int] = Failure(java.lang.NumberFormatException: For input string: "abc")
+for (t2 <- parseInt("abc")) yield t2
 ```
 
 * recover
 
-```
+```scala
 scala> import scala.util.control.NonFatal
-import scala.util.control.NonFatal
 
-scala> t1 recover { case NonFatal(_) => -1 }
-res5: scala.util.Try[Int] = Success(2000)
+t1 recover { case NonFatal(_) => -1 }
 
-scala> t2 recover { case NonFatal(_) => -1 }
-res6: scala.util.Try[Int] = Success(-1)
+t2 recover { case NonFatal(_) => -1 }
 ```
 
 * toOption
 
-```
-scala> t1.toOption
-res7: Option[Int] = Some(2000)
-
-scala> t2.toOption
-res8: Option[Int] = None
+```scala
+t1.toOption	// Some(2000)
+t2.toOption	// None
 ```
 
 * getOrElse
 
-```
-scala> t1.getOrElse(-1)
-res9: Int = 2000
+```scala
+t1.getOrElse(-1)
 
-scala> t2.getOrElse(-1)
-res10: Int = -1
+t2.getOrElse(-1)
 ```
 
 * 註1: Try 使用 **NonFatal** 來處理 Exception。
@@ -142,57 +129,40 @@ res10: Int = -1
 
 Catch 是用來處理 `catch` 及 `finally`。搭配 `Option` 及 `Either` 來處理 Exception。
 
-```
-scala> import scala.util.control.Exception._
+```scala
 import scala.util.control.Exception._
 
-scala> def parseInt(value: String) = nonFatalCatch[Int] opt { value.toInt }
-parseInt: (value: String)Option[Int]
+def parseInt(value: String) = nonFatalCatch[Int] opt { value.toInt }
 
-scala> def parseInt(value: String) = nonFatalCatch[Int] either { value.toInt }
-parseInt: (value: String)scala.util.Either[Throwable,Int]
+def parseInt(value: String) = nonFatalCatch[Int] either { value.toInt }
 
-scala> def parseInt(value: String) = nonFatalCatch[Int] andFinally { println("finally") } opt { value.toInt }
-parseInt: (value: String)Option[Int]
+def parseInt(value: String) = nonFatalCatch[Int] andFinally { println("finally") } opt { value.toInt }
 
-scala> def parseInt(value: String) = nonFatalCatch[Int] andFinally { println("finally") } opt { println("begin"); value.toInt }
-parseInt: (value: String)Option[Int]
+def parseInt(value: String) = nonFatalCatch[Int] andFinally { println("finally") } opt { println("begin"); value.toInt }
 
-scala> parseInt("abc")
-begin
-finally
-res2: Option[Int] = None
+parseInt("abc")
 
-scala> parseInt("123")
-begin
-finally
-res3: Option[Int] = Some(123)
+parseInt("123")
 
-scala> def parseInt(value: String) = catching(classOf[Exception]) opt { value.toInt }
-parseInt: (value: String)Option[Int]
+def parseInt(value: String) = catching(classOf[Exception]) opt { value.toInt }
 
-scala> parseInt("456")
-res5: Option[Int] = Some(456)
+parseInt("456")
 ```
 
 ## Either
 
 `Either` 可以讓 Fuction 達到回傳不同型別資料效果。`Either` 有兩個 subclass: `Right` 及 `Left`。可以使用 `match`-`case` 來確認是回傳 `Right` or `Left`；進而了解是成功或失敗。
 
-```
-scala> def parseInt(value: String) = try { Right(value.toInt) } catch { case ex: Exception => Left(value) } 
+```scala
+def parseInt(value: String) = try { Right(value.toInt) } catch { case ex: Exception => Left(value) } 
 
-parseInt: (value: String)Product with Serializable with scala.util.Either[String,Int]
+parseInt("123") match {
+  case Right(v) => println(s"success ${v}")
+  case Left(s) => println(s"failure ${s}")
+}
 
-scala> parseInt("123") match {
-     | case Right(v) => println(s"success ${v}")
-     | case Left(s) => println(s"failure ${s}")
-     | }
-success 123
-
-scala> parseInt("abc") match {
-     | case Right(v) => println(s"success ${v}")
-     | case Left(s) => println(s"failure ${s}")
-     | }
-failure abc
+parseInt("abc") match {
+  case Right(v) => println(s"success ${v}")
+  case Left(s) => println(s"failure ${s}")
+}
 ```
