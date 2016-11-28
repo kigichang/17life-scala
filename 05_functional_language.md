@@ -189,6 +189,14 @@ res1: Int = 6
 ### Closure
 A function object that captures free variables, and is said to be “closed” over the variables visible at the time it is created.
 
+Closure 的功能，主要是讓 Function 可以與所處的環境做連結，以前在函式內，要引用外部的變數，有兩種方式：
+
+1. 將要引用的變數，當參數傳入
+	* 要特別注意參數的傳入方式：By Name, By Value, By Reference
+2. 將此變數變成 Global 變數
+
+Closure 提供第三種方式，可以存取外部的變數。
+
 舉例：
 
 ```scala
@@ -201,6 +209,13 @@ addMore(10)	// 20
 more = 30
 
 addMore(10) // 40
+
+
+val lst = List(1, 2, 3, 4, 5)
+
+var sum = 0
+
+lst foreach { x => sum += x }	// sum = 15
 ```
 
 `addMore` 是一個 **Closure**. `more` 這個變數是 **free variable**.  `x` 是 **bounded variable**.
