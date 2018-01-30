@@ -421,11 +421,22 @@ val a = if (xx) 10 else if (yy) 20 else 30
 `while` 的使用方式，跟 java 一樣
 
 ```scala
-def gcdLoop(x: Long, y: Long): Long = {  var a = x  var b = y  while (a != 0) {    val temp = a
-    a = b%a    b = temp  }  b
+def gcdLoop(x: Long, y: Long): Long = {
+  var a = x
+  var b = y
+  while (a != 0) {
+    val temp = a
+    a = b%a
+    b = temp
+  }
+  b
 }
 
-var line = ""do {  line = readLine()  println("Read: "+ line)} while (line != "")
+var line = ""
+do {
+  line = readLine()
+  println("Read: "+ line)
+} while (line != "")
 ```
 
 ## For Loop
