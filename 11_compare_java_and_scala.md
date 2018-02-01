@@ -1,6 +1,7 @@
 # 由 Java 跨入 Scala 要注意的事項
 
 ## Semicolon
+
 Semicolon `;` is not needed at end of line. Semicolon is still needed between two statement in the same line.
 
 **Java**
@@ -22,7 +23,9 @@ a = 20; b = 30
 ```
 
 ## Omit Data Type
+
 Data type can be omitted in declaration with default value. If the default value is
+
 * Integer, the type is `Int`
 * Floating-Point, the type is `Double`
 
@@ -41,9 +44,11 @@ val b = 1.0   // omit data type, and b is Double
 ```
 
 ## Package
+
 Scala package management is the same as Java, like c++ `namespace`. Package wildcard character in Scala is `_` (in Java is `*`).
 
 ### Package Naming Conventions
+
 | Domain Name                 | Package Name Prefix         |
 |:--------------------------- |:--------------------------- |
 | hyphenated-name.example.org | org.example.hyphenated_name |
@@ -51,9 +56,11 @@ Scala package management is the same as Java, like c++ `namespace`. Package wild
 | 123name.example.com         | com.example._123name        |
 
 ### Packages in Physical Folders
+
 Create folders `src/main/scala/com/example/` for package `com.example`.
 
 ### Package Declaration
+
 Use keyword `pacakage` to declare package. Package declaration must be the **First** line in a source file, and put source file in corresponding folder.
 
 eg: Hello.scala
@@ -72,6 +79,7 @@ Declare `Hello` is member of package `com.example`.
 Hello.scala must be in `src/main/scala/com/example`.
 
 ### Import Packages
+
 * use keyword `import` (the same as Java) eg:
 
   ```scala
@@ -108,6 +116,7 @@ Hello.scala must be in `src/main/scala/com/example`.
   ```
 
 ## Return Value of Assignment
+
 Unlike Java/C++ returning assigned value, Scala assignment return **Unit**.
 
 **In C++**
@@ -116,6 +125,7 @@ Unlike Java/C++ returning assigned value, Scala assignment return **Unit**.
 int a = 10;
 int b = a = 30;
 ```
+
 the value of b is **30**.
 
 **In Scala**
@@ -124,12 +134,14 @@ the value of b is **30**.
 var a = 10
 val b = a = 30
 ```
+
 the value of b is **Unit**.
 
 ## OO Access Level
+
 * Java
-	* Default (no explicit modifier) is **package-private**。
-	* **protected** member can be accessed within its own package.
+  * Default (no explicit modifier) is **package-private**。
+  * **protected** member can be accessed within its own package.
 
 The following table shows the access to members permitted by each modifier.
 
@@ -174,7 +186,9 @@ protected | self, subclass | self, subclass, same package
 **NO** `break` and `continue` in Scala control flow.
 
 ## No Increment(`++`) and Decrement(`--`)
+
 Use compound assignment operators such as `+=` and `-=` instead of `++` and `--`.
+
 ## Return in Scala
 
 The return value is decided by last statement in function block. eg:
@@ -224,6 +238,7 @@ greet(Map("name" -> "Jane", "location" -> "Cupertino"))
 ```
 
 ## Multiple Public Class in Same Source File
+
 In Java, there is **ONLY ONE** public class in source file, and source file name must be same as public class.
 
 It is unlimited in Scala. eg: in `Test.scala`, it can have two or more public class.
@@ -234,11 +249,13 @@ class Test2
 ```
 
 ## Java Primitive Type and Scala AnyVal
+
 All value type in Scala inherit from `AnyVal`. Scala convert all primitive type of Java such as `int` and `double`.  
 According to program logistic, `AnyVal` may be converted to Java primitive type in compilation.
 
 ## Use Option Instead of Null
-Null is an special type in Java, and remains in Scala.  
+
+Null is an special type in Java, and remains in Scala.
 Strongly recommended to use `Option` instead of null.
 
 eg:
@@ -266,11 +283,9 @@ def parseInt(str: String) = try {
 }
 ```
 
-
 ## Catch Checked Exception is NOT necessary
-It is necessary to catch checked exception in Java, but not in Scala.  
-Be careful with function throwing exception in Java library.  
-Scala provide `Try` to handle exception. eg:
+
+It is necessary to catch checked exception in Java, but not in Scala.Be careful with function throwing exception in Java library.Scala provide `Try` to handle exception. eg:
 
 **In Scala**
 

@@ -6,12 +6,12 @@
 
 一般寫法：
 
-```scala
+```scala { .line-numbers }
 try {
   ...
 } catch {
-	case ex: Exception =>
-	  ...
+  case ex: Exception =>
+  ...
 } finally {
   ...
 }
@@ -19,7 +19,7 @@ try {
 
 千萬不要這麼寫：
 
-```scala
+```scala { .line-numbers }
 try {
   ...
 } catch {
@@ -32,7 +32,7 @@ try {
 
 或
 
-```scala
+```scala { .line-numbers }
 try {
   ...
 } catch {
@@ -45,7 +45,7 @@ try {
 
 偷懶的寫法：使用 `NonFatal`
 
-```scala
+```scala { .line-numbers }
 import scala.util.control.NonFatal
 
 try {
@@ -76,7 +76,7 @@ A: `Throwable` 有兩個 subclass: `Exception` 及 `Error`，一般在 Java 我�
 
 舉例：
 
-```scala
+```scala { .line-numbers }
 import scala.util.Try
 
 def parseInt(value: String) = Try { value.toInt }
@@ -86,7 +86,7 @@ Try 常用的幾個 Function:
 
 * map
 
-```scala
+```scala { .line-numbers }
 val t1 = parseInt("1000") map { _ * 2 }
 
 for (t1 <- parseInt("1000")) yield t1
@@ -99,7 +99,7 @@ for (t2 <- parseInt("abc")) yield t2
 
 * recover
 
-```scala
+```scala { .line-numbers }
 scala> import scala.util.control.NonFatal
 
 t1 recover { case NonFatal(_) => -1 }
@@ -109,14 +109,14 @@ t2 recover { case NonFatal(_) => -1 }
 
 * toOption
 
-```scala
+```scala { .line-numbers }
 t1.toOption	// Some(2000)
 t2.toOption	// None
 ```
 
 * getOrElse
 
-```scala
+```scala { .line-numbers }
 t1.getOrElse(-1)
 
 t2.getOrElse(-1)
@@ -129,7 +129,7 @@ t2.getOrElse(-1)
 
 Catch 是用來處理 `catch` 及 `finally`。搭配 `Option` 及 `Either` 來處理 Exception。
 
-```scala
+```scala { .line-numbers }
 import scala.util.control.Exception._
 
 def parseInt(value: String) = nonFatalCatch[Int] opt { value.toInt }
@@ -153,7 +153,7 @@ parseInt("456")
 
 `Either` 可以讓 Fuction 達到回傳不同型別資料效果。`Either` 有兩個 subclass: `Right` 及 `Left`。可以使用 `match`-`case` 來確認是回傳 `Right` or `Left`；進而了解是成功或失敗。
 
-```scala
+```scala { .line-numbers }
 def parseInt(value: String) = try { Right(value.toInt) } catch { case ex: Exception => Left(value) } 
 
 parseInt("123") match {

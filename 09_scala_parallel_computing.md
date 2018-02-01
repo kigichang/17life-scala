@@ -10,7 +10,7 @@
 
 eg: 同時讀取兩個檔案的內容
 
-```
+```scala { .line-numbers }
 package com.example
 
 import scala.concurrent.Await
@@ -21,28 +21,28 @@ import scala.concurrent.duration.Duration
 import scala.io.Source
 
 object FutureTest {
-  
+
   def readFile(file: String): StringBuilder = {
     val ret = new StringBuilder
-    
+
     Source.fromFile(file).getLines() foreach { line =>
       ret ++= (line + "\r\n")
     }
-    
+
     ret
   }
-  
+
   def main(args: Array[String]) {
-    
+
     println("start")
-    
+
     val time = System.currentTimeMillis()
-   
+
     val future1 = Future { readFile("ufo_awesome_1.tsv") }
     val future2 = Future { readFile("ufo_awesome_2.tsv") }
-    
+
     val result = Await.result(Future.sequence(Seq(future1, future2)), Duration.Inf)
-    
+
     println(s"end and cost: ${System.currentTimeMillis() - time} ms")
   }
 }
@@ -62,7 +62,7 @@ object FutureTest {
 
 eg:
 
-```
+```scala { .line-numbers }
 package com.example
 
 import scala.concurrent.Await
@@ -73,35 +73,35 @@ import scala.concurrent.duration.Duration
 import scala.io.Source
 
 object FutureTest {
-  
+
   def readFile(file: String): StringBuilder = {
     val ret = new StringBuilder
-    
+
     Source.fromFile(file).getLines() foreach { line =>
       ret ++= (line + "\r\n")
     }
-    
+
     ret
   }
-  
+
   def main(args: Array[String]) {
-    
+
     println("start")
-    
+
     val time = System.currentTimeMillis()
-    
+
     println(s"${System.currentTimeMillis()} - create future")
     val future = Future { readFile("ufo_awesome_1.tsv"); println(s"${System.currentTimeMillis()} - read complete") }
-    
+
     println(s"${System.currentTimeMillis()} - register onSuccess")
     future onSuccess {
-      case sb => println(s"${System.currentTimeMillis()} - success")
+    case sb => println(s"${System.currentTimeMillis()} - success")
     }
-    
+
     println(s"${System.currentTimeMillis()} - await")
-    
+
     val result = Await.result(future, Duration.Inf)
-    
+
     println(s"end and cost: ${System.currentTimeMillis() - time} ms")
   }
 }
@@ -109,7 +109,7 @@ object FutureTest {
 
 結果：
 
-```
+```text
 start
 1436100618543 - create future
 1436100618816 - register onSuccess
@@ -121,14 +121,13 @@ end and cost: 1502 ms
 
 注意當宣告完 `onSuccess`  時，主程式並不會 `Future` 執行結束，而是往下繼續，一直到 `Future` 的工作完成後，才會執行 `onSuccess`。
 
-
 #### onFailure
 
 當 `Future` 內的工作，有發生 `Exception` or  `Error` 時 (也就是有 `Throwable` )。 `onFailure` 並不會做 `catch` 的動作。這一點要特別注意
 
 eg:
 
-```
+```scala { .line-numbers }
 package com.example
 
 import scala.concurrent.Await
@@ -140,42 +139,44 @@ import scala.io.Source
 import scala.util.control.NonFatal
 
 object FutureTest {
-  
+
   def readFile(file: String): StringBuilder = {
     val ret = new StringBuilder
-    
+
     Source.fromFile(file).getLines() foreach { line =>
       ret ++= (line + "\r\n")
     }
-    
+
     ret
   }
-  
+
   def main(args: Array[String]) {
-    
+
     println("start")
-    
-    val time = System.currentTimeMillis()    
-    
+
+    val time = System.currentTimeMillis()
+
     println(s"${System.currentTimeMillis()} - create future")
-    
+
     /* ufo_awesome_3.tsv 不存在*/
-    val future = Future { readFile("ufo_awesome_3.tsv"); println(s"${System.currentTimeMillis()} - read complete") }
-    
+    val future = Future {
+      readFile("ufo_awesome_3.tsv"); println(s"${System.currentTimeMillis()} - read complete")
+    }
+
     println(s"${System.currentTimeMillis()} - register onSuccess")
     future onSuccess {
       case sb => println(s"${System.currentTimeMillis()} - success")
     }
-    
+
     println(s"${System.currentTimeMillis()} - register onFailure")
     future onFailure {
       case ex: Exception => println(s"${System.currentTimeMillis()} - failure")
     }
-    
+
     println(s"${System.currentTimeMillis()} - await")
-    
+
     val result = Await.result(future, Duration.Inf)
-    
+
     println(s"end and cost: ${System.currentTimeMillis() - time} ms")
   }
 }
@@ -183,7 +184,7 @@ object FutureTest {
 
 結果：
 
-```
+```text
 start
 1436102289048 - create future
 1436102289345 - register onSuccess
@@ -191,23 +192,23 @@ start
 1436102289351 - failure
 1436102289352 - await
 Exception in thread "main" java.io.FileNotFoundException: ufo_awesome_3.tsv (No such file or directory)
-	at java.io.FileInputStream.open0(Native Method)
-	at java.io.FileInputStream.open(FileInputStream.java:195)
-	at java.io.FileInputStream.<init>(FileInputStream.java:138)
-	at scala.io.Source$.fromFile(Source.scala:91)
-	at scala.io.Source$.fromFile(Source.scala:76)
-	at scala.io.Source$.fromFile(Source.scala:54)
-	at com.example.FutureTest$.readFile(FutureTest.scala:19)
-	at com.example.FutureTest$$anonfun$1.apply$mcV$sp(FutureTest.scala:44)
-	at com.example.FutureTest$$anonfun$1.apply(FutureTest.scala:44)
-	at com.example.FutureTest$$anonfun$1.apply(FutureTest.scala:44)
-	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24)
-	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24)
-	at scala.concurrent.impl.ExecutionContextImpl$AdaptedForkJoinTask.exec(ExecutionContextImpl.scala:121)
-	at scala.concurrent.forkjoin.ForkJoinTask.doExec(ForkJoinTask.java:260)
-	at scala.concurrent.forkjoin.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1339)
-	at scala.concurrent.forkjoin.ForkJoinPool.runWorker(ForkJoinPool.java:1979)
-	at scala.concurrent.forkjoin.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:107)
+  at java.io.FileInputStream.open0(Native Method)
+  at java.io.FileInputStream.open(FileInputStream.java:195)
+  at java.io.FileInputStream.<init>(FileInputStream.java:138)
+  at scala.io.Source$.fromFile(Source.scala:91)
+  at scala.io.Source$.fromFile(Source.scala:76)
+  at scala.io.Source$.fromFile(Source.scala:54)
+  at com.example.FutureTest$.readFile(FutureTest.scala:19)
+  at com.example.FutureTest$$anonfun$1.apply$mcV$sp(FutureTest.scala:44)
+  at com.example.FutureTest$$anonfun$1.apply(FutureTest.scala:44)
+  at com.example.FutureTest$$anonfun$1.apply(FutureTest.scala:44)
+  at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24)
+  at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24)
+  at scala.concurrent.impl.ExecutionContextImpl$AdaptedForkJoinTask.exec(ExecutionContextImpl.scala:121)
+  at scala.concurrent.forkjoin.ForkJoinTask.doExec(ForkJoinTask.java:260)
+  at scala.concurrent.forkjoin.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1339)
+  at scala.concurrent.forkjoin.ForkJoinPool.runWorker(ForkJoinPool.java:1979)
+  at scala.concurrent.forkjoin.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:107)
 ```
 
 #### onComplete
@@ -216,7 +217,7 @@ Exception in thread "main" java.io.FileNotFoundException: ufo_awesome_3.tsv (No 
 
 eg:
 
-```
+```scala
 package com.example
 
 import scala.concurrent.Await
@@ -230,38 +231,39 @@ import scala.util.Success
 import scala.util.Failure
 
 object FutureTest {
-  
+
   def readFile(file: String): StringBuilder = {
     val ret = new StringBuilder
-    
+
     Source.fromFile(file).getLines() foreach { line =>
       ret ++= (line + "\r\n")
     }
-    
+
     ret
   }
-  
+
   def main(args: Array[String]) {
-    
+
     println("start")
-    
+
     val time = System.currentTimeMillis()
 
     println(s"${System.currentTimeMillis()} - create future")
-    
+
     /* ufo_awesome_3.tsv 不存在*/
     val future = Future { readFile("ufo_awesome_3.tsv"); println(s"${System.currentTimeMillis()} - read complete") }
-        
+
     println(s"${System.currentTimeMillis()} - register onComplete")
     future onComplete {
       case Success(sb) => println(s"${System.currentTimeMillis()} - onComplete - success")
+
       case Failure(error) => println(s"${System.currentTimeMillis()} - onComplete - failure ${error.toString()}")
     }
-    
+
     println(s"${System.currentTimeMillis()} - await")
-    
+
     val result = Await.result(future, Duration.Inf)
-    
+
     println(s"end and cost: ${System.currentTimeMillis() - time} ms")
   }
 }
@@ -269,31 +271,30 @@ object FutureTest {
 
 結果：
 
-```
+```text
 start
 1436105851821 - create future
 1436105852172 - register onComplete
 1436105852175 - await
 1436105852177 - onComplete - failure java.io.FileNotFoundException: ufo_awesome_3.tsv (No such file or directory)
 Exception in thread "main" java.io.FileNotFoundException: ufo_awesome_3.tsv (No such file or directory)
-	at java.io.FileInputStream.open0(Native Method)
-	at java.io.FileInputStream.open(FileInputStream.java:195)
-	at java.io.FileInputStream.<init>(FileInputStream.java:138)
-	at scala.io.Source$.fromFile(Source.scala:91)
-	at scala.io.Source$.fromFile(Source.scala:76)
-	at scala.io.Source$.fromFile(Source.scala:54)
-	at com.example.FutureTest$.readFile(FutureTest.scala:21)
-	at com.example.FutureTest$$anonfun$1.apply$mcV$sp(FutureTest.scala:46)
-	at com.example.FutureTest$$anonfun$1.apply(FutureTest.scala:46)
-	at com.example.FutureTest$$anonfun$1.apply(FutureTest.scala:46)
-	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24)
-	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24)
-	at scala.concurrent.impl.ExecutionContextImpl$AdaptedForkJoinTask.exec(ExecutionContextImpl.scala:121)
-	at scala.concurrent.forkjoin.ForkJoinTask.doExec(ForkJoinTask.java:260)
-	at scala.concurrent.forkjoin.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1339)
-	at scala.concurrent.forkjoin.ForkJoinPool.runWorker(ForkJoinPool.java:1979)
-	at scala.concurrent.forkjoin.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:107)
-
+  at java.io.FileInputStream.open0(Native Method)
+  at java.io.FileInputStream.open(FileInputStream.java:195)
+  at java.io.FileInputStream.<init>(FileInputStream.java:138)
+  at scala.io.Source$.fromFile(Source.scala:91)
+  at scala.io.Source$.fromFile(Source.scala:76)
+  at scala.io.Source$.fromFile(Source.scala:54)
+  at com.example.FutureTest$.readFile(FutureTest.scala:21)
+  at com.example.FutureTest$$anonfun$1.apply$mcV$sp(FutureTest.scala:46)
+  at com.example.FutureTest$$anonfun$1.apply(FutureTest.scala:46)
+  at com.example.FutureTest$$anonfun$1.apply(FutureTest.scala:46)
+  at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24)
+  at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24)
+  at scala.concurrent.impl.ExecutionContextImpl$AdaptedForkJoinTask.exec(ExecutionContextImpl.scala:121)
+  at scala.concurrent.forkjoin.ForkJoinTask.doExec(ForkJoinTask.java:260)
+  at scala.concurrent.forkjoin.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1339)
+  at scala.concurrent.forkjoin.ForkJoinPool.runWorker(ForkJoinPool.java:1979)
+  at scala.concurrent.forkjoin.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:107)
 ```
 
 #### 多個 Callback
@@ -302,7 +303,7 @@ Exception in thread "main" java.io.FileNotFoundException: ufo_awesome_3.tsv (No 
 
 eg:
 
-```
+```scala
 package com.example
 
 import scala.concurrent.Await
@@ -316,61 +317,61 @@ import scala.util.Success
 import scala.util.Failure
 
 /**
- * @author kigi
- */
+* @author kigi
+*/
 object FutureTest {
-  
+
   def readFile(file: String): StringBuilder = {
     val ret = new StringBuilder
-    
+
     Source.fromFile(file).getLines() foreach { line =>
       ret ++= (line + "\r\n")
     }
-    
+
     ret
   }
-  
+
   def main(args: Array[String]) {
-    
+
     println("start")
-    
+
     val time = System.currentTimeMillis()
 
     /*
     val future1 = Future { readFile("ufo_awesome_1.tsv") }
     val future2 = Future { readFile("ufo_awesome_2.tsv") }
-    
+
     val result = Await.result(Future.sequence(Seq(future1, future2)), Duration.Inf)
     */
-    
-    
+
+
     println(s"${System.currentTimeMillis()} - create future")
     //val future = Future { readFile("ufo_awesome_1.tsv"); println(s"${System.currentTimeMillis()} - read complete") }
-    
+
     /* ufo_awesome_3.tsv 不存在*/
     val future = Future { readFile("ufo_awesome_3.tsv"); println(s"${System.currentTimeMillis()} - read complete") }
-    
-    
+
+
     println(s"${System.currentTimeMillis()} - register onSuccess")
     future onSuccess {
       case sb => println(s"${System.currentTimeMillis()} - success")
     }
-    
+
     println(s"${System.currentTimeMillis()} - register onFailure")
     future onFailure {
       case ex: Exception => println(s"${System.currentTimeMillis()} - failure")
     }
-    
+
     println(s"${System.currentTimeMillis()} - register onComplete")
     future onComplete {
       case Success(sb) => println(s"${System.currentTimeMillis()} - onComplete - success")
       case Failure(error) => println(s"${System.currentTimeMillis()} - onComplete - failure ${error.toString()}")
     }
-    
+
     println(s"${System.currentTimeMillis()} - await")
-    
+
     val result = Await.result(future, Duration.Inf)
-    
+
     println(s"end and cost: ${System.currentTimeMillis() - time} ms")
   }
 }
@@ -378,7 +379,7 @@ object FutureTest {
 
 結果:
 
-```
+```text
 start
 1436105970847 - create future
 1436105971148 - register onSuccess
@@ -387,24 +388,24 @@ start
 1436105971154 - failure
 1436105971155 - await
 1436105971155 - onComplete - failure java.io.FileNotFoundException: ufo_awesome_3.tsv (No such file or directory)
-Exception in thread "main" java.io.FileNotFoundException: ufo_awesome_3.tsv (No such file or directory)
-	at java.io.FileInputStream.open0(Native Method)
-	at java.io.FileInputStream.open(FileInputStream.java:195)
-	at java.io.FileInputStream.<init>(FileInputStream.java:138)
-	at scala.io.Source$.fromFile(Source.scala:91)
-	at scala.io.Source$.fromFile(Source.scala:76)
-	at scala.io.Source$.fromFile(Source.scala:54)
-	at com.example.FutureTest$.readFile(FutureTest.scala:21)
-	at com.example.FutureTest$$anonfun$1.apply$mcV$sp(FutureTest.scala:46)
-	at com.example.FutureTest$$anonfun$1.apply(FutureTest.scala:46)
-	at com.example.FutureTest$$anonfun$1.apply(FutureTest.scala:46)
-	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24)
-	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24)
-	at scala.concurrent.impl.ExecutionContextImpl$AdaptedForkJoinTask.exec(ExecutionContextImpl.scala:121)
-	at scala.concurrent.forkjoin.ForkJoinTask.doExec(ForkJoinTask.java:260)
-	at scala.concurrent.forkjoin.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1339)
-	at scala.concurrent.forkjoin.ForkJoinPool.runWorker(ForkJoinPool.java:1979)
-	at scala.concurrent.forkjoin.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:107)
+  Exception in thread "main" java.io.FileNotFoundException: ufo_awesome_3.tsv (No such file or directory)
+  at java.io.FileInputStream.open0(Native Method)
+  at java.io.FileInputStream.open(FileInputStream.java:195)
+  at java.io.FileInputStream.<init>(FileInputStream.java:138)
+  at scala.io.Source$.fromFile(Source.scala:91)
+  at scala.io.Source$.fromFile(Source.scala:76)
+  at scala.io.Source$.fromFile(Source.scala:54)
+  at com.example.FutureTest$.readFile(FutureTest.scala:21)
+  at com.example.FutureTest$$anonfun$1.apply$mcV$sp(FutureTest.scala:46)
+  at com.example.FutureTest$$anonfun$1.apply(FutureTest.scala:46)
+  at com.example.FutureTest$$anonfun$1.apply(FutureTest.scala:46)
+  at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24)
+  at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24)
+  at scala.concurrent.impl.ExecutionContextImpl$AdaptedForkJoinTask.exec(ExecutionContextImpl.scala:121)
+  at scala.concurrent.forkjoin.ForkJoinTask.doExec(ForkJoinTask.java:260)
+  at scala.concurrent.forkjoin.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1339)
+  at scala.concurrent.forkjoin.ForkJoinPool.runWorker(ForkJoinPool.java:1979)
+  at scala.concurrent.forkjoin.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:107)
 ```
 
 ### Map 及 flatMap
@@ -413,7 +414,7 @@ Exception in thread "main" java.io.FileNotFoundException: ufo_awesome_3.tsv (No 
 
 eg: 取出檔案每一行後，計算每一行的長度，最後加總。
 
-```
+```scala
 package com.example
 
 import scala.concurrent.Await
@@ -427,31 +428,31 @@ import scala.util.Success
 import scala.util.Failure
 
 object FutureTest {
-  
+
   def readFile(file: String): StringBuilder = {
     val ret = new StringBuilder
-    
+
     Source.fromFile(file).getLines() foreach { line =>
       ret ++= (line + "\r\n")
     }
-    
+
     ret
   }
-  
+
   def main(args: Array[String]) {
-    
+
     println("start")
-    
+
     val time = System.currentTimeMillis()
- 
+
     /* Map Start */
-    
+
     val future1 = Future { Source.fromFile("ufo_awesome_1.tsv").getLines().toSeq }
-    
-    val future2 = future1 map { seq => 
+
+    val future2 = future1 map { seq =>
       seq.map { _.length }
     }
-    
+
     val result = Await.result(future2, Duration.Inf)
     println(s"total: ${result.reduce( _ + _)}")
     /* Map End */
@@ -462,7 +463,7 @@ object FutureTest {
 
 結果：
 
-```
+```text
 start
 total: 75281071
 end and cost: 1161 ms
@@ -470,7 +471,7 @@ end and cost: 1161 ms
 
 eg: 結合兩個檔案的內容
 
-```
+```scala
 package com.example
 
 import scala.concurrent.Await
@@ -484,38 +485,37 @@ import scala.util.Success
 import scala.util.Failure
 
 object FutureTest {
-  
+
   def readFile(file: String): StringBuilder = {
     val ret = new StringBuilder
-    
+
     Source.fromFile(file).getLines() foreach { line =>
       ret ++= (line + "\r\n")
     }
-    
+
     ret
   }
-  
+
   def main(args: Array[String]) {
-    
+
     println("start")
-    
-    val time = System.currentTimeMillis()    
-    
+
+    val time = System.currentTimeMillis()
+
     /* flatMap (for) start */
-    
+
     val future1 = Future { readFile("ufo_awesome_1.tsv") }
     val future2 = Future { readFile("ufo_awesome_2.tsv") }
-    
+
     val future3 = for (sb1 <- future1; sb2 <- future2) yield {
       sb1.toString + "\r\n" + sb2.toString
     }
-   
+
     val result = Await.result(future3, Duration.Inf)
     println(s"total: ${result.length()}")
-    
+
     /* flatMap (for) end */
-    
-    
+
     println(s"end and cost: ${System.currentTimeMillis() - time} ms")
   }
 }

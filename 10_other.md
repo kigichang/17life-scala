@@ -6,17 +6,17 @@ Scala 允許資源在要使用時才載入。只要在宣告時，加 `lazy` 這
 
 eg: 取得資料庫連線
 
-```
+```scala
 lazy val conn = DriverManager.getConnection
 lazy val stmt = conn.preparedStatement(....)
 lazy val rs = stmt.executeQuery()
 
 try {
-   stmt.setInt(1, xxx)
-   
-   while (rs.next) {
-     ...
-   }
+  stmt.setInt(1, xxx)
+
+  while (rs.next) {
+    ...
+  }
 }
 catch {
   case ex: Exception =>
@@ -33,6 +33,7 @@ finally {
 ## Implicit
 
 ### Implicit Parameter
+
 Implicit 的技術在 Scala 使用很多，以 collection 為例，從 Java Collection 轉換成 Scala Collection 的版本，都是用 implicit 的方式來完成。
 
 在 OOP 最常見的 implicit 是 `this` 這個關鍵字。在 OOP 的 Class 內，並沒有宣告 `this` 這個變數，卻可以使用。
@@ -41,7 +42,7 @@ Python 的設計哲學是不允許 implicit 的，因此寫 Python 常會宣告 
 
 eg:
 
-```
+```scala
 scala> implicit val a = 10
 a: Int = 10
 
@@ -58,16 +59,30 @@ res0: Int = 1010
 
 附註： How `this` work (c++)
 
-Source code: 
+Source code:
 
-```
-class CRect {	private: 		int m_color;	public: 		void setcolor(int color) {			m_color = color;		}}
+```c++
+class CRect {
+  private:
+    int m_color;
+  public:
+    void setcolor(int color) {
+      m_color = color;
+    }
+}
 ```
 
 After Compiling:
 
-```
-class CRect {	private: 		int m_color;	public: 		void setcolor(int color, (CRect*)this) {			this->m_color = color;		}}
+```c++
+class CRect {
+  private:
+    int m_color;
+  public:
+    void setcolor(int color, (CRect*)this) {
+      this->m_color = color;
+    }
+}
 ```
 
 ### Implicit Conversions
@@ -76,7 +91,7 @@ class CRect {	private: 		int m_color;	public: 		void setcolor(int color, (CR
 
 eg: Scala wrapAsScala
 
-```
+```scala
 implicit def asScalaBuffer[A](l: ju.List[A]): mutable.Buffer[A] = l match {
   case MutableBufferWrapper(wrapped) => wrapped
   case _ =>new JListWrapper(l)
@@ -89,7 +104,7 @@ Scala Compiler 會針對 Tail Recursion 做最佳化。所謂的 Tail Recursion 
 
 eg: GCD
 
-```
+```scala
 def gcd(a: Int, b: Int): Int = if (a == 0) b else gcd(b % a, a)
 ```
 
@@ -97,13 +112,13 @@ Recursion 放在最後一行，Scala Compiler 會針對這類型的寫法做最�
 
 eg: **非** Tail Recursion，因為最後是 recursive call 後再 `+ 1`。
 
-```
+```scala
 def boom(x: Int): Int = if (x == 0) throw new Exception("boom!") else boom(x - 1) + 1
 ```
 
 執行的結果：
 
-```
+```text
 scala> boom(2)
 java.lang.Exception: boom!
   at .boom(<console>:7)
@@ -116,14 +131,14 @@ java.lang.Exception: boom!
 
 需改寫成：
 
-```
-scala> def boom(x: Int): Int = if (x == 0) throw new Exception("boom!") else boom(x - 1)
+```scala
+def boom(x: Int): Int = if (x == 0) throw new Exception("boom!") else boom(x - 1)
 boom: (x: Int)Int
 ```
 
 結果：
 
-```
+```text
 scala> boom(2)
 java.lang.Exception: boom!
   at .boom(<console>:8)
