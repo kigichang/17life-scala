@@ -2,28 +2,29 @@
 
 ## OOP
 
-* 封裝 (Encapsulation)
-* 繼承 (Inheritance)
-* 多型 (Polymorphism)
+- 封裝 (Encapsulation)
+- 繼承 (Inheritance)
+- 多型 (Polymorphism)
 
 ## Class
 
 ### 宣告方式
 
-```scala
+```scala {.line-numbers}
 class 名稱 [extends Class or Trait 名稱] [with Trait 名稱] {
 
 }
 ```
+
 eg:
 
-```scala
+```scala {.line-numbers}
 class Test
 
 class Test2 extends Test
 ```
 
-```scala
+```scala {.line-numbers}
 class 名稱([存取等級] [val or var] 變數名稱: 型別) [extends Class or Trait 名稱] [with Trait 名稱] [with Trait 名稱] {
   def this() = this(...)
 }
@@ -31,19 +32,19 @@ class 名稱([存取等級] [val or var] 變數名稱: 型別) [extends Class or
 
 eg:
 
-```scala
+```scala {.line-numbers}
 class Test(a: Int, b: Double) {
-	println(s"${a}, ${b}")
+  println(s"${a}, ${b}")
 }
 
-class Test2(a: Int) extends Test(a, 10.0) {        
-	def this() = this(20)
+class Test2(a: Int) extends Test(a, 10.0) {
+  def this() = this(20)
 }
 ```
 
-__Java Bean Like__
+#### Java Bean Like
 
-```scala
+```scala {.line-numbers}
 class Test(var name: String, var age: Int, var address: String)
 val a = new Test("abc", 10, "aaaaaa")
 a.name
@@ -59,58 +60,60 @@ a.address = "bbbbbb"
 
 在 Scala 及 Swift 中，Constructor 有主、副之分。eg:
 
-```scala
+```scala {.line-numbers}
 class Test(a: Int, b: Double) {
-	println(s"${a}, ${b}")
-	def this() = this(10, 20.0)
+  println(s"${a}, ${b}")
+  def this() = this(10, 20.0)
 }
 ```
 
 __Primary Constructor__ 是
 
-```scala
+```scala {.line-numbers}
 class Test(a: Int, b: Double) {
-	println(s"${a}, ${b}")
+  println(s"${a}, ${b}")
 }
 ```
 
 __Auxiliary Constructor__ 是
 
-```scala
-	def this() = this(10, 20.0)
+```scala {.line-numbers}
+  def this() = this(10, 20.0)
 ```
 
 轉換成 Java 語法來看：
 
-```java
+```java  {.line-numbers}
 class Test {
-	public Test(int a, double b) {
-		System.out.println("" + a + ", " + b)
-	}
+  public Test(int a, double b) {
+    System.out.println("" + a + ", " + b)
+  }
 
-	public Test() {
-		this(10, 20.0);
-	}
+  public Test() {
+    this(10, 20.0);
+  }
 }
 ```
 
-* `public Test(int a, double b)` 是 __Primary Constructor__
-* `public Test()` 是 __Auxiliary Constructor__
+- `public Test(int a, double b)` 是 __Primary Constructor__
+- `public Test()` 是 __Auxiliary Constructor__
 
 ### Override
+
 當子類別要改寫父類別的函式時，在宣告函式時，一定要用 `override`，否則會報錯。
 
 eg:
 
-```scala
+```scala {.line-numbers}
 class Test {
   def echo = "Echo"
 }
 defined class Test
 ```
+
 __沒用 `override` 會報錯__
 
-```scala
+```scala {.line-numbers}
 class Test2 extends Test {
   def echo = "Echo2"
 }
@@ -121,7 +124,7 @@ class Test2 extends Test {
 
 __正解__
 
-```scala
+```scala {.line-numbers}
 class Test2 extends Test {
   override def echo = "Echo2"
 }
@@ -131,10 +134,10 @@ class Test2 extends Test {
 
 宣告 class 時，如果 primary constructor 的變數，沒有加 `val` or `var` 則不會自動變成 member data。
 
-```scala
+```scala {.line-numbers}
 class Test(a: Int)
 val t = new Test(10)
-t.a		// Error
+t.a // Error
 ```
 
 ## Object
@@ -149,9 +152,9 @@ Scala 允許 `object` 的名稱與 `class` 相同，且可以放在同一份 sou
 
 eg:
 
-```scala
+```scala {.line-numbers}
 object Test {
-	def myTest = println("abc")
+  def myTest = println("abc")
 }
 
 Test.myTest
@@ -163,10 +166,10 @@ eg:
 
 **In Java**
 
-```java
+```java {.line-numbers}
 public class Test {
-	public static void main(String[] args) {
-	}
+  public static void main(String[] args) {
+  }
 }
 ```
 
@@ -176,7 +179,7 @@ eg:
 
 **In Scala**
 
-```scala
+```scala {.line-numbers}
 object Test {
   def main(args: Array[String]) {
   }
@@ -189,7 +192,7 @@ Scala 的 `trait` 可以類比成 Java 的 `interface`。一個 `class` 可以�
 
 eg:
 
-```scala
+```scala {.line-numbers}
 trait MyTrait
 
 class Test
@@ -205,7 +208,7 @@ Scala 的 `trait` 則打破這個限制，允許在 `trait` 內有變數、函�
 
 eg: Trait 內含變數與實作函式
 
-```scala
+```scala {.line-numbers}
 trait MyTrait {
   val a = 10
   def test: Int
@@ -226,7 +229,7 @@ t.sum(t.a, 10)
 
 eg: 多個 Trait；有多重繼承效果
 
-```scala
+```scala {.line-numbers}
 trait MyTrait1 {
   val a = 10
   def test1: Int
@@ -257,7 +260,7 @@ t.test3
 
 object 也可以繼承(實作) trait
 
-```scala
+```scala {.line-numbers}
 trait MyTrait
 
 object Test extends MyTrait
@@ -273,7 +276,7 @@ Scala 允許自定 Access Level，因此在程式設計上會更有彈性，安�
 
 eg: 變數只允許自己本身的 instance 使用。比 private 更嚴格。
 
-```scala
+```scala {.line-numbers}
 class TestPrivateThis {
   private[this] val a = 10
   def func(): Int = a + 10
@@ -283,11 +286,11 @@ class TestPrivateThis {
 
 ### Operator Overloading
 
-在 Java 中，無法在 class 中，定義 `+`，`-`，`*`，`/` 這類四則運算。但在 Scala 則可以，這會讓程式碼更簡潔也更方便閱讀。
+在 Java 中，無法在 class 中，定義 `+`，`-`，`-`，`/` 這類四則運算。但在 Scala 則可以，這會讓程式碼更簡潔也更方便閱讀。
 
 eg:
 
-```scala
+```scala {.line-numbers}
 class Rational(n: Int, d: Int) {
 
   require(d != 0)
@@ -305,13 +308,13 @@ class Rational(n: Int, d: Int) {
 
   override def toString = if (denom != 1) s"${numer} / ${denom}" else s"${numer}"
 
-  def +(that: Rational) = new Rational(numer * that.denom + denom * that.numer, denom * that.denom)
+  def +(that: Rational) = new Rational(numer - that.denom + denom - that.numer, denom - that.denom)
 
-  def -(that: Rational) = new Rational(numer * that.denom - denom * that.numer, denom * that.denom)
+  def -(that: Rational) = new Rational(numer - that.denom - denom - that.numer, denom - that.denom)
 
-  def *(that: Rational) = new Rational(numer * that.numer, denom * that.denom)
+  def -(that: Rational) = new Rational(numer - that.numer, denom - that.denom)
 
-  def /(that: Rational) = new Rational(numer * that.denom, denom * that.numer)
+  def /(that: Rational) = new Rational(numer - that.denom, denom - that.numer)
 
 }
 
@@ -322,7 +325,7 @@ object Rational {
     val r1 = new Rational(3, 7)
     val r2 = new Rational(5, 21)
 
-    println(r1 * r2)
+    println(r1 - r2)
   }
 }
 ```
@@ -333,9 +336,9 @@ object Rational {
 
 eg:
 
-```scala
+```scala {.line-numbers}
 class Test {
-	def apply(a: Int, b: Int): Int = a + b
+  def apply(a: Int, b: Int): Int = a + b
 }
 
 val t = new Test
@@ -345,14 +348,13 @@ val a = t(10, 20)
 
 在上例中 `val a = t(10, 20)` 就是呼叫 `apply` 函式。`apply` 函式，在 scala collection 相關 class (HashMap, Array 等) 很常用到。
 
-
 #### case class
 
 Scala 在宣告 `class` 時，可以使用 `case` 這個修飾詞，使用後，在產生 instance (以後就不用 object 這個字眼，以免跟 scala 的 `object` 混餚) 時，可以省略 `new`；如果 primary contructor 有參數時，會自動將參數轉成 __val__ 型態的 member data。
 
 eg:
 
-```scala
+```scala {.line-numbers}
 case class Test(name: String, age: Int)
 
 var t = Test("abc", 20)
@@ -371,9 +373,9 @@ t.name = "abcdef"
 
 **In Java**
 
-```java
+```java {.line-numbers}
 public enum DirectionJava {
-	TOP, DOWN, LEFT, RIGHT;
+  TOP, DOWN, LEFT, RIGHT;
 }
 ```
 
@@ -403,7 +405,7 @@ Enumeration.Value 本身是個 abstract class。在 Enumeration 內有一個實�
 
 **In Java**
 
-```java
+```java {.line-numbers}
 public enum Planet {
     MERCURY (3.303e+23, 2.4397e6),
     VENUS   (4.869e+24, 6.0518e6),
@@ -429,11 +431,11 @@ public enum Planet {
     public static final double G = 6.67300E-11;
 
     double surfaceGravity() {
-        return G * mass / (radius * radius);
+        return G - mass / (radius - radius);
     }
 
     double surfaceWeight(double otherMass) {
-        return otherMass * surfaceGravity();
+        return otherMass - surfaceGravity();
     }
 
     public static void main(String[] args) {
@@ -444,22 +446,21 @@ public enum Planet {
         double earthWeight = Double.parseDouble(args[0]);
         double mass = earthWeight/EARTH.surfaceGravity();
         for (Planet p : Planet.values())
-           System.out.printf("Your weight on %s is %f%n",
-                             p, p.surfaceWeight(mass));
+           System.out.printf("Your weight on %s is %f%n", p, p.surfaceWeight(mass));
     }
 }
 ```
 
 **In Scala**
 
-```scala
+```scala {.line-numbers}
 object Planets extends Enumeration {
 
   val G: Double = 6.67300E-11
 
   final case class Planet private[Planets] (mass: Double, radius: Double) extends Val {
-    def surfaceGravity(): Double = G * mass / (radius * radius)
-    def surfaceWeight(otherMass: Double): Double = otherMass * surfaceGravity()
+    def surfaceGravity(): Double = G - mass / (radius - radius)
+    def surfaceWeight(otherMass: Double): Double = otherMass - surfaceGravity()
   }
 
   val Mercury = Planet(3.303e+23, 2.4397e6)
