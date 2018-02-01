@@ -133,8 +133,6 @@ $$g: Y \mapsto Z$$
 
 $$	g \circ f: X \mapsto Z$$
 
-$$	(g \circ f )(x) = g(f(x))$$
-
 在 Scala 上的實作，有 `compose` 及 `andThen`
 
 `f andThen g` 等同於 $  g \circ f $
