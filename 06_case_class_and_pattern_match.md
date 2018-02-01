@@ -4,15 +4,15 @@
 
 宣告：
 
-```scala
+```scala {.line-numbers}
 case class Person(name: String, age: Int)
 ```
 
 Compiler 後，會有 `Person.class` 及 `Person$.class`
 
-**scalap -private Person**: 
+**scalap -private Person**:
 
-```
+```scala  {.line-numbers}
 case class Person(name: scala.Predef.String, age: scala.Int) extends scala.AnyRef with scala.Product with scala.Serializable {
   val name: scala.Predef.String = { /* compiled code */ }
   val age: scala.Int = { /* compiled code */ }
@@ -35,9 +35,9 @@ object Person extends scala.runtime.AbstractFunction2[scala.Predef.String, scala
 }
 ```
 
-**javap -p Person**
+**javap -p Person**:
 
-```
+```java {.line-numbers}
 Compiled from "Person.scala"
 public class Person implements scala.Product,scala.Serializable {
   private final java.lang.String name;
@@ -63,9 +63,9 @@ public class Person implements scala.Product,scala.Serializable {
 }
 ```
 
-**javap -p Person$**
+**javap -p Person$**:
 
-```
+```java {.line-numbers}
 Compiled from "Person.scala"
 public final class Person$ extends scala.runtime.AbstractFunction2<java.lang.String, java.lang.Object, Person> implements scala.Serializable {
   public static final Person$ MODULE$;
@@ -85,7 +85,7 @@ public final class Person$ extends scala.runtime.AbstractFunction2<java.lang.Str
 * 當我們在產生 case class 時，是呼叫 `object` (singeton) 的 `apply` function.
 * case class contructor 的參數，會自動變成 **read only** 的 member data.
 
-```scala
+```scala {.line-numbers}
 case class Person(name: String, age: Int)
 
 val p1 = Person("abc", 10)
@@ -94,7 +94,7 @@ p1: Person = Person(abc,10)
 
 與 Pattern Match 有直接關係的 function: `apply` and `unapply`. 以 `Person` 為例：
 
-```scala
+```scala {.line-numbers}
 def apply(name: scala.Predef.String, age: scala.Int): Person = { /* compiled code */ }
 
 def unapply(x$0: Person): scala.Option[scala.Tuple2[scala.Predef.String, scala.Int]] = { /* compiled code */ }
@@ -104,7 +104,7 @@ def unapply(x$0: Person): scala.Option[scala.Tuple2[scala.Predef.String, scala.I
 
 上例 `Person` 的 Pattern Match 範例：
 
-```scala
+```scala {.line-numbers}
 p1 match {
   case Person(n, a) => println(n, a)
   case _ => println("not match")
@@ -130,7 +130,7 @@ Extractor 可以是 `object` or `class`。`class` 可以存當時的條件，但
 
 #### Extractor only with extraction and binding
 
-```scala
+```scala {.line-numbers}
 package com.example
 
 object EMail {
@@ -173,7 +173,7 @@ object PatternTest {
 
 執行結果：
 
-```
+```text
 EMail.unapply
 UpperCase.unapply
 not match
@@ -185,12 +185,12 @@ UpperCase.unapply
 當在執行 pattern match 至  `case EMail`  時，會去呼叫 `EMail.unapply(s: String)` 看是否符合；當符合時，再呼叫 `UpperCase.unapply(s: String)`。
 
 `Test@test.com` 結果是 `not match`, 因為在 `UpperCase` 是 `false`. `TEST@test.com` 則是 `(TEST, test.com)`
-	
+
 截自：[Programming in Scala: A Comprehensive Step-by-Step Guide, 2nd Edition](http://www.amazon.com/Programming-Scala-Comprehensive-Step-Step/dp/0981531644)
 
 #### Extractor with variable arguement
 
-```scala
+```scala {.line-numbers}
 /* Extraction Only*/
 class Between(val min: Int, val max: Int) {
 
@@ -198,7 +198,7 @@ class Between(val min: Int, val max: Int) {
     if (min <= value && value <= max) Some(List(min, value, max))
     else None
 }
-	
+
 object PatternTest {
 
   def main(args: Array[String]) {
@@ -219,16 +219,16 @@ object PatternTest {
 
 執行結果：
 
-```
+```text
 10
 not match
 ```
 
 因為 `Between` 的 `unapplySeq` 回傳是 `List(min, value, max)`，所以比對的 pattern 就必須是 List 的 pattern，像 `(min, value, max)` or `(_, value, max)` or `(min, _*)`
-	
+
 #### Extractor with binding
 
-```scala
+```scala {.line-numbers}
 class Between(val min: Int, val max: Int) {
 
   def unapplySeq(value: Int): Option[List[Int]] =
@@ -239,7 +239,7 @@ class Between(val min: Int, val max: Int) {
 object PatternTest {
 
   def main(args: Array[String]) {
-  
+
     (50, 10) match {
       case (n @ between5and15(_*), _) => println("first match " + n)
       case (_, m @ between5and15(_*)) => println("second match " + m)
@@ -252,18 +252,17 @@ object PatternTest {
 
 執行結果：
 
-```
+```text
 second match 10
 ```
 
 Extractor 用在 binding 時，要注意要附上比對的 pattern (ex: `between5and15(_*)`)，如果沒寫對，會比對失敗。比如說：把 `(_, m @ between5and15(_*))` 改成 `case (_, m @ between5and15())`, 雖然 m (m = 10) 在 5 ~ 15，但會比對失敗。
-	
-	
+
 ## Pattern and Regex
 
 Scala 的 Regex 有實作 `unapplySeq`, Regex 搭配 Pattern 非常好用。
 
-```scala
+```scala {.line-numbers}
 object RegexTest {
 
   def main(args: Array[String]) {
@@ -289,7 +288,7 @@ object RegexTest {
 
 執行結果：
 
-```
+```text
 (123,456)
 not match
 not match
@@ -297,22 +296,20 @@ not match
 
 因為 `digits` 有用到 `group`，所以 pattern 會是 `digits(a, b)`。如果把 `val digits = """(\d+)-(\d+)""".r` 改成 `val digits = """\d+-\d+""".r` 不使用 group 時，因為比對的 pattern 改變 (`digits(a, b)` -> `digits()`)，所以上面的三個比對都會是 `not match`。需要將程式改成如下，才會正確
 
-```scala
+```scala {.line-numbers}
 val digits = """\d+-\d+""".r
-  
+
 "123-456" match {
   case digits() => println("ok")
   case _ => println("not match")
 }
-  
 ```
 
 所以使用 `Regex` 時，儘量用 `group` 的功能，在系統設計時，彈性會比較大。
 
-
 ### Regex and Binding
 
-```scala
+```scala {.line-numbers}
 val digits = """(\d+)-(\d+)-(\d+)""".r
 
 ("123-abc-789", "123-456-789") match {
@@ -326,7 +323,7 @@ val digits = """(\d+)-(\d+)-(\d+)""".r
 
 ## Case Class, Patch Match and Algebraic Data Type
 
-```scala
+```scala {.line-numbers}
 sealed trait Tree
 
 object Empty extends Tree
@@ -340,15 +337,15 @@ object TreeTest {
     case Leaf(value) => 1
     case Node(l, r) => 1 + Seq(depth(l), depth(r)).max
   }
-  
+
   def max(tree: Tree): Int = tree match {
     case Empty => Int.MinValue
     case Leaf(value) => value
      case Node(l, r) => Seq(max(r), max(l)).max
   }
-  
+
   def main(args: Array[String]) {
-    
+
     val tree = Node(
           Node(
             Leaf(1),
@@ -359,17 +356,13 @@ object TreeTest {
               Leaf(2)
           )
         )
-        
-        
      println(depth(tree))
-     
      println(max(tree))
   }
 }
 ```
 
 注意：使用 `sealed` 時，子類別都要與父類別放在同一個原始碼中，且如果在 pattern match 少比對一種子類別時，會出現**警告**。
-
 
 範例修改自：
 

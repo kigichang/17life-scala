@@ -1,6 +1,5 @@
 # Map & Reduce in Scala Collection
 
-
 ## What's Map & Reudce
 
 **Map** 是指將 collection 每個元素，經過指定的 function 處理，產生新的值 (也可以是另一個 Collection)
@@ -22,14 +21,13 @@ Reduce 特性：
 * 處理的過程，不見得會依照預期的順序，因此指定的 function 如果沒有結合律的特性，也許結果會不如預期。
 * 回傳最終處理的結果，且資料型別是跟元素相同或者是 supertype。
 
-註：結合律是 (x + y) + z = x + (y + z)。像四則運算的 \\(+\\) 與 \\(\times\\) 有結合律，但 \\(-\\) 與 \\(\div\\) 沒有。
+註：結合律是 (x + y) + z = x + (y + z)。像四則運算的 $+$ 與 $\times$ 有結合律，但 $-$ 與 $\div$ 沒有。
 
 延伸：**reduceLeft** & **reduceRight**
 
-
 舉例：輸入一個字串的 List，計算其中字串長度的總和。
 
-```scala
+```scala {.line-numbers}
 val lst = List("ABC", "Hello, World!!!", "Apple", "Microsoft")
 val lenLst = lst map { _.length }
 val total = lenLst reduce { _ + _ }
@@ -37,7 +35,7 @@ val total = lenLst reduce { _ + _ }
 
 或
 
-```scala
+```scala {.line-numbers}
 val lst = List("ABC", "Hello, World!!!", "Apple", "Microsoft")
 lst map { _.length } reduce { _ + _ }
 ```
@@ -52,7 +50,7 @@ Scala 的 `for-yield` 處理，實際上是轉成 `flatMap` 與 `map` 處理。
 
 一層迴圈
 
-```scala
+```scala {.line-numbers}
 for (i <- 1 to 9) yield i + 1
 
 (1 to 9) map { _ + 1 }
@@ -60,7 +58,7 @@ for (i <- 1 to 9) yield i + 1
 
 二層迴圈
 
-```scala
+```scala {.line-numbers}
 for (i <- 1 to 9; j <- 1 to i) yield i * j
 (1 to 9) flatMap { i => (1 to i) map { i * _ } }
 ```
@@ -69,7 +67,7 @@ Option 處理
 
 單個：
 
-```scala
+```scala {.line-numbers}
 val s1 = Some("s1")
 for (s <- s1) yield s + s
 s1 map { s => s + s }
@@ -77,7 +75,7 @@ s1 map { s => s + s }
 
 多個：
 
-```scala
+```scala {.line-numbers}
 val s1 = Option("s1")
 val s2 = None
 
@@ -94,7 +92,7 @@ s1 flatMap { a => s2 map { b => a + b } }
 
 舉例：每個 Store 都有一個歸屬的 Store，目前要查詢歸屬的 Store 名稱。
 
-```scala
+```scala {.line-numbers}
 case class Store(id: Int, name: String, belong: Int)
 
 val map = Map(0 -> Store(0, "3C", 0))
@@ -102,12 +100,12 @@ val map = Map(0 -> Store(0, "3C", 0))
 
 if-else 的版本
 
-```scala
+```scala {.line-numbers}
 val s1 = map.get(0)
 
 if (s1.isDefined) {
   val s2 = map.get(s1.get.belong)
-	
+
   if (s2.isDefined) Some(s2.get.name)
   else None
 }
@@ -116,7 +114,7 @@ else None
 
 for-yield 版本
 
-```scala
+```scala {.line-numbers}
 for (s1 <- map.get(0); s2 <- map.get(s1.belong)) yield s2.name
 ```
 
@@ -125,8 +123,8 @@ for (s1 <- map.get(0); s2 <- map.get(s1.belong)) yield s2.name
 ### fold, foldLeft, foldRight
 
 `fold` 與 `reduce` 很類似，`fold` 多了可以指定 **初始值**
- 
-```scala
+
+```scala {.line-numbers}
 val lst = List(1, 2, 3, 4, 5, 6, 7, 8, 9)
 
 lst reduce { _ + _ }
@@ -138,7 +136,7 @@ lst.fold(100) { _ + _ }
 
 `scan` 可以指定 **初始值**，第一個元素與初始值處理的結果，再與第二個元素處理，以此類推，最後回傳原本 collection 的資料型別，初始值當作第一個元素。概念跟 `map` 有點像，`map` 是獨立處理每個元素，`scan` 會與上一次處理的結果有關。
 
-```scala
+```scala {.line-numbers}
 val lst = List(1, 2, 3)
 lst map { _ + 1 }
 
@@ -149,7 +147,7 @@ lst.scan(10) { (a, b) => println(a, b); a + b  }
 
 `groupBy` 利用指定的 function 回傳值當作 **key**，自動依 key 分群，回傳一個 `Map`，Map 內的 value 資料型別，會與原來的 collection 相同。
 
-```scala
+```scala {.line-numbers}
 val lst = List(1, 2, 3, 4, 5, 6, 7, 8, 9)
 lst groupBy { _ % 3 }
 
@@ -161,7 +159,7 @@ arr groupBy { _ % 3 }
 
 將兩個 collection 中的元素，一對一的方式組成兩個元素的 **tuple**。行為很類似 **拉鏈**。
 
-```scala
+```scala {.line-numbers}
 val lst1 = List("a", "b", "c", "d")
 
 val lst2 = List(1, 2, 3)
@@ -173,7 +171,7 @@ lst1.zipWithIndex
 
 ## Sample: Min Heap Tree
 
-```scala
+```scala {.line-numbers}
 object MyTree {
 
   sealed trait Tree
@@ -255,19 +253,18 @@ object Hello {
 
 Variance 主要是在討論
 
-If \\(T_1\\) is subclass of \\(T\\), is Container[\\(T_1\\)] is subclass of Container[\\(T\\)] ?
-
+If $T_1$ is subclass of $T$, is Container [$T_1$] is subclass of Container [$T$] ?
 
 |   Variance    | Meaning         | Scala notation |
 |:------------- |:----------------|:---------------|
-| covariant     | C[\\(T_1\\)] is subclass of C[\\(T\\)]| [+T] |
-| contravariant | C[\\(T\\)] is subclass of C[\\(T_1\\)]| [-T] |
-| invariant     | C[\\(T_1\\)] and C[\\(T\\)] are not related | [T] |
+| covariant     | C[$T_1$] is subclass of C[$T$] | [$+T$] |
+| contravariant | C[$T$] is subclass of C[$T_1$]| [$-T$] |
+| invariant     | C[$T_1$] and C[$T$] are not related | [$T$] |
 
 
 舉例：**Covariant**
 
-```scala
+```scala {.line-numbers}
 class Covariant[+A]
 val cv: Covariant[AnyRef] = new Covariant[String]
 val cv: Covariant[String] = new Covariant[AnyRef] // ERROR
@@ -275,7 +272,7 @@ val cv: Covariant[String] = new Covariant[AnyRef] // ERROR
 
 舉例：**Contravariant**
 
-```scala
+```scala {.line-numbers}
 class Contravariant[-A]
 val cv: Contravariant[String] = new Contravariant[AnyRef]
 val cv: Contravariant[AnyRef] = new Contravariant[String] // ERROR
@@ -285,36 +282,39 @@ val cv: Contravariant[AnyRef] = new Contravariant[String] // ERROR
 
 記憶方法：
 
-\\[
+$$
 \forall T_1 \in +T, \text{then }T_1 \text{ is subclass of } T
-\\]
+$$
 
-\\[
+$$
 \forall T_1 \in -T, \text{then }T_1 \text{ is superclass of } T
-\\]
+$$
 
-
-\\[
-\begin{equation}
--T \\
-\uparrow\\
-T \\
-\uparrow \\
+$$
+\begin{gathered}
+-T
+\\
+\uparrow
+\\
+T
+\\
+\uparrow
+\\
 +T
-\end{equation}
-\\]
+\end{gathered}
+$$
 
 ContraVariant 案例：`Function1[-T, +R]`
 
 eg:
 
-```scala
+```scala {.line-numbers}
 class Test[+A] { def test(a: A): String = a.toString } // ERROR
 ```
 
-fix: 
+fix:
 
-```scala
+```scala {.line-numbers}
 class Test[+A] { def test[B >: A](b: B): String = b.toString }
 ```
 
